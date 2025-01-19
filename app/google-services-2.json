@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1001364076969",
+    "project_id": "buy4all-ba8bb",
+    "storage_bucket": "buy4all-ba8bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001364076969:android:c070e35df0e8994a23acb8",
+        "android_client_info": {
+          "package_name": "com.example.buy4all"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3mOIS5fcikA-1J1BPTJQ-ctjEhkfx0dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001364076969:android:5971455a93c278df23acb8",
+        "android_client_info": {
+          "package_name": "com.example.buy4all2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3mOIS5fcikA-1J1BPTJQ-ctjEhkfx0dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
