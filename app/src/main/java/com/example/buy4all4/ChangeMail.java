@@ -16,7 +16,7 @@ public class ChangeMail extends AppCompatActivity {
         setContentView(R.layout.change_mail);
 
         updatemail = findViewById(R.id.mailchen);
-        backmail = findViewById(R.id.BackButmail);
+//        backmail = findViewById(R.id.BackButmail);
         updatemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,11 +26,11 @@ public class ChangeMail extends AppCompatActivity {
             }
         });
 
-        backmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        backmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
     }
 }

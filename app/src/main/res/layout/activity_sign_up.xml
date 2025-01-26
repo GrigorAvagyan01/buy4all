@@ -6,10 +6,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BBE2D8"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".LogIn">
+    tools:context=".SignInActivity">
 
     <TextView
         android:id="@+id/Welcome"
@@ -107,11 +106,11 @@
             android:transitionName="button_tran" />
 
         <Button
-            android:id="@+id/loginbut"
+            android:id="@+id/Signinbut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="Allready have an acount? LOG IN"
+            android:text="Allready have an acount? SIGN IN"
             android:textColor="@color/black"
             android:transitionName="login_signup_tran"/>
 

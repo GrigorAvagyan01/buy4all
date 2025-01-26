@@ -22,72 +22,76 @@
         app:srcCompat="@drawable/baseline_home_repair_service_24"
         tools:ignore="MissingConstraints" />
 
+
     <ImageButton
         android:id="@+id/Homebutser2"
         android:layout_width="66dp"
         android:layout_height="55dp"
-        android:layout_marginTop="684dp"
+        android:background="@color/white"
+        android:contentDescription="Null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_home_24"
-        android:background="@color/white"
-        android:contentDescription="Null" />
-
-
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_home_24" />
 
     <ImageButton
         android:id="@+id/Servicebutser2"
         android:layout_width="66dp"
         android:layout_height="55dp"
-        android:layout_marginTop="684dp"
+        android:background="@color/white"
+        android:contentDescription="Null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintHorizontal_bias="0.255"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_home_repair_service_24"
-        android:background="@color/white"
-        android:contentDescription="Null" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_home_repair_service_24" />
 
     <ImageButton
         android:id="@+id/AddButser2"
         android:layout_width="66dp"
         android:layout_height="55dp"
-        android:layout_marginTop="684dp"
+        android:background="@color/white"
+        android:contentDescription="Null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_add_24"
-        android:background="@color/white"
-        android:contentDescription="Null" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_add_24" />
 
     <ImageButton
         android:id="@+id/FavButser2"
         android:layout_width="66dp"
         android:layout_height="55dp"
-        android:layout_marginTop="684dp"
+        android:background="@color/white"
+        android:contentDescription="Null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.736"
+        app:layout_constraintHorizontal_bias="0.756"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_favorite_24"
-        android:background="@color/white"
-        android:contentDescription="Null" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_favorite_24" />
 
     <ImageButton
         android:id="@+id/ProfileButser2"
         android:layout_width="66dp"
         android:layout_height="55dp"
-        android:layout_marginTop="680dp"
+        android:background="@color/white"
+        android:contentDescription="Null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_person_24"
-        android:background="@color/white"
-        android:contentDescription="Null" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_person_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

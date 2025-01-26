@@ -1,17 +1,17 @@
 package com.example.buy4all4;
 
-public class UserHellperClass {
-    String username, email, password, password2;
-    public UserHellperClass() {
+public class UserModel {
+    String username;
+    String email;
+    String password;
+    String confirmPassword;
+    public UserModel() {}
 
-    }
-
-    public UserHellperClass(String username, String email, String password, String password2) {
+    public UserModel(String username, String email, String password, String confirmPassword) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.password2 = password2;
-
+        this.confirmPassword = confirmPassword;
     }
 
     public String getUsername() {
@@ -35,11 +35,11 @@ public class UserHellperClass {
     public void setPassword(String username) {
         this.password = password;
     }
-    public String getPassword2() {
-        return password2;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setPassword2(String username) {
-        this.password2 = password2;
+    public void setConfirmPassword(String username) {
+        this.confirmPassword = confirmPassword;
     }
 }
