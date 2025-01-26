@@ -24,7 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
         db.collection("users").document(userId).set(userMap)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignUpActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, ProfileFragment.class);
+                    Intent intent = new Intent(SignUpActivity.this, HomePage.class);
                     startActivity(intent);
                     finish();
                 })

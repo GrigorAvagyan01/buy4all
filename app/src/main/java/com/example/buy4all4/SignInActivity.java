@@ -20,7 +20,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -55,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (user != null) {
                             Log.d("SignInActivity", "Sign-in successful, transitioning to FeedActivity");
                             Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignInActivity.this, ProfileFragment.class);
+                            Intent intent = new Intent(SignInActivity.this, HomePage.class);
                             startActivity(intent);
                             finish();
                         }
