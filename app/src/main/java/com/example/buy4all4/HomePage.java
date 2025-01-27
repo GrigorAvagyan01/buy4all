@@ -1,55 +1,59 @@
 package com.example.buy4all4;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePage extends AppCompatActivity {
 
-    BottomNavigationView bottomNav;
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_main);
 
-        bottomNav = findViewById(R.id.bottom_navmenu);
+     @SuppressLint({"MissingInflatedId", "LocalSuppress"}) BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navmenu);
 
-        bottomNav.setSelectedItemId(R.id.home_nav);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();
+        }
 
-        bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
+                Fragment selectedFragment = null;
 
-                if (itemId == R.id.home_nav) {
-                    return true;
-                } else if (itemId == R.id.add_nav) {
-                    startActivity(new Intent(HomePage.this, AddActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else if (itemId == R.id.service_nav) {
-                    startActivity(new Intent(HomePage.this, ServiceActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else if (itemId == R.id.profile_nav) {
-                    startActivity(new Intent(HomePage.this, ProfileActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else if (itemId == R.id.favorite_nav) {
-                    startActivity(new Intent(HomePage.this, FavoriteActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
+                switch (item.getItemId()) {
+                    case R.id.home_nav:
+                        selectedFragment = new HomeFragment();
+                        break;
+                    case R.id.service_nav:
+                        selectedFragment = new ServiceFragment();
+                        break;
+                    case R.id.add_nav:
+                        selectedFragment = new AddFragment();
+                        break;
+                    case R.id.favorite_nav:
+                        selectedFragment = new FavoriteFragment();
+                        break;
+                    case R.id.profile_nav:
+                        selectedFragment = new Fragment();
+                        break;
                 }
 
-                return false;
+                if (selectedFragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, selectedFragment)
+                            .commit();
+                }
+                return true;
             }
         });
     }

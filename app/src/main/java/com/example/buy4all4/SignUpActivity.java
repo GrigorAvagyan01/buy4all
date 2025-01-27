@@ -3,6 +3,7 @@ package com.example.buy4all4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,17 +25,21 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_sign_up);
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         binding.Signinbut.setOnClickListener(v -> {
+            Log.d("SignUpActivity", "Sign In button clicked");
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
         });
 
-        binding.signupButton.setOnClickListener(v -> registerUser());
+        binding.signupButton.setOnClickListener(v -> {
+            Log.d("SignUpActivity", "Sign Up button clicked");
+            registerUser();
+        });
     }
 
     private void registerUser() {

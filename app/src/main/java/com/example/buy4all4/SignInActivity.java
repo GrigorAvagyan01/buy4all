@@ -20,16 +20,18 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_sign_in);
+        setContentView(binding.getRoot()); // Corrected this line
 
         mAuth = FirebaseAuth.getInstance();
 
         binding.SignUpBut.setOnClickListener(v -> {
+            Log.d("SignInActivity", "Sign Up button clicked");
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
 
         binding.signInButton.setOnClickListener(v -> {
+            Log.d("SignInActivity", "Sign In button clicked");
             String email = Objects.requireNonNull(binding.emailEditText.getEditText()).getText().toString().trim();
             String password = Objects.requireNonNull(binding.passwordEditText.getEditText()).getText().toString().trim();
 
@@ -53,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            Log.d("SignInActivity", "Sign-in successful, transitioning to FeedActivity");
+                            Log.d("SignInActivity", "Sign-in successful, transitioning to HomePage");
                             Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignInActivity.this, HomePage.class);
                             startActivity(intent);

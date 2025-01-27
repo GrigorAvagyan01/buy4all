@@ -2,4 +2,5 @@
 <resources>
     <item name="bottom_navmenu" type="id" />
     <item name="ib_add_post" type="id" />
+    <item name="fragment_container" type="id" />
 </resources>
