@@ -10,11 +10,12 @@
         android:id="@+id/textView2"
         android:layout_width="287dp"
         android:layout_height="77dp"
+        android:layout_marginStart="68dp"
         android:fontFamily="@font/bangers"
         android:text="     My Anouncments"
         android:textSize="39sp"
+        app:layout_constraintStart_toStartOf="@+id/backma"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="62dp"
         tools:layout_editor_absoluteY="4dp" />
 
     <ImageButton

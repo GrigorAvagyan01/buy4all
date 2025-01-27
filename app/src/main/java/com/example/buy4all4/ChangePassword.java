@@ -24,7 +24,7 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChangePassword.this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ChangePassword.this, ProfileActivity.class);
+                Intent intent = new Intent(ChangePassword.this, ProfileFragment.class);
                 startActivity(intent);
             }
         });

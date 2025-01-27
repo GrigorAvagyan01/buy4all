@@ -3,9 +3,10 @@ package com.example.buy4all4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-class MyAnouncments extends AppCompatActivity {
+public class MyAnouncments extends AppCompatActivity {
     private ImageButton back;
 
     @Override
@@ -17,7 +18,7 @@ class MyAnouncments extends AppCompatActivity {
 
         if (back != null) {
             back.setOnClickListener(v -> {
-                Intent intent = new Intent(MyAnouncments.this, ProfileActivity.class);
+                Intent intent = new Intent(MyAnouncments.this, ProfileFragment.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 finish();

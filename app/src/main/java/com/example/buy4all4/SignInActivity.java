@@ -55,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (user != null) {
                             Log.d("SignInActivity", "Sign-in successful, transitioning to FeedActivity");
                             Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignInActivity.this, ProfileFragment.class);
+                            Intent intent = new Intent(SignInActivity.this, HomePage.class);
                             startActivity(intent);
                             finish();
                         }

@@ -27,7 +27,7 @@ public class Update extends AppCompatActivity {
         if (password != null) password.setOnClickListener(v -> navigateTo(ChangePassword.class));
         if (back != null) {
             back.setOnClickListener(v -> {
-                navigateTo(ProfileActivity.class);
+                navigateTo(ProfileFragment.class);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             });
         }

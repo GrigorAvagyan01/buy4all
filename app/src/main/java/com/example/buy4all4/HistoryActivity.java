@@ -18,7 +18,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         if (back != null) {
             back.setOnClickListener(v -> {
-                Intent intent = new Intent(HistoryActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(HistoryActivity.this, ProfileFragment.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 finish();

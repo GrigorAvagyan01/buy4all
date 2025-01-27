@@ -18,10 +18,13 @@
 
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".SignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomePage"
             android:exported="true" />
 
         <activity
@@ -32,10 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="true" />
 
         <activity
             android:name=".ChangeUsername"
@@ -55,6 +54,7 @@
         <activity
             android:name=".Update"
             android:exported="true" />
+
 
         <meta-data
             android:name="preloaded_fonts"

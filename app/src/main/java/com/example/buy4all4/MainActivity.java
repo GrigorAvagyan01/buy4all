@@ -2,28 +2,31 @@ package com.example.buy4all4;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.buy4all4.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    private Button loginn, signup;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        loginn = findViewById(R.id.signin);
-        signup = findViewById(R.id.signup);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        loginn.setOnClickListener(v -> {
+        binding.signin.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
         });
 
-        signup.setOnClickListener(v -> {
+        binding.signup.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
+
+        binding.guestbut.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, HomePage.class);
             startActivity(intent);
         });
     }

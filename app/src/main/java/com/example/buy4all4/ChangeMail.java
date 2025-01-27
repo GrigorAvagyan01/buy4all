@@ -16,21 +16,21 @@ public class ChangeMail extends AppCompatActivity {
         setContentView(R.layout.change_mail);
 
         updatemail = findViewById(R.id.mailchen);
-//        backmail = findViewById(R.id.BackButmail);
         updatemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChangeMail.this, "Mail updated successfully!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ChangeMail.this, ProfileActivity.class);
+                Intent intent = new Intent(ChangeMail.this, ProfileFragment.class);
                 startActivity(intent);
             }
         });
 
-//        backmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+        backmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
+
