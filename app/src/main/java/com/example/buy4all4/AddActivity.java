@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomePage extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
 
@@ -18,11 +18,11 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_add);
 
         bottomNav = findViewById(R.id.bottom_navmenu);
 
-        bottomNav.setSelectedItemId(R.id.home_nav);
+        bottomNav.setSelectedItemId(R.id.add_nav);
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -30,24 +30,24 @@ public class HomePage extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.home_nav) {
-                    return true;
-                } else if (itemId == R.id.add_nav) {
-                    startActivity(new Intent(HomePage.this, AddActivity.class));
+                    startActivity(new Intent(AddActivity.this, HomePage.class));
                     overridePendingTransition(0, 0);
                     return true;
+                } else if (itemId == R.id.add_nav) {
+                    return true;
                 } else if (itemId == R.id.service_nav) {
-                    startActivity(new Intent(HomePage.this, ServiceActivity.class));
+                    startActivity(new Intent(AddActivity.this, ServiceActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
                 } else if (itemId == R.id.profile_nav) {
-                    startActivity(new Intent(HomePage.this, ProfileActivity.class));
+                    startActivity(new Intent(AddActivity.this, ProfileActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
-                } else if (itemId == R.id.favorite_nav) {
-                    startActivity(new Intent(HomePage.this, FavoriteActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                }
+                }else if (itemId == R.id.favorite_nav) {
+                        startActivity(new Intent(AddActivity.this, FavoriteActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    }
 
                 return false;
             }
