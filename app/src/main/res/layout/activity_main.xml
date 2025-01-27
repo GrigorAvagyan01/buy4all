@@ -24,9 +24,9 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signin"
-        android:layout_width="127dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="113dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="80dp"
         android:background="@color/black"
         android:text="Sign In"
         android:textColor="@color/white"
@@ -37,9 +37,9 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup"
-        android:layout_width="139dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="122dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="80dp"
         android:background="@color/black"
         android:text="Sign Up"
         android:textColor="@color/white"
@@ -52,12 +52,13 @@
         android:id="@+id/guestbut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="52dp"
         android:background="?attr/selectableItemBackground"
         android:text="GUEST"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/signup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
