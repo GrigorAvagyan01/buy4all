@@ -50,6 +50,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void signInUser(String email, String password) {
+        System.out.println(email);
+        System.out.println(password);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {

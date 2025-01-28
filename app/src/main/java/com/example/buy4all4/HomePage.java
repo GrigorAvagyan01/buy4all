@@ -4,20 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.buy4all4.databinding.ActivityHomePageBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePage extends AppCompatActivity {
 
+    ActivityHomePageBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityHomePageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navmenu);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -25,7 +27,7 @@ public class HomePage extends AppCompatActivity {
                     .commit();
         }
 
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+        binding.bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
@@ -44,7 +46,7 @@ public class HomePage extends AppCompatActivity {
                         selectedFragment = new FavoriteFragment();
                         break;
                     case R.id.profile_nav:
-                        selectedFragment = new Fragment();
+                        selectedFragment = new ProfileFragment();
                         break;
                 }
 
