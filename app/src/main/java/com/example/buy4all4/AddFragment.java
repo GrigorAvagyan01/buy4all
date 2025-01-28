@@ -1,19 +1,19 @@
 package com.example.buy4all4;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.buy4all4.databinding.FragmentAddBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -21,60 +21,51 @@ import java.util.Map;
 
 public class AddFragment extends Fragment {
 
-    private EditText editTextTitle, editTextDescription, editTextPrice, editTextPhoneNo;
-    private Button buttonAddPost;
+    private FragmentAddBinding binding;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_add, container, false);
-
-        editTextTitle = rootView.findViewById(R.id.edit_text_title);
-        editTextDescription = rootView.findViewById(R.id.edit_text_description);
-        editTextPrice = rootView.findViewById(R.id.edit_number_price);
-        editTextPhoneNo = rootView.findViewById(R.id.edit_number_phone_no);
-        buttonAddPost = rootView.findViewById(R.id.button_add_post);
-
-        buttonAddPost.setOnClickListener(v -> addPostToFirestore());
-
-        return rootView;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentAddBinding.inflate(inflater, container, false);
+        binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
+        return binding.getRoot();
     }
 
     private void addPostToFirestore() {
-        String title = editTextTitle.getText().toString().trim();
-        String description = editTextDescription.getText().toString().trim();
-        String price = editTextPrice.getText().toString().trim();
-        String phoneNo = editTextPhoneNo.getText().toString().trim();
+        String title = binding.editTextTitle.getText().toString().trim();
+        String description = binding.editTextDescription.getText().toString().trim();
+        String price = binding.editNumberPrice.getText().toString().trim();
+        String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
 
         if (TextUtils.isEmpty(title)) {
-            editTextTitle.setError("Title is required");
+            binding.editTextTitle.setError("Title is required");
             return;
         }
 
         if (TextUtils.isEmpty(description)) {
-            editTextDescription.setError("Description is required");
+            binding.editTextDescription.setError("Description is required");
             return;
         }
 
         if (TextUtils.isEmpty(price)) {
-            editTextPrice.setError("Price is required");
+            binding.editNumberPrice.setError("Price is required");
             return;
         }
 
         if (TextUtils.isEmpty(phoneNo)) {
-            editTextPhoneNo.setError("Phone number is required");
+            binding.editNumberPhoneNo.setError("Phone number is required");
             return;
         }
 
         try {
             Double.parseDouble(price);
         } catch (NumberFormatException e) {
-            editTextPrice.setError("Price must be a valid number");
+            binding.editNumberPrice.setError("Price must be a valid number");
             return;
         }
 
         if (!Patterns.PHONE.matcher(phoneNo).matches()) {
-            editTextPhoneNo.setError("Invalid phone number");
+            binding.editNumberPhoneNo.setError("Invalid phone number");
             return;
         }
 
@@ -97,15 +88,16 @@ public class AddFragment extends Fragment {
     }
 
     private void navigateToHomePage() {
-        // Navigate using Fragment
         HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_view_tag, homeFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
 
-        // Alternatively, navigate using Intent (if you are working with activities instead of fragments)
-        Intent intent = new Intent(getActivity(), HomeFragment.class);
-        startActivity(intent);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

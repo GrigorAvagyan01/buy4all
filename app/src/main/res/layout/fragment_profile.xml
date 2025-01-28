@@ -6,52 +6,35 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <RelativeLayout
-        android:id="@+id/profile_header"
-        android:layout_width="430dp"
-        android:layout_height="217dp"
-        android:background="#BBE2D8"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-10dp">
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/baseline_person_24"
+        tools:layout_editor_absoluteX="-3dp"
+        tools:layout_editor_absoluteY="16dp" />
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/baseline_person_24" />
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/profile_image"
-            android:fontFamily="@font/nunito_extralight"
-            android:text="Avagyan Grigor"
-            android:textSize="20sp" />
-
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_extralight"
+        android:text="Avagyan Grigor"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Username"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/profile_header"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:layout_editor_absoluteY="242dp"
+        tools:ignore="MissingConstraints">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Avagyan Grigor"
-            android:drawablePadding="10dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -64,17 +47,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="grigoravagyan482@gmail.com" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/UpdateBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="#BBE2D8"
         android:fontFamily="@font/bungee"
         android:text="UPDATE"
@@ -89,27 +68,58 @@
         android:id="@+id/HistoryBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="?attr/selectableItemBackground"
         android:text="History"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/UpdateBut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/UpdateBut" />
 
     <Button
         android:id="@+id/MyAnouncmentsBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="?attr/selectableItemBackground"
         android:text="My Announcements"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/HistoryBut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/HistoryBut" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputEditText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:text="Avagyan Grigor"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="149dp"
+        tools:ignore="MissingConstraints" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="grigoravagyan482@gmail.com"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="208dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/SettingsBut"
+        android:layout_width="63dp"
+        android:layout_height="57dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/baseline_settings_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

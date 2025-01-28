@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="287dp"
-        android:layout_height="77dp"
-        android:fontFamily="@font/bangers"
-        android:text="             History"
-        android:textSize="39sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-33dp"
-        tools:layout_editor_absoluteY="-12dp" />
+
+    <SearchView
+        android:id="@+id/searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="306dp" />
+
+    <ListView
+        android:layout_below="@id/searchview"
+        android:id="@+id/listViewfavorite"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+
+    </ListView>
 
     <ImageButton
         android:id="@+id/backhis"
-        android:layout_width="60dp"
-        android:layout_height="65dp"
+        android:layout_width="56dp"
+        android:layout_height="49dp"
         android:background="@color/white"
         android:contentDescription="Null"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +33,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</RelativeLayout>

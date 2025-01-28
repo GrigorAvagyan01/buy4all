@@ -5,20 +5,20 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
+import com.example.buy4all4.databinding.ActivitySettingsBinding;
 
-public class MyAnouncments extends AppCompatActivity {
-    private ActivityMyAnouncmentsBinding binding;
+public class SettingsActivity extends AppCompatActivity {
+    private ActivitySettingsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMyAnouncmentsBinding.inflate(getLayoutInflater());
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backma.setOnClickListener(v -> {
-            Intent intent = new Intent(MyAnouncments.this, ProfileFragment.class);
+        binding.backsettings.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, ProfileFragment.class);
             intent.putExtra("navigate_to", "ProfileFragment");
             startActivity(intent);
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);

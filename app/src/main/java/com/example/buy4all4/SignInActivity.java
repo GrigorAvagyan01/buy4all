@@ -20,7 +20,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); // Corrected this line
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 

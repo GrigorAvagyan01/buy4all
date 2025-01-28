@@ -5,48 +5,47 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.buy4all4.databinding.FragmentProfileBinding;
+
 public class ProfileFragment extends Fragment {
-    private Button update, history, myanouncment;
+    private FragmentProfileBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
 
-        history = view.findViewById(R.id.HistoryBut);
-        update = view.findViewById(R.id.UpdateBut);
-        myanouncment = view.findViewById(R.id.MyAnouncmentsBut);
-
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Update.class);
-                startActivity(intent);
-            }
+        binding.UpdateBut.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Update.class);
+            startActivity(intent);
         });
 
-        myanouncment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyAnouncments.class);
-                startActivity(intent);
-            }
+        binding.MyAnouncmentsBut.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MyAnouncments.class);
+            startActivity(intent);
         });
 
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HistoryActivity.class);
-                startActivity(intent);
-            }
+        binding.HistoryBut.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), HistoryActivity.class);
+            startActivity(intent);
         });
 
-        return view;
+        binding.SettingsBut.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -3,20 +3,20 @@ package com.example.buy4all4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.buy4all4.databinding.ChangeMailBinding;
 
 public class ChangeMail extends AppCompatActivity {
-    private Button updatemail, backmail;
+    private ChangeMailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_mail);
+        binding = ChangeMailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        updatemail = findViewById(R.id.mailchen);
-        updatemail.setOnClickListener(new View.OnClickListener() {
+        binding.mailchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChangeMail.this, "Mail updated successfully!", Toast.LENGTH_SHORT).show();
@@ -25,12 +25,17 @@ public class ChangeMail extends AppCompatActivity {
             }
         });
 
-        backmail.setOnClickListener(new View.OnClickListener() {
+        binding.BackButmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
     }
-}
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
+}

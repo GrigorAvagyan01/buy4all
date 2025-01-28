@@ -3,23 +3,20 @@ package com.example.buy4all4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.buy4all4.databinding.ChangeUsernameBinding;
 
 public class ChangeUsername extends AppCompatActivity {
-    private Button updateusername, backusername;
+    private ChangeUsernameBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_username);
+        binding = ChangeUsernameBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        updateusername = findViewById(R.id.uschen);
-        //backusername = findViewById(R.id.backbutuser);
-
-        updateusername.setOnClickListener(new View.OnClickListener() {
+        binding.uschen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChangeUsername.this, "Username updated successfully!", Toast.LENGTH_SHORT).show();
@@ -28,11 +25,17 @@ public class ChangeUsername extends AppCompatActivity {
             }
         });
 
-//        backusername.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//           }
-//       });
+        binding.backbutuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

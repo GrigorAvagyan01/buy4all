@@ -1,26 +1,22 @@
 package com.example.buy4all4;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.buy4all4.databinding.ChangePasswordBinding;
 
 public class ChangePassword extends AppCompatActivity {
-    private Button updatePasswordButton, backButton;
+    private ChangePasswordBinding binding;
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_password);
+        binding = ChangePasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        updatePasswordButton = findViewById(R.id.passchen);
-        backButton = findViewById(R.id.BackButpass);
-
-        updatePasswordButton.setOnClickListener(new View.OnClickListener() {
+        binding.passchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChangePassword.this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
@@ -29,11 +25,17 @@ public class ChangePassword extends AppCompatActivity {
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+        binding.BackButpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
