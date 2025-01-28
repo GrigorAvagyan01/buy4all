@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.guestbut.setOnClickListener(v -> {
             Log.d("MainActivity", "Guest button clicked");
-            navigateToActivity(HomePage.class);
+            navigateToActivity(HomePageGuest.class);
         });
     }
 
