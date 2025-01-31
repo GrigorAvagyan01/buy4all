@@ -97,6 +97,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <CheckBox
+            android:id="@+id/RememberMeSignUp"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:text="Remember Me" />
+
         <Button
             android:id="@+id/signupButton"
             android:layout_width="match_parent"
@@ -114,7 +120,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="Allready have an acount? SIGN IN"
             android:textColor="@color/black"
-            android:transitionName="login_signup_tran"/>
+            android:transitionName="login_signup_tran" />
 
     </LinearLayout>
 </LinearLayout>

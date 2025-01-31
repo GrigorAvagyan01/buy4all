@@ -8,28 +8,23 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.buy4all4.databinding.FragmentProfileGuestBinding;
+import com.example.buy4all4.databinding.FragmentFavoriteGuestBinding;
 
-public class ProfileFragmentGuest extends Fragment {
+public class FavoriteFragmentGuest extends Fragment {
 
-    private FragmentProfileGuestBinding binding;
+    private FragmentFavoriteGuestBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentProfileGuestBinding.inflate(inflater, container, false);
+        binding = FragmentFavoriteGuestBinding.inflate(inflater, container, false);
 
-        binding.signinguest.setOnClickListener(v -> {
+        binding.signinguestfav.setOnClickListener(v -> {
             Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
             startActivity(signInIntent);
         });
 
-        binding.SettingsButGuest.setOnClickListener(v -> {
-            Intent signUpIntent = new Intent(getActivity(), SettingsActivityGuest.class);
-            startActivity(signUpIntent);
-        });
-
-        binding.signupguest.setOnClickListener(v -> {
+        binding.signupguestfav.setOnClickListener(v -> {
             Intent signUpIntent = new Intent(getActivity(), SignUpActivity.class);
             startActivity(signUpIntent);
         });

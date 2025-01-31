@@ -40,10 +40,10 @@ public class HomePageGuest extends AppCompatActivity {
                         selectedFragment = new ServiceFragment();
                         break;
                     case R.id.add_nav:
-                        selectedFragment = new AddFragment();
+                        selectedFragment = new AddFragmentGuest();
                         break;
                     case R.id.favorite_nav:
-                        selectedFragment = new FavoriteFragment();
+                        selectedFragment = new FavoriteFragmentGuest();
                         break;
                     case R.id.profile_nav:
                         selectedFragment = new ProfileFragmentGuest();

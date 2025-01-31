@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileFragmentGuest">
+    tools:context=".FavoriteFragmentGuest">
 
     <Button
-        android:id="@+id/signinguest"
+        android:id="@+id/signinguestfav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.361" />
 
     <Button
-        android:id="@+id/signupguest"
+        android:id="@+id/signupguestfav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="370dp"
@@ -37,18 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.361" />
-
-    <ImageButton
-        android:id="@+id/SettingsButGuest"
-        android:layout_width="56dp"
-        android:layout_height="49dp"
-        android:background="@color/white"
-        android:contentDescription="Null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/baseline_settings_24" />
 
 
 </FrameLayout>

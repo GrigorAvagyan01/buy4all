@@ -27,7 +27,9 @@ public class AddFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddBinding.inflate(inflater, container, false);
+
         binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
+
         return binding.getRoot();
     }
 
@@ -80,15 +82,16 @@ public class AddFragment extends Fragment {
                 .add(post)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
-                    navigateToHomePage();
+                    navigateToHomeFragment();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getActivity(), "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 
-    private void navigateToHomePage() {
+    private void navigateToHomeFragment() {
         HomeFragment homeFragment = new HomeFragment();
+
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_view_tag, homeFragment);
         transaction.addToBackStack(null);
