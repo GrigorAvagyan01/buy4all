@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/agdasima"
         android:gravity="center"
-        android:text="Welcome"
+        android:text="@string/welcome"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:transitionName="logo_text" />
@@ -27,7 +27,7 @@
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textSize="18sp"
         android:transitionName="signUpText"
         android:layout_marginTop="10dp" />
@@ -43,7 +43,7 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
+            android:hint="@string/username"
             android:transitionName="username_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -56,7 +56,7 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/emailsignup"
             android:transitionName="email_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -70,7 +70,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/passwordsignup"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -85,7 +85,7 @@
             android:id="@+id/password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
+            android:hint="@string/confirm_password"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -99,9 +99,9 @@
 
         <CheckBox
             android:id="@+id/RememberMeSignUp"
-            android:layout_width="139dp"
+            android:layout_width="191dp"
             android:layout_height="wrap_content"
-            android:text="Remember Me" />
+            android:text="@string/remember_mesignup" />
 
         <Button
             android:id="@+id/signupButton"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:backgroundTint="@color/black"
-            android:text="Sign Up"
+            android:text="@string/sign_upbut"
             android:textColor="@color/white"
             android:transitionName="button_tran" />
 
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="Allready have an acount? SIGN IN"
+            android:text="@string/allready_have_an_acount_sign_in"
             android:textColor="@color/black"
             android:transitionName="login_signup_tran" />
 

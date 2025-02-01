@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home_nav"
-        android:title="Home"
+        android:title="@string/homebottom"
         android:icon="@drawable/baseline_home_24" />
     <item
         android:id="@+id/service_nav"
-        android:title="Service"
+        android:title="@string/bottom"
         android:icon="@drawable/baseline_home_repair_service_24" />
     <item
         android:id="@+id/add_nav"
-        android:title="Add"
+        android:title="@string/addbottom"
         android:icon="@drawable/baseline_add_24" />
     <item
         android:id="@+id/favorite_nav"
-        android:title="Favorite"
+        android:title="@string/favoritebottom"
         android:icon="@drawable/baseline_favorite_24" />
     <item
         android:id="@+id/profile_nav"
-        android:title="Profile"
+        android:title="@string/profilebottom"
         android:icon="@drawable/baseline_person_24" />
 </menu>
 

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/agdasima"
         android:gravity="center"
-        android:text="Welcome back"
+        android:text="@string/welcome_back"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:transitionName="logo_text" />
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Log in"
+        android:text="@string/log_in"
         android:textSize="18sp"
         android:transitionName="signInText"
         android:layout_marginTop="10dp" />
@@ -43,7 +43,7 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email"
             android:transitionName="email_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -58,7 +58,7 @@
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -74,7 +74,7 @@
             android:id="@+id/RememberMeSignIn"
             android:layout_width="138dp"
             android:layout_height="wrap_content"
-            android:text="Remember Me" />
+            android:text="@string/remember_me" />
 
         <Button
             android:id="@+id/signInButton"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
             android:textColor="@color/white"
-            android:text="Sign In"
+            android:text="@string/sign_in"
             android:transitionName="button_tran"
             android:layout_marginVertical="10dp" />
 
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="New User? SIGN UP"
+            android:text="@string/new_user_sign_up"
             android:textColor="@color/black"
             android:transitionName="login_signup_tran" />
     </LinearLayout>

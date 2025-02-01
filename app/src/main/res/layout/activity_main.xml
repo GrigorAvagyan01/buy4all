@@ -31,7 +31,7 @@
         android:layout_height="41dp"
         android:layout_marginTop="112dp"
         android:background="#000"
-        android:text="Sign In"
+        android:text="@string/sign_inmain"
         android:textColor="#D4D4D4"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_height="41dp"
         android:layout_marginTop="112dp"
         android:background="#000"
-        android:text="Sign Up"
+        android:text="@string/sign_upmain"
         android:textColor="#D4D4D4"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="?attr/selectableItemBackground"
-        android:text="GUEST"
+        android:text="@string/guest"
         android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,5 +66,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signup"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
