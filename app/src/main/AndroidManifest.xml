@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Buy4all4"
         tools:targetApi="31">
         <activity
+            android:name=".SignInActivityLogOut"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivityLogOut"
+            android:exported="false" />
+        <activity
+            android:name=".FullImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".PreferanceActivitySettings"
             android:exported="false" />
         <activity

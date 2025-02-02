@@ -20,7 +20,7 @@
     <string name="guest">GUEST</string>
     <string name="sign_upmain">Sign Up</string>
     <string name="sign_inmain">Sign In</string>
-    <string name="room_preference">Room Preference</string>
+    <string name="room_preference">Preference</string>
     <string name="sport">SPORT</string>
     <string name="gadgets">Gadgets</string>
     <string name="skip">SKIP</string>
@@ -31,7 +31,7 @@
     <string name="skippref">SKIP</string>
     <string name="allpref">ALL</string>
     <string name="updatepref">Update</string>
-    <string name="room_preferenceset">Room Preference</string>
+    <string name="room_preferenceset">Preference</string>
     <string name="log_out">Log Out</string>
     <string name="usernameupd">Username</string>
     <string name="mailupd">Mail</string>
@@ -61,4 +61,9 @@
     <string name="addbottom">Add</string>
     <string name="favoritebottom">Favorite</string>
     <string name="profilebottom">Profile</string>
+    <string name="remember_my_phone_no">Remember My Phone No</string>
+
+
 </resources>
+
+

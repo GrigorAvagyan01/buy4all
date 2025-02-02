@@ -44,11 +44,11 @@
         android:layout_height="49dp"
         android:background="@color/white"
         android:contentDescription="Null"
+        android:src="@drawable/baseline_settings_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/baseline_settings_24" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </FrameLayout>

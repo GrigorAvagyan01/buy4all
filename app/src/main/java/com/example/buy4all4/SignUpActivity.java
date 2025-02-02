@@ -1,10 +1,14 @@
 package com.example.buy4all4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buy4all4.databinding.ActivitySignUpBinding;
@@ -19,6 +23,10 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "LoginPrefs";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         binding.Signinbut.setOnClickListener(v -> {
             Log.d("SignUpActivity", "Sign In button clicked");
@@ -82,6 +92,13 @@ public class SignUpActivity extends AppCompatActivity {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
                             saveUserToFirestore(firebaseUser.getUid(), username, email);
+
+                            if (binding.RememberMeSignUp.isChecked()) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(KEY_EMAIL, email);
+                                editor.putString(KEY_PASSWORD, password);
+                                editor.apply();
+                            }
                         }
                     } else {
                         Toast.makeText(SignUpActivity.this, "Registration failed: " +
