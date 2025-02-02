@@ -23,9 +23,6 @@
             android:name=".PreferanceActivity"
             android:exported="false" />
         <activity
-            android:name=".FavoriteActivityGuest"
-            android:exported="false" />
-        <activity
             android:name=".SettingsActivityGuest"
             android:exported="false" />
         <activity

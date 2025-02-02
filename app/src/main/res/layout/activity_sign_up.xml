@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username"
+            android:textColorHint="@color/black"
             android:transitionName="username_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/emailsignup"
+            android:textColorHint="@color/black"
             android:transitionName="email_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -71,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/passwordsignup"
+            android:textColorHint="@color/black"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -86,6 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
+            android:textColorHint="@color/black"
+
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -101,7 +106,8 @@
             android:id="@+id/RememberMeSignUp"
             android:layout_width="191dp"
             android:layout_height="wrap_content"
-            android:text="@string/remember_mesignup" />
+            android:text="@string/remember_mesignup"
+            android:textColorHint="@color/black" />
 
         <Button
             android:id="@+id/signupButton"
