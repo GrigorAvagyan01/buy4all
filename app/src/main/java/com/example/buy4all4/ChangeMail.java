@@ -15,6 +15,8 @@ public class ChangeMail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ChangeMailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LocaleHelper.setAppLanguage(this);
+
 
         binding.mailchen.setOnClickListener(new View.OnClickListener() {
             @Override

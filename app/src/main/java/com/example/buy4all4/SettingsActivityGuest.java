@@ -14,6 +14,8 @@ public class SettingsActivityGuest extends AppCompatActivity {
 
         binding = ActivitySettingsGuestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LocaleHelper.setAppLanguage(this);
+
 
         binding.backsettingsguest.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivityGuest.this, ProfileFragmentGuest.class);

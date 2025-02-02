@@ -18,6 +18,8 @@ public class FavoriteFragmentGuest extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFavoriteGuestBinding.inflate(inflater, container, false);
+        LocaleHelper.setAppLanguage(getActivity());
+
 
         binding.signinguestfav.setOnClickListener(v -> {
             Intent signInIntent = new Intent(getActivity(), SignInActivity.class);

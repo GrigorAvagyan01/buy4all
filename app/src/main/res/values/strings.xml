@@ -62,6 +62,8 @@
     <string name="favoritebottom">Favorite</string>
     <string name="profilebottom">Profile</string>
     <string name="remember_my_phone_no">Remember My Phone No</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

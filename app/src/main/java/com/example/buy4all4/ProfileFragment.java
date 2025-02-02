@@ -12,12 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.buy4all4.databinding.FragmentProfileBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,17 +31,22 @@ import java.io.InputStream;
 
 public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String PREFS_NAME = "ProfilePrefs";
     private static final String IMAGE_FILE_NAME = "profile_image.jpg";
+    private static final String USERS_COLLECTION = "users";
 
     private FragmentProfileBinding binding;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         loadSavedImage();
+        loadUserDataFromFirestore();
 
         binding.uploadImageButton.setOnClickListener(v -> openGallery());
 
@@ -84,7 +94,6 @@ public class ProfileFragment extends Fragment {
             InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-            // Save bitmap to internal storage
             File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -99,11 +108,27 @@ public class ProfileFragment extends Fragment {
         File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
         if (file.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
             binding.uploadImageButton.setImageBitmap(bitmap);
-
             binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
+    }
+
+    private void loadUserDataFromFirestore() {
+        String userId = mAuth.getCurrentUser().getUid();
+        DocumentReference userRef = firestore.collection(USERS_COLLECTION).document(userId);
+
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String email = mAuth.getCurrentUser().getEmail();
+                String username = task.getResult().getString("username");
+
+                binding.emailTextView.setText(email != null ? email : "Email not available");
+                binding.usernameTextView2.setText(username != null ? username : "Username not available");
+                binding.usernameTextView1.setText(username != null ? username : "Username not available");
+            } else {
+                Toast.makeText(getActivity(), "Failed to load user data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

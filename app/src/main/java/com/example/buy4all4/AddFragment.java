@@ -18,10 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.buy4all4.HomeFragment;
+import com.example.buy4all4.R;
 import com.example.buy4all4.databinding.FragmentAddBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddFragment extends Fragment {
@@ -37,9 +40,8 @@ public class AddFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddBinding.inflate(inflater, container, false);
-
         sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-
+        LocaleHelper.setAppLanguage(getActivity());
         String savedPhoneNumber = sharedPreferences.getString(KEY_PHONE_NUMBER, "");
         binding.editNumberPhoneNo.setText(savedPhoneNumber);
 

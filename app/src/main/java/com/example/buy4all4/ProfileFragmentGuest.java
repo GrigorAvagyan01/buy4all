@@ -18,6 +18,8 @@ public class ProfileFragmentGuest extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentProfileGuestBinding.inflate(inflater, container, false);
+        LocaleHelper.setAppLanguage(getActivity());
+
 
         binding.signinguest.setOnClickListener(v -> {
             Intent signInIntent = new Intent(getActivity(), SignInActivity.class);

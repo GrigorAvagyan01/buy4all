@@ -18,6 +18,8 @@ public class AddFragmentGuest extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddGuestBinding.inflate(inflater, container, false);
+        LocaleHelper.setAppLanguage(getActivity());
+
 
         binding.signinguestadd.setOnClickListener(v -> {
             Intent addItemIntent = new Intent(getActivity(), SignInActivity.class);

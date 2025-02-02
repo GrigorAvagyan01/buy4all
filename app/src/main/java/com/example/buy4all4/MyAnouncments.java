@@ -13,6 +13,8 @@ public class MyAnouncments extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setAppLanguage(this);
+
 
         binding = ActivityMyAnouncmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

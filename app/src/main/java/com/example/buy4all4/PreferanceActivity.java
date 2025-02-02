@@ -18,6 +18,8 @@ public class PreferanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        LocaleHelper.setAppLanguage(this);
+
 
 
         binding = ActivityPreferanceBinding.inflate(getLayoutInflater());

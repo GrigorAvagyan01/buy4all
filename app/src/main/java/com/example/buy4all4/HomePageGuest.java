@@ -19,6 +19,8 @@ public class HomePageGuest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LocaleHelper.setAppLanguage(this);
+
 
 
         if (savedInstanceState == null) {

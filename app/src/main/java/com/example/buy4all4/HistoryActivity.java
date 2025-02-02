@@ -16,6 +16,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         binding = ActivityHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LocaleHelper.setAppLanguage(this);
+
 
         binding.backhis.setOnClickListener(v -> {
             Intent intent = new Intent(HistoryActivity.this, ProfileFragment.class);

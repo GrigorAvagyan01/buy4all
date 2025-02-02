@@ -15,6 +15,8 @@ public class ChangePassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ChangePasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LocaleHelper.setAppLanguage(this);
+
 
         binding.passchen.setOnClickListener(new View.OnClickListener() {
             @Override

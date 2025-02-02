@@ -27,6 +27,10 @@ android {
         enable = true
     }
 
+    buildFeatures {
+        dataBinding = true  // Add this line to enable DataBinding
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -43,11 +47,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
-    implementation (platform(libs.firebase.bom.v3200))
-    implementation (libs.google.firebase.analytics)
+    implementation(platform(libs.firebase.bom.v3200))
+    implementation(libs.google.firebase.analytics)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)}
-
-
-
+    androidTestImplementation(libs.espresso.core)
+}
