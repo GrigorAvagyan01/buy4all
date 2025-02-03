@@ -1,7 +1,5 @@
 package com.example.buy4all4;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,59 +10,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.buy4all4.HomeFragment;
-import com.example.buy4all4.R;
 import com.example.buy4all4.databinding.FragmentAddBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class AddFragment extends Fragment {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
     private FragmentAddBinding binding;
     private Uri imageUri;
     private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "UserPrefs";
-    private static final String KEY_PHONE_NUMBER = "phoneNumber";
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String KEY_PHONE_NUMBER = "savedPhoneNumber";
 
-    @Nullable
+    private final ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    imageUri = uri;
+                    binding.uploadImageButtonadd.setImageURI(uri);
+                }
+            }
+    );
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddBinding.inflate(inflater, container, false);
-        sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        LocaleHelper.setAppLanguage(getActivity());
-        String savedPhoneNumber = sharedPreferences.getString(KEY_PHONE_NUMBER, "");
-        binding.editNumberPhoneNo.setText(savedPhoneNumber);
+        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, 0);
 
-        binding.uploadImageButtonadd.setOnClickListener(v -> openGallery());
-
+        binding.uploadImageButtonadd.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
         binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
 
-        return binding.getRoot();
-    }
-
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            binding.uploadImageButtonadd.setImageURI(imageUri);
+        String savedPhone = sharedPreferences.getString(KEY_PHONE_NUMBER, "");
+        if (!savedPhone.isEmpty()) {
+            binding.editNumberPhoneNo.setText(savedPhone);
+            binding.checkBox.setChecked(true);
         }
+
+        binding.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                sharedPreferences.edit().remove(KEY_PHONE_NUMBER).apply();
+            }
+        });
+
+        return binding.getRoot();
     }
 
     private void addPostToFirestore() {
@@ -116,10 +110,6 @@ public class AddFragment extends Fragment {
 
         String imagePath = imageUri.toString();
 
-        savePostToFirestore(title, description, price, phoneNo, imagePath);
-    }
-
-    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imagePath) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> post = new HashMap<>();
         post.put("title", title);
@@ -141,16 +131,9 @@ public class AddFragment extends Fragment {
 
     private void navigateToHomeFragment() {
         HomeFragment homeFragment = new HomeFragment();
-
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_view_tag, homeFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

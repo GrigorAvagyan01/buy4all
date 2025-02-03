@@ -28,7 +28,7 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true  // Add this line to enable DataBinding
+        dataBinding = true
     }
 
     compileOptions {
@@ -49,6 +49,12 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom.v3200))
     implementation(libs.google.firebase.analytics)
+    implementation(libs.glide)
+    implementation(libs.firebase.storage)
+    annotationProcessor(libs.compiler)
+    implementation (libs.firebase.firestore.v2400)
+    implementation (libs.firebase.storage.v2000)
+    implementation (libs.play.services.drive)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
