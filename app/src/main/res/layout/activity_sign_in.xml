@@ -23,7 +23,7 @@
         android:transitionName="logo_text" />
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/logins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -40,7 +40,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailEditText"
+            android:id="@+id/emailEditTexts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -52,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:importantForAccessibility="yes" />
+                android:importantForAccessibility="yes"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -69,17 +70,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:importantForAccessibility="yes" />
+                android:importantForAccessibility="yes"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
-            android:id="@+id/RememberMeSignIn"
+            android:id="@+id/RememberMeSignIns"
             android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:text="@string/remember_me"
             android:textColor="@color/black"/>
+
         <Button
-            android:id="@+id/signInButton"
+            android:id="@+id/signInButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
@@ -89,7 +92,7 @@
             android:layout_marginVertical="10dp" />
 
         <Button
-            android:id="@+id/SignUpBut"
+            android:id="@+id/SignUpButs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

@@ -42,15 +42,15 @@ public class SignInActivity extends AppCompatActivity {
             signInUser(savedEmail, savedPassword);
         }
 
-        binding.SignUpBut.setOnClickListener(v -> {
+        binding.SignUpButs.setOnClickListener(v -> {
             Log.d("SignInActivity", "Sign Up button clicked");
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
 
-        binding.signInButton.setOnClickListener(v -> {
+        binding.signInButtons.setOnClickListener(v -> {
             Log.d("SignInActivity", "Sign In button clicked");
-            String email = Objects.requireNonNull(binding.emailEditText.getEditText()).getText().toString().trim();
+            String email = Objects.requireNonNull(binding.emailEditTexts.getEditText()).getText().toString().trim();
             String password = Objects.requireNonNull(binding.passwordEditText.getEditText()).getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
@@ -63,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
 
-            if (binding.RememberMeSignIn.isChecked()) {
+            if (binding.RememberMeSignIns.isChecked()) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(KEY_EMAIL, email);
                 editor.putString(KEY_PASSWORD, password);
