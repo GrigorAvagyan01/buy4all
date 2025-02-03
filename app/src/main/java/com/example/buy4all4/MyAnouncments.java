@@ -1,33 +1,24 @@
 package com.example.buy4all4;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class MyAnouncments extends AppCompatActivity {
-
-    private ActivityMyAnouncmentsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMyAnouncmentsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MyAnouncments.this, ProfileFragment.class);
-            startActivity(intent);
-            finish();
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_my_anouncments);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
     }
 }

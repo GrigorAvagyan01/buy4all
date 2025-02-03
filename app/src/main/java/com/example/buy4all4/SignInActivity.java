@@ -1,12 +1,9 @@
 package com.example.buy4all4;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,37 +17,26 @@ import java.util.Objects;
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private FirebaseAuth mAuth;
-    private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "LoginPrefs";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocaleHelper.setAppLanguage(this);
-
 
         mAuth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
-        String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
-        if (savedEmail != null && savedPassword != null) {
-            signInUser(savedEmail, savedPassword);
-        }
-
-        binding.SignUpButs.setOnClickListener(v -> {
+        // Navigate to SignUpActivity when the SignUp button is clicked
+        binding.SignUpBut.setOnClickListener(v -> {
             Log.d("SignInActivity", "Sign Up button clicked");
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
 
-        binding.signInButtons.setOnClickListener(v -> {
+        // Handle the sign-in process
+        binding.signInButton.setOnClickListener(v -> {
             Log.d("SignInActivity", "Sign In button clicked");
-            String email = Objects.requireNonNull(binding.emailEditTexts.getEditText()).getText().toString().trim();
+            String email = Objects.requireNonNull(binding.emailEditText.getEditText()).getText().toString().trim();
             String password = Objects.requireNonNull(binding.passwordEditText.getEditText()).getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
@@ -63,13 +49,7 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
 
-            if (binding.RememberMeSignIns.isChecked()) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(KEY_EMAIL, email);
-                editor.putString(KEY_PASSWORD, password);
-                editor.apply();
-            }
-
+            // Sign in the user
             signInUser(email, password);
         });
     }
@@ -87,8 +67,11 @@ public class SignInActivity extends AppCompatActivity {
                             finish();
                         }
                     } else {
-                        Log.e("SignInActivity", "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage());
-                        Toast.makeText(SignInActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                        // Log the error and show the message to the user
+                        Exception exception = task.getException();
+                        String errorMessage = exception != null ? exception.getMessage() : "Unknown error";
+                        Log.e("SignInActivity", "Authentication failed: " + errorMessage);
+                        Toast.makeText(SignInActivity.this, "Authentication failed: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
     }

@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.google.firebase.analytics)
     implementation(libs.glide)
     implementation(libs.firebase.storage)
+    implementation(libs.navigation.fragment)
     annotationProcessor(libs.compiler)
     implementation (libs.firebase.firestore.v2400)
     implementation (libs.firebase.storage.v2000)
@@ -58,4 +59,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation (libs.firebase.auth.v2101)
+
 }

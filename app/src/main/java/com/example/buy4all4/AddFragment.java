@@ -1,6 +1,5 @@
 package com.example.buy4all4;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -133,7 +132,6 @@ public class AddFragment extends Fragment {
         HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_view_tag, homeFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commit(); // No need to add to back stack if you don't want to go back
     }
 }
