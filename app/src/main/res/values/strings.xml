@@ -65,6 +65,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="submit">Submit</string>
     <string name="Service">servicech</string>
+    <string name="service">Service</string>
 
 
 </resources>

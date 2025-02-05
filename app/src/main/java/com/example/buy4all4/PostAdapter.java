@@ -1,11 +1,11 @@
 package com.example.buy4all4;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostBinding;
 import java.util.List;
 
@@ -27,9 +27,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.binding.textViewTitle.setText(post.getTitle());
-        holder.binding.textViewPrice.setText(post.getPrice() + "֏");
 
+        holder.binding.postTitle.setText(post.getTitle());
+        holder.binding.postPrice.setText(post.getPrice());
+
+        Glide.with(holder.itemView.getContext()).load(post.getImagePath()).into(holder.binding.postImage);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), PostDetailActivity.class);
+            intent.putExtra("imageUrl", post.getImagePath());
+            intent.putExtra("title", post.getTitle());
+            intent.putExtra("price", post.getPrice());
+            intent.putExtra("description", post.getDescription());
+            intent.putExtra("phone", post.getPhoneNo()  );
+            view.getContext().startActivity(intent);
+        });
     }
 
     @Override

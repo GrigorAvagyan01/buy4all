@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buy4all4.databinding.ActivitySettingsBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Locale;
 
@@ -20,6 +21,9 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String PREFS_NAME = "LoginPrefs";
     private static final String LANGUAGE_KEY = "language";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_REMEMBER = "remember";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        setupLanguageSpinner();
+        setupButtons();
+    }
+
+    private void setupLanguageSpinner() {
         String savedLanguage = sharedPreferences.getString(LANGUAGE_KEY, "en");
         setAppLocale(savedLanguage);
 
@@ -50,15 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedLanguage = "en";
-                switch (position) {
-                    case 0:
-                        selectedLanguage = "hy";
-                        break;
-                    case 1:
-                        selectedLanguage = "ru";
-                        break;
-                }
+                String selectedLanguage = position == 0 ? "hy" : (position == 1 ? "ru" : "en");
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(LANGUAGE_KEY, selectedLanguage);
@@ -68,10 +69,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
+            public void onNothingSelected(AdapterView<?> parentView) {}
         });
+    }
 
+    private void setupButtons() {
         binding.backsettings.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, ProfileFragment.class);
             intent.putExtra("navigate_to", "ProfileFragment");
@@ -87,17 +89,27 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.logout.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("email");
-            editor.remove("password");
-            editor.apply();
+        binding.logout.setOnClickListener(v -> logoutUser());
+    }
 
-            Intent logoutIntent = new Intent(SettingsActivity.this, MainActivity.class);
-            logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(logoutIntent);
-            finish();
-        });
+    private void logoutUser() {
+        FirebaseAuth.getInstance().signOut();
+
+        boolean rememberMe = sharedPreferences.getBoolean(KEY_REMEMBER, false);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (!rememberMe) {
+            editor.remove(KEY_EMAIL);
+            editor.remove(KEY_PASSWORD);
+            editor.remove(KEY_REMEMBER);
+        }
+
+        editor.apply();
+
+        Intent logoutIntent = new Intent(SettingsActivity.this, MainActivity.class);
+        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(logoutIntent);
+        finish();
     }
 
     private void setAppLocale(String languageCode) {
