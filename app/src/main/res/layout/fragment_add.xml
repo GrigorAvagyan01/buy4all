@@ -26,14 +26,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_post_title"
         android:inputType="text"
+        android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226"
-        android:textColor="@color/black" />
+        app:layout_constraintVertical_bias="0.215" />
 
 
     <EditText
@@ -42,46 +42,46 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_post_description"
         android:inputType="textMultiLine"
-        android:textColorHint="@color/black"
         android:minLines="4"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.362"
-        android:textColor="@color/black" />
+        app:layout_constraintVertical_bias="0.333" />
 
 
     <EditText
         android:id="@+id/edit_number_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="336dp"
         android:hint="@string/enter_post_price"
-        android:textColorHint="@color/black"
         android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/black" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
         android:id="@+id/edit_number_phone_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="392dp"
         android:hint="@string/enter_phone_no"
         android:inputType="number"
+        android:textColor="@color/black"
         android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/black" />
-
+        app:layout_constraintVertical_bias="0.582" />
 
     <Button
         android:id="@+id/button_add_post"

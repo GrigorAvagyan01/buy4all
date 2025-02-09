@@ -19,9 +19,7 @@
         <activity
             android:name=".PostDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".PostModel"
-            android:exported="false" />
+
         <activity
             android:name=".HistoryActivity"
             android:exported="false" />
