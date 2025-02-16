@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.buy4all4.databinding.ActivitySettingsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Locale;
-
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
     private SharedPreferences sharedPreferences;
@@ -30,9 +28,11 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocaleHelper.setAppLanguage(this);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        // Apply the saved language
+        LocaleHelper.setAppLanguage(this);
 
         setupLanguageSpinner();
         setupButtons();
@@ -40,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupLanguageSpinner() {
         String savedLanguage = sharedPreferences.getString(LANGUAGE_KEY, "en");
-        setAppLocale(savedLanguage);
 
         Spinner languageSpinner = binding.languageSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -48,6 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 
+        // Set spinner selection based on saved language
         if ("hy".equals(savedLanguage)) {
             languageSpinner.setSelection(0);
         } else if ("ru".equals(savedLanguage)) {
@@ -65,7 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString(LANGUAGE_KEY, selectedLanguage);
                 editor.apply();
 
-                setAppLocale(selectedLanguage);
+                LocaleHelper.setAppLanguage(SettingsActivity.this, selectedLanguage);
+                restartActivity();
             }
 
             @Override
@@ -74,21 +75,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        binding.backsettings.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, ProfileFragment.class);
-            intent.putExtra("navigate_to", "ProfileFragment");
-            startActivity(intent);
-            finish();
-        });
-
-        binding.roompreference.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, PreferanceActivitySettings.class);
-            intent.putExtra("navigate_to", "PreferanceActivitySettings");
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            finish();
-        });
-
         binding.logout.setOnClickListener(v -> logoutUser());
     }
 
@@ -99,30 +85,19 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (!rememberMe) {
-            editor.remove(KEY_EMAIL);
-            editor.remove(KEY_PASSWORD);
-            editor.remove(KEY_REMEMBER);
+            editor.clear();
         }
 
         editor.apply();
 
         Intent logoutIntent = new Intent(SettingsActivity.this, MainActivity.class);
-        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(logoutIntent);
         finish();
     }
 
-    private void setAppLocale(String languageCode) {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        android.content.res.Configuration config = getResources().getConfiguration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

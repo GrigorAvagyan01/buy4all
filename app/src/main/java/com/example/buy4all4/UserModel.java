@@ -1,6 +1,6 @@
 package com.example.buy4all4;
 
-public class UserModel {
+public class    UserModel {
     String username;
     String email;
     String password;
