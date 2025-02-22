@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         editor.apply();
 
-        Intent logoutIntent = new Intent(SettingsActivity.this, MainActivity.class);
+        Intent logoutIntent = new Intent(SettingsActivity.this, SIgnInSignUp.class);
         startActivity(logoutIntent);
         finish();
     }

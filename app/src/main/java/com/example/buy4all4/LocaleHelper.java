@@ -34,7 +34,6 @@ public class LocaleHelper {
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
 
-        // Save the selected language to SharedPreferences
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(LANGUAGE_KEY, languageCode);
         editor.apply();
