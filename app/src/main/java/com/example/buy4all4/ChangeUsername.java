@@ -13,9 +13,9 @@ public class ChangeUsername extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setAppLanguage(this);
         binding = ChangeUsernameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocaleHelper.setAppLanguage(this);
 
 
         binding.uschen.setOnClickListener(new View.OnClickListener() {

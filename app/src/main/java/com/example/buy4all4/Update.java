@@ -13,9 +13,9 @@ public class Update extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivityUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocaleHelper.setAppLanguage(this);
 
 
         binding.mail.setOnClickListener(v -> navigateTo(ChangeMail.class));

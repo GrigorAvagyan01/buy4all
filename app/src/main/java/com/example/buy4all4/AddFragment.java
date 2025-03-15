@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.buy4all4.databinding.FragmentAddBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -116,18 +118,30 @@ public class AddFragment extends Fragment {
 
     private void savePostToFirestore(String title, String description, String price, String phoneNo, String imagePath) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        if (user == null) {
+            Toast.makeText(getActivity(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = user.getUid();
+
         Map<String, Object> post = new HashMap<>();
         post.put("title", title);
         post.put("description", description);
         post.put("price", price);
         post.put("phoneNo", phoneNo);
         post.put("imagePath", imagePath);
+        post.put("userId", userId);
 
         db.collection("posts")
                 .add(post)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
                     navigateToHomeFragment();
+                    navigateToMyAnnouncements();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getActivity(), "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -144,6 +158,11 @@ public class AddFragment extends Fragment {
         transaction.replace(R.id.fragment_container, homeFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void navigateToMyAnnouncements() {
+        Intent intent = new Intent(getActivity(), MyAnouncments.class);
+        startActivity(intent);
     }
 
     @Override

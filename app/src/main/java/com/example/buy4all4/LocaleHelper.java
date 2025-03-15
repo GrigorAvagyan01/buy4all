@@ -4,48 +4,46 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
+import android.preference.PreferenceManager;
 
 import java.util.Locale;
 
 public class LocaleHelper {
-    private static final String PREFS_NAME = "LoginPrefs";
+
     private static final String LANGUAGE_KEY = "language";
 
-    /**
-     * Apply the saved language when the app starts.
-     * This should be called in `onCreate()` of the main activity.
-     */
     public static void setAppLanguage(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String languageCode = sharedPreferences.getString(LANGUAGE_KEY, "en");
-        setAppLanguage(context, languageCode);
-    }
-
-    /**
-     * Change the app language dynamically and persist it.
-     * @param context Application context.
-     * @param languageCode The selected language code (e.g., "en", "ru", "hy").
-     */
-    public static void setAppLanguage(Context context, String languageCode) {
+        String languageCode = getSelectedLanguageCode(context);
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
-        Resources resources = context.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
 
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-        editor.putString(LANGUAGE_KEY, languageCode);
-        editor.apply();
+        Configuration configuration = context.getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(locale);
+        } else {
+            configuration.locale = locale;
+        }
+
+        // Ensure configuration changes take effect
+        Resources resources = context.getResources();
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        // Handle configuration changes on Android N and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.createConfigurationContext(configuration);
+        }
     }
 
-    /**
-     * Retrieve the currently selected language code.
-     * @param context Application context.
-     * @return The saved language code or "en" if not found.
-     */
     public static String getSelectedLanguageCode(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return preferences.getString(LANGUAGE_KEY, "en");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(LANGUAGE_KEY, "en");  // Default to "en" if no language is set
+    }
+
+    public static void saveSelectedLanguage(Context context, String languageCode) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(LANGUAGE_KEY, languageCode);
+        editor.apply();  // Asynchronous saving
     }
 }

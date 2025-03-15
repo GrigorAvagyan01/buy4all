@@ -23,9 +23,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(postList);
+        postAdapter = new PostAdapter(requireContext(), postList); // Pass Context Here ✅
 
-        binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(requireContext())); // Use requireContext() Here ✅
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
         fetchPosts();

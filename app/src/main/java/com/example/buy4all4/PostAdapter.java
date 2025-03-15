@@ -1,5 +1,6 @@
 package com.example.buy4all4;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,15 +13,17 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     private final List<Post> postList;
+    private final Context context;
 
-    public PostAdapter(List<Post> postList) {
+    public PostAdapter(Context context, List<Post> postList) {
+        this.context = context;
         this.postList = postList;
     }
 
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemPostBinding binding = ItemPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemPostBinding binding = ItemPostBinding.inflate(LayoutInflater.from(context), parent, false);
         return new PostViewHolder(binding);
     }
 
@@ -31,16 +34,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.binding.postTitle.setText(post.getTitle());
         holder.binding.postPrice.setText(post.getPrice());
 
-        Glide.with(holder.itemView.getContext()).load(post.getImagePath()).into(holder.binding.postImage);
+        Glide.with(context).load(post.getImagePath()).into(holder.binding.postImage);
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), PostDetailActivity.class);
+            Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("imageUrl", post.getImagePath());
             intent.putExtra("title", post.getTitle());
             intent.putExtra("price", post.getPrice());
             intent.putExtra("description", post.getDescription());
-            intent.putExtra("phone", post.getPhoneNo()  );
-            view.getContext().startActivity(intent);
+            intent.putExtra("phone", post.getPhoneNo());
+            context.startActivity(intent);
         });
     }
 

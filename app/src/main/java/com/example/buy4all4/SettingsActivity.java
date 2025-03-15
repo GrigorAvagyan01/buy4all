@@ -15,58 +15,58 @@ import com.example.buy4all4.databinding.ActivitySettingsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsActivity extends AppCompatActivity {
+
     private ActivitySettingsBinding binding;
     private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "LoginPrefs";
     private static final String LANGUAGE_KEY = "language";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASSWORD = "password";
-    private static final String KEY_REMEMBER = "remember";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setAppLanguage(this);  // Apply selected language on activity creation
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        String language = LocaleHelper.getSelectedLanguageCode(this);  // Get the saved language
 
-        // Apply the saved language
-        LocaleHelper.setAppLanguage(this);
-
-        setupLanguageSpinner();
-        setupButtons();
+        setupLanguageSpinner(language);  // Initialize spinner with selected language
+        setupButtons();  // Setup button click actions
     }
 
-    private void setupLanguageSpinner() {
-        String savedLanguage = sharedPreferences.getString(LANGUAGE_KEY, "en");
-
+    private void setupLanguageSpinner(String savedLanguage) {
         Spinner languageSpinner = binding.languageSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.languages, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 
-        // Set spinner selection based on saved language
+        // Set the initial selection based on saved language
         if ("hy".equals(savedLanguage)) {
-            languageSpinner.setSelection(0);
+            languageSpinner.setSelection(2);
         } else if ("ru".equals(savedLanguage)) {
             languageSpinner.setSelection(1);
         } else {
-            languageSpinner.setSelection(2);
+            languageSpinner.setSelection(0);
         }
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedLanguage = position == 0 ? "hy" : (position == 1 ? "ru" : "en");
+                String selectedLanguage = position == 0 ? "en" : (position == 1 ? "ru" : "hy");
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(LANGUAGE_KEY, selectedLanguage);
-                editor.apply();
+                // Only save and apply the language if it's different from the current one
+                String currentLanguage = LocaleHelper.getSelectedLanguageCode(SettingsActivity.this);
+                if (!selectedLanguage.equals(currentLanguage)) {
+                    // Save selected language
+                    LocaleHelper.saveSelectedLanguage(SettingsActivity.this, selectedLanguage);
+                    LocaleHelper.setAppLanguage(SettingsActivity.this);  // Apply the selected language
 
-                LocaleHelper.setAppLanguage(SettingsActivity.this, selectedLanguage);
-                restartActivity();
+                    // Restart the activity only once to apply the change
+                    Intent intent = getIntent();
+                    finish();  // This will finish the SettingsActivity and return to ProfileFragment
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -81,23 +81,21 @@ public class SettingsActivity extends AppCompatActivity {
     private void logoutUser() {
         FirebaseAuth.getInstance().signOut();
 
-        boolean rememberMe = sharedPreferences.getBoolean(KEY_REMEMBER, false);
+        // Clear user session data
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        if (!rememberMe) {
-            editor.clear();
-        }
-
+        editor.clear();
         editor.apply();
 
-        Intent logoutIntent = new Intent(SettingsActivity.this, SIgnInSignUp.class);
+        // Redirect to MainActivity
+        Intent logoutIntent = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(logoutIntent);
         finish();
     }
 
-    private void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+    // Override the back button behavior to ensure we navigate back to ProfileFragment
+    @Override
+    public void onBackPressed() {
+        // Instead of just finishing the activity, we use finish() to go back to the previous fragment
+        super.onBackPressed();
     }
 }

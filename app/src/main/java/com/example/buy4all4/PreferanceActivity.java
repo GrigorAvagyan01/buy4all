@@ -17,8 +17,8 @@ public class PreferanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         LocaleHelper.setAppLanguage(this);
+        EdgeToEdge.enable(this);
 
 
 

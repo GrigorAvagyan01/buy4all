@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buy4all4.databinding.ActivitySignInBinding;
@@ -28,9 +29,9 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocaleHelper.setAppLanguage(this);
 
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -44,6 +45,7 @@ public class SignInActivity extends AppCompatActivity {
 
         binding.signInButton.setOnClickListener(v -> {
             Log.d("SignInActivity", "Sign In button clicked");
+
             String email = Objects.requireNonNull(binding.emailEditText.getEditText()).getText().toString().trim();
             String password = Objects.requireNonNull(binding.passwordEditText.getEditText()).getText().toString().trim();
 
@@ -69,9 +71,14 @@ public class SignInActivity extends AppCompatActivity {
 
     private void loadSavedCredentials() {
         boolean remember = sharedPreferences.getBoolean(KEY_REMEMBER, false);
+        Log.d("SignInActivity", "Remember Me: " + remember);
+
         if (remember) {
             String savedEmail = sharedPreferences.getString(KEY_EMAIL, "");
             String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
+
+            Log.d("SignInActivity", "Saved Email: " + savedEmail);
+            Log.d("SignInActivity", "Saved Password: " + savedPassword);
 
             binding.emailEditText.getEditText().setText(savedEmail);
             binding.passwordEditText.getEditText().setText(savedPassword);
@@ -96,6 +103,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void signInUser(String email, String password) {
+        Log.d("SignInActivity", "Attempting sign-in with email: " + email);
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -107,8 +116,9 @@ public class SignInActivity extends AppCompatActivity {
                             finish();
                         }
                     } else {
-                        Log.e("SignInActivity", "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage());
-                        Toast.makeText(SignInActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                        Exception e = task.getException();
+                        Log.e("SignInActivity", "Authentication failed", e);
+                        Toast.makeText(SignInActivity.this, "Authentication failed: " + (e != null ? e.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
                     }
                 });
     }

@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        LocaleHelper.setAppLanguage(requireContext());
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
@@ -68,6 +69,7 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         });
+
 
         return binding.getRoot();
     }

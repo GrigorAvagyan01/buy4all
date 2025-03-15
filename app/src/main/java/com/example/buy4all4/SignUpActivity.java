@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buy4all4.databinding.ActivitySignUpBinding;
@@ -33,19 +33,16 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         LocaleHelper.setAppLanguage(this);
 
-
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         binding.Signinbut.setOnClickListener(v -> {
             Log.d("SignUpActivity", "Sign In button clicked");
-            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
         });
 
         binding.signupButton.setOnClickListener(v -> {
@@ -60,53 +57,56 @@ public class SignUpActivity extends AppCompatActivity {
         String password = Objects.requireNonNull(binding.password.getEditText()).getText().toString().trim();
         String confirmPassword = Objects.requireNonNull(binding.password2.getEditText()).getText().toString().trim();
 
+        if (validateInputs(username, email, password, confirmPassword)) {
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                saveUserToFirestore(firebaseUser.getUid(), username, email);
+                                rememberUser(email, password);
+                            }
+                        } else {
+                            Log.e("SignUpActivity", "Registration failed", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Registration failed: " +
+                                    Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private boolean validateInputs(String username, String email, String password, String confirmPassword) {
+        boolean isValid = true;
+
         if (TextUtils.isEmpty(username)) {
             binding.username.setError("Username is required");
-            return;
+            isValid = false;
         } else {
             binding.username.setError(null);
         }
 
         if (TextUtils.isEmpty(email)) {
             binding.email.setError("Email is required");
-            return;
+            isValid = false;
         } else {
             binding.email.setError(null);
         }
 
         if (TextUtils.isEmpty(password)) {
             binding.password.setError("Password is required");
-            return;
+            isValid = false;
         } else {
             binding.password.setError(null);
         }
 
         if (!password.equals(confirmPassword)) {
             binding.password2.setError("Passwords do not match");
-            return;
+            isValid = false;
         } else {
             binding.password2.setError(null);
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                        if (firebaseUser != null) {
-                            saveUserToFirestore(firebaseUser.getUid(), username, email);
-
-                            if (binding.RememberMeSignUp.isChecked()) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(KEY_EMAIL, email);
-                                editor.putString(KEY_PASSWORD, password);
-                                editor.apply();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(SignUpActivity.this, "Registration failed: " +
-                                Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        return isValid;
     }
 
     private void saveUserToFirestore(String userId, String username, String email) {
@@ -117,11 +117,24 @@ public class SignUpActivity extends AppCompatActivity {
 
         db.collection("users").document(userId).set(userMap)
                 .addOnSuccessListener(aVoid -> {
+                    Log.d("SignUpActivity", "User successfully saved in Firestore");
                     Toast.makeText(SignUpActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, PreferanceActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(SignUpActivity.this, PreferanceActivity.class));
                     finish();
                 })
-                .addOnFailureListener(e -> Toast.makeText(SignUpActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Log.e("SignUpActivity", "Error saving user", e);
+                    Toast.makeText(SignUpActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void rememberUser(String email, String password) {
+        if (binding.RememberMeSignUp.isChecked()) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(KEY_EMAIL, email);
+            editor.putString(KEY_PASSWORD, password);
+            editor.apply();
+            Log.d("SignUpActivity", "User credentials saved");
+        }
     }
 }
