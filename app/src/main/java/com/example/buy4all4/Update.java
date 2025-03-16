@@ -18,9 +18,9 @@ public class Update extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        binding.mail.setOnClickListener(v -> navigateTo(ChangeMail.class));
-        binding.username.setOnClickListener(v -> navigateTo(ChangeUsername.class));
-        binding.password.setOnClickListener(v -> navigateTo(ChangePassword.class));
+        binding.mail.setOnClickListener(v -> navigateTo(ChangeMailActivity.class));
+        binding.username.setOnClickListener(v -> navigateTo(ChangeUsernameActivity.class));
+        binding.password.setOnClickListener(v -> navigateTo(ChangePasswordActivity.class));
         binding.backupd.setOnClickListener(v -> {
             navigateTo(ProfileFragment.class);
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);

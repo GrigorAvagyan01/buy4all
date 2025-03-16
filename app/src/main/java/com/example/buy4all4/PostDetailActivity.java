@@ -2,20 +2,30 @@ package com.example.buy4all4;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
-import com.example.buy4all4.databinding.ActivityPostDetailBinding;
 
 public class PostDetailActivity extends AppCompatActivity {
-    private ActivityPostDetailBinding binding;
+
+    private ImageView postImage;
+    private TextView postTitle, postPrice, postDescription, postPhone;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPostDetailBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_post_detail);
 
+        postImage = findViewById(R.id.postImage);
+        postTitle = findViewById(R.id.postTitle);
+        postPrice = findViewById(R.id.postPrice);
+        postDescription = findViewById(R.id.postDescription);
+        postPhone = findViewById(R.id.postPhone);
+
+        // Get post data from Intent
         Intent intent = getIntent();
         String imageUrl = intent.getStringExtra("imageUrl");
         String title = intent.getStringExtra("title");
@@ -23,16 +33,11 @@ public class PostDetailActivity extends AppCompatActivity {
         String description = intent.getStringExtra("description");
         String phone = intent.getStringExtra("phone");
 
-        Glide.with(this).load(imageUrl).into(binding.postImage);
-        binding.postTitle.setText(title);
-        binding.postPrice.setText("Price: " + price + "֏");
-        binding.postDescription.setText("Description: " + description);
-        binding.postPhone.setText("Phone No: " + phone);
-        binding.backbutproffrag.setOnClickListener(v -> {
-            Intent intent1 = new Intent(PostDetailActivity.this, HomeFragment.class);
-            startActivity(intent1);
-            finish();
-        });
-
+        // Set post data to the views
+        Glide.with(this).load(imageUrl).into(postImage);
+        postTitle.setText(title);
+        postPrice.setText(price);
+        postDescription.setText(description);
+        postPhone.setText(phone);
     }
 }

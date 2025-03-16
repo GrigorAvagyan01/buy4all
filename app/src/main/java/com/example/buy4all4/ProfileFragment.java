@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,7 +72,6 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
-
         return binding.getRoot();
     }
 
@@ -85,19 +86,23 @@ public class ProfileFragment extends Fragment {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
-            saveImageToInternalStorage(selectedImageUri);
+            encodeAndSaveImage(selectedImageUri);
             loadSavedImage();
         }
     }
 
-    private void saveImageToInternalStorage(Uri imageUri) {
+    private void encodeAndSaveImage(Uri imageUri) {
         try {
             InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
+            // Encode image to Base64
+            String encodedImage = encodeImage(bitmap);
+
+            // Save the encoded image in a file (or you can save it in Firestore if needed)
             File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
             FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.write(encodedImage.getBytes());
             fos.close();
 
         } catch (IOException e) {
@@ -105,12 +110,30 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
     private void loadSavedImage() {
         File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
         if (file.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            binding.uploadImageButton.setImageBitmap(bitmap);
-            binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            try {
+                byte[] imageBytes = new byte[(int) file.length()];
+                InputStream inputStream = requireActivity().getContentResolver().openInputStream(Uri.fromFile(file));
+                inputStream.read(imageBytes);
+                String encodedImage = new String(imageBytes);
+                byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+                binding.uploadImageButton.setImageBitmap(bitmap);
+                binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

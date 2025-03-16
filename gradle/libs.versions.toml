@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.2"
+appcompatVersion = "1.6.1"
 chipNavigationBar = "1.2.0"
 compiler = "4.15.1"
 firebaseAuth = "23.1.0"
@@ -19,10 +20,12 @@ constraintlayout = "2.2.0"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.1"
 firebaseStorage = "21.0.1"
+materialVersion = "1.9.0"
 playServicesDrive = "17.0.0"
 navigationFragment = "2.8.5"
 
 [libraries]
+appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 chip-navigation-bar = { module = "com.ismaeldivita.chipnavigation:chip-navigation-bar", version.ref = "chipNavigationBar" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
@@ -45,6 +48,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 play-services-drive = { module = "com.google.android.gms:play-services-drive", version.ref = "playServicesDrive" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 

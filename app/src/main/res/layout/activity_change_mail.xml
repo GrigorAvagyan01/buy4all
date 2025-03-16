@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".PasswordForUpdate">
+    tools:context=".ChangeMailActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -23,38 +23,46 @@
             android:padding="24dp">
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Mail"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="36.5sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
-                android:text="Please enter your password"
+                android:text="Please enter your new mail"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="15dp" />
 
 
             <EditText
-                android:id="@+id/password_forupdated"
+                android:id="@+id/new_mail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:drawablePadding="8dp"
-                android:hint="Password"
+                android:hint="New Password"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/change_next"
+                android:id="@+id/change_mail_really"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/black"
-                android:text="Next"
+                android:text="Change"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/gobackprofile"
+                android:id="@+id/gobackSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

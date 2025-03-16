@@ -1,8 +1,9 @@
 package com.example.buy4all4;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +13,14 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
-    private final List<Post> postList;
-    private final Context context;
+    private Context context;
+    private List<Post> postList;
+    private OnPostOptionsClickListener onPostOptionsClickListener;
 
-    public PostAdapter(Context context, List<Post> postList) {
+    public PostAdapter(Context context, List<Post> postList, OnPostOptionsClickListener listener) {
         this.context = context;
         this.postList = postList;
+        this.onPostOptionsClickListener = listener;
     }
 
     @NonNull
@@ -31,25 +34,39 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
 
-        holder.binding.postTitle.setText(post.getTitle());
-        holder.binding.postPrice.setText(post.getPrice());
+        if (post.getTitle() != null) {
+            holder.binding.postTitle.setText(post.getTitle());
+        } else {
+            holder.binding.postTitle.setText("No Title");
+        }
 
-        Glide.with(context).load(post.getImagePath()).into(holder.binding.postImage);
+        if (post.getPrice() != null) {
+            holder.binding.postPrice.setText(post.getPrice());
+        } else {
+            holder.binding.postPrice.setText("No Price");
+        }
 
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, PostDetailActivity.class);
-            intent.putExtra("imageUrl", post.getImagePath());
-            intent.putExtra("title", post.getTitle());
-            intent.putExtra("price", post.getPrice());
-            intent.putExtra("description", post.getDescription());
-            intent.putExtra("phone", post.getPhoneNo());
-            context.startActivity(intent);
+        if (post.getImageUrl() != null) {
+            Glide.with(context)
+                    .load(post.getImageUrl())
+                    .into(holder.binding.postImage);
+        }
+
+        holder.binding.optionsMenuImageView.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                onPostOptionsClickListener.onPostOptionsClicked(v, pos, post);
+            }
         });
     }
 
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    public interface OnPostOptionsClickListener {
+        void onPostOptionsClicked(View view, int position, Post post);
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {

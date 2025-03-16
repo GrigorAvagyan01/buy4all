@@ -1,25 +1,36 @@
 package com.example.buy4all4;
 
 public class Post {
+    private String postId;
     private String title;
     private String description;
     private String price;
     private String phoneNo;
-    private String imagePath;
+    private String userId;
+    private String imageUrl;  // Add the imageUrl field
 
-    // Default constructor
     public Post() {}
 
-    // Constructor
-    public Post(String title, String description, String price, String phoneNo, String imagePath) {
+    // Constructor with imageUrl
+    public Post(String postId, String title, String description, String price, String phoneNo, String userId, String imageUrl) {
+        this.postId = postId;
         this.title = title;
         this.description = description;
         this.price = price;
         this.phoneNo = phoneNo;
-        this.imagePath = imagePath;
+        this.userId = userId;
+        this.imageUrl = imageUrl;
     }
 
-    // Getters and Setters
+    // Getter and setter methods
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -52,11 +63,19 @@ public class Post {
         this.phoneNo = phoneNo;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getImageUrl() {  // Add the getter for imageUrl
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {  // Add the setter for imageUrl
+        this.imageUrl = imageUrl;
     }
 }

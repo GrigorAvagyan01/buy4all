@@ -23,11 +23,8 @@ android {
         }
     }
 
-    viewBinding {
-        enable = true
-    }
-
     buildFeatures {
+        viewBinding = true
         dataBinding = true
     }
 
@@ -53,12 +50,13 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.navigation.fragment)
     annotationProcessor(libs.compiler)
-    implementation (libs.firebase.firestore.v2400)
-    implementation (libs.firebase.storage.v2000)
-    implementation (libs.play.services.drive)
+    implementation(libs.firebase.firestore.v2400)
+    implementation(libs.firebase.storage.v2000)
+    implementation(libs.play.services.drive)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation (libs.firebase.auth.v2101)
-
+    implementation(libs.firebase.auth.v2101)
+    implementation(libs.appcompat.v161)
+    implementation(libs.material.v190)
 }

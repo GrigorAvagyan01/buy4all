@@ -1,12 +1,16 @@
 package com.example.buy4all4;
 
+
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.buy4all4.Post;
+import com.example.buy4all4.PostAdapter;
 import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,7 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAnouncments extends AppCompatActivity {
+public class MyAnouncments extends AppCompatActivity implements PostAdapter.OnPostOptionsClickListener {
 
     private ActivityMyAnouncmentsBinding binding;
     private List<Post> postList;
@@ -28,10 +32,10 @@ public class MyAnouncments extends AppCompatActivity {
         binding = ActivityMyAnouncmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(MyAnouncments.this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(MyAnouncments.this, postList);
+        postAdapter = new PostAdapter(this, postList, this);
         binding.recyclerView.setAdapter(postAdapter);
 
         fetchMyPosts();
@@ -61,5 +65,10 @@ public class MyAnouncments extends AppCompatActivity {
                     postAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onPostOptionsClicked(View view, int position, Post post) {
+        Toast.makeText(this, "Post options clicked for: " + post.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }
