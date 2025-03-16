@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Optional TextView to show post details like title or message -->
+    <TextView
+        android:id="@+id/tvPostDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to delete this post?"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Button to delete the post -->
+    <Button
+        android:id="@+id/btnDeletePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Post" />
+
+    <!-- Button to cancel deletion -->
+    <Button
+        android:id="@+id/btnCancelDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel" />
+</LinearLayout>

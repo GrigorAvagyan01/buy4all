@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:backgroundTint="@color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -14,9 +13,10 @@
         android:layout_marginEnd="8dp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_weight="1"
         android:gravity="center_vertical">
 
         <TextView
@@ -28,11 +28,18 @@
 
         <TextView
             android:id="@+id/postPrice"
-            android:layout_width="252dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_green_dark"/>
     </LinearLayout>
 
+    <!-- 3-Dot Menu Button -->
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Options"
+        android:src="@drawable/baseline_more_vert_24" />
 </LinearLayout>

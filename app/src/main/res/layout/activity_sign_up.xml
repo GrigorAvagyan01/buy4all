@@ -111,7 +111,7 @@
             android:layout_width="191dp"
             android:layout_height="wrap_content"
             android:text="@string/remember_mesignup"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/signupButton"

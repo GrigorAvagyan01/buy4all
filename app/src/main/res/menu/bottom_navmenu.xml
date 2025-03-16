@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white">
+    >
     <item
         android:id="@+id/home_nav"
         android:title="@string/homebottom"
-        android:icon="@drawable/baseline_home_24" />
+        android:icon="@drawable/baseline_home_24"
+        android:tint="@android:color/white" /> <!-- Set the icon color to white -->
+
     <item
         android:id="@+id/service_nav"
         android:title="@string/bottom"
-        android:icon="@drawable/baseline_home_repair_service_24" />
+        android:icon="@drawable/baseline_home_repair_service_24"
+        android:tint="@android:color/white" /> <!-- Set the icon color to white -->
+
     <item
         android:id="@+id/add_nav"
         android:title="@string/addbottom"
-        android:icon="@drawable/baseline_add_24" />
+        android:icon="@drawable/baseline_add_24"
+        android:tint="@android:color/white" /> <!-- Set the icon color to white -->
+
     <item
         android:id="@+id/favorite_nav"
         android:title="@string/favoritebottom"
-        android:icon="@drawable/baseline_favorite_24" />
+        android:icon="@drawable/baseline_favorite_24"
+        android:tint="@android:color/white" /> <!-- Set the icon color to white -->
+
     <item
         android:id="@+id/profile_nav"
         android:title="@string/profilebottom"
-        android:icon="@drawable/baseline_person_24" />
+        android:icon="@drawable/baseline_person_24"
+        android:tint="@android:color/white" /> <!-- Set the icon color to white -->
 </menu>
-
-

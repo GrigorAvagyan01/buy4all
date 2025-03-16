@@ -6,119 +6,103 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- Profile Image Button -->
     <ImageButton
         android:id="@+id/uploadImageButton"
-        android:layout_width="131dp"
-        android:layout_height="123dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:background="@android:color/transparent"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/usernameTextView1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:scaleType="fitCenter"/>
+        app:layout_constraintVertical_bias="0.2"
+        android:scaleType="centerCrop"/>
 
-
+    <!-- Username TextView -->
     <TextView
         android:id="@+id/usernameTextView1"
-        android:layout_width="113dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Username"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.031"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImageButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp"/>
 
+    <!-- Email TextView -->
     <TextView
         android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextView1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.291" />
-
-    <TextView
-        android:id="@+id/usernameTextView2"
-        android:layout_width="203dp"
-        android:layout_height="43dp"
-        android:text="Username"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintHorizontal_bias="0.5"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"/>
 
+    <!-- Update Button -->
     <Button
         android:id="@+id/UpdateBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#000000"
-        android:fontFamily="@font/bungee"
+        android:layout_marginTop="24dp"
         android:text="@string/updateprof"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#000000"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginBottom="12dp"/>
 
+    <!-- History Button -->
     <Button
         android:id="@+id/HistoryBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="?attr/selectableItemBackground"
         android:text="@string/history"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:textColor="@android:color/black"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@+id/UpdateBut"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.489" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="12dp"/>
 
+    <!-- My Announcements Button -->
     <Button
         android:id="@+id/MyAnouncmentsBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="?attr/selectableItemBackground"
         android:text="@string/my_announcements"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:textColor="@android:color/black"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@+id/HistoryBut"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.591" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="12dp"/>
 
+    <!-- Settings Button -->
     <ImageButton
         android:id="@+id/SettingsBut"
-        android:layout_width="63dp"
-        android:layout_height="57dp"
-        android:background="@color/white"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_settings_24" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -124,7 +124,6 @@ public class ProfileFragment extends Fragment {
                 String username = task.getResult().getString("username");
 
                 binding.emailTextView.setText(email != null ? email : "Email not available");
-                binding.usernameTextView2.setText(username != null ? username : "Username not available");
                 binding.usernameTextView1.setText(username != null ? username : "Username not available");
             } else {
                 Toast.makeText(getActivity(), "Failed to load user data", Toast.LENGTH_SHORT).show();
