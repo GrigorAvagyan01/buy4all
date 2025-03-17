@@ -1,30 +1,23 @@
 package com.example.buy4all4;
 
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.example.buy4all4.Post;
-import com.example.buy4all4.PostAdapter;
 import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAnouncments extends AppCompatActivity implements PostAdapter.OnPostOptionsClickListener {
+public class MyAnouncments extends AppCompatActivity {
 
     private ActivityMyAnouncmentsBinding binding;
+    private PostAdapterMa adapter;
     private List<Post> postList;
-    private PostAdapter postAdapter;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,43 +25,54 @@ public class MyAnouncments extends AppCompatActivity implements PostAdapter.OnPo
         binding = ActivityMyAnouncmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        db = FirebaseFirestore.getInstance();
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(this, postList, this);
-        binding.recyclerView.setAdapter(postAdapter);
 
-        fetchMyPosts();
+        setupRecyclerView();
+        loadPosts();
     }
 
-    private void fetchMyPosts() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+    private void setupRecyclerView() {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new PostAdapterMa(this, postList, new PostAdapterMa.OnPostOptionsClickListener() {
+            @Override
+            public void onEditPost(String postId) {
+                Intent intent = new Intent(MyAnouncments.this, UpdateActivity.class);
+                intent.putExtra("postId", postId);
+                startActivity(intent);
+            }
 
-        if (user == null) {
-            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            @Override
+            public void onDeletePost(String postId) {
+                db.collection("posts").document(postId)
+                        .delete()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(MyAnouncments.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                            loadPosts(); // Refresh list after deletion
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(MyAnouncments.this, "Failed to delete post", Toast.LENGTH_SHORT).show());
+            }
+        });
+        binding.recyclerView.setAdapter(adapter);
+    }
 
-        String userId = user.getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("posts")
-                .whereEqualTo("userId", userId)
-                .get()
+    private void loadPosts() {
+        db.collection("posts").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     postList.clear();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Post post = document.toObject(Post.class);
+                        post.setPostId(document.getId()); // Ensure postId is set
                         postList.add(post);
                     }
-                    postAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(MyAnouncments.this, "Failed to load posts", Toast.LENGTH_SHORT).show());
     }
 
     @Override
-    public void onPostOptionsClicked(View view, int position, Post post) {
-        Toast.makeText(this, "Post options clicked for: " + post.getTitle(), Toast.LENGTH_SHORT).show();
+    protected void onResume() {
+        super.onResume();
+        loadPosts(); // Refresh list when returning from UpdateActivity
     }
 }

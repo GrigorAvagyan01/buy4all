@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -19,6 +17,7 @@ public class PostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
+        // Initialize views
         postImage = findViewById(R.id.postImage);
         postTitle = findViewById(R.id.postTitle);
         postPrice = findViewById(R.id.postPrice);
@@ -34,10 +33,12 @@ public class PostDetailActivity extends AppCompatActivity {
         String phone = intent.getStringExtra("phone");
 
         // Set post data to the views
-        Glide.with(this).load(imageUrl).into(postImage);
-        postTitle.setText(title);
-        postPrice.setText(price);
-        postDescription.setText(description);
-        postPhone.setText(phone);
+        if (imageUrl != null) {
+            Glide.with(this).load(imageUrl).into(postImage);
+        }
+        postTitle.setText(title != null ? title : "No Title");
+        postPrice.setText(price != null ? price : "No Price");
+        postDescription.setText(description != null ? description : "No Description");
+        postPhone.setText(phone != null ? phone : "No Phone");
     }
 }

@@ -7,11 +7,10 @@ public class Post {
     private String price;
     private String phoneNo;
     private String userId;
-    private String imageUrl;  // Add the imageUrl field
+    private String imageUrl;
 
     public Post() {}
 
-    // Constructor with imageUrl
     public Post(String postId, String title, String description, String price, String phoneNo, String userId, String imageUrl) {
         this.postId = postId;
         this.title = title;
@@ -22,7 +21,6 @@ public class Post {
         this.imageUrl = imageUrl;
     }
 
-    // Getter and setter methods
     public String getPostId() {
         return postId;
     }
@@ -71,11 +69,11 @@ public class Post {
         this.userId = userId;
     }
 
-    public String getImageUrl() {  // Add the getter for imageUrl
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {  // Add the setter for imageUrl
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

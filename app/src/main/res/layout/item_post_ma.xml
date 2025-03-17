@@ -6,17 +6,15 @@
     android:padding="8dp"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:elevation="2dp"
-    android:layout_marginBottom="8dp"> <!-- Spacing between items -->
+    android:gravity="center_vertical">
 
     <!-- Post Image -->
 <ImageView
-android:id="@+id/postImage"
+android:id="@+id/postImageMa"
 android:layout_width="125dp"
 android:layout_height="107dp"
-android:layout_marginEnd="8dp"
 android:scaleType="centerCrop"
-android:background="@drawable/rounded_corners" /> <!-- Rounded corners drawable -->
+android:layout_marginEnd="8dp" />
 
     <!-- Text Content (Title & Price) -->
 <LinearLayout
@@ -28,23 +26,32 @@ android:orientation="vertical">
 
 <!-- Post Title -->
 <TextView
-    android:id="@+id/postTitle"
+    android:id="@+id/postTitleMa"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="18sp"
     android:textStyle="bold"
-    android:textColor="@android:color/black"
-    android:maxLines="1"
-    android:ellipsize="end" /> <!-- Title truncation if long -->
+    android:textColor="@android:color/black" />
 
-<!-- Post Price with Armenian Dram Symbol -->
+<!-- Post Price -->
 <TextView
-    android:id="@+id/postPrice"
+    android:id="@+id/postPriceMa"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="2dp"
     android:textColor="@android:color/holo_green_dark"
-    android:textSize="16sp"/>
-</LinearLayout>
+    android:textSize="16sp" />
 
 </LinearLayout>
+
+    <!-- Options Menu ImageView -->
+<ImageView
+android:id="@+id/optionsMenuImageViewMa"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="5dp"
+android:src="@drawable/baseline_more_vert_24"
+android:contentDescription="More options"
+android:layout_marginStart="8dp" /> <!-- Add margin between the icon and text -->
+
+    </LinearLayout>

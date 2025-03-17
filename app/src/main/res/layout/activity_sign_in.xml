@@ -11,6 +11,7 @@
     android:padding="20dp"
     tools:context=".SignInActivity">
 
+    <!-- Welcome Text -->
     <TextView
         android:id="@+id/Welcome"
         android:layout_width="match_parent"
@@ -20,25 +21,29 @@
         android:text="@string/welcome_back"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:transitionName="logo_text" />
+        android:transitionName="logo_text"
+        android:layout_marginBottom="20dp" />
 
+    <!-- Login Text -->
     <TextView
         android:id="@+id/logins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/log_in"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:transitionName="signInText"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp" />
 
+    <!-- Input Fields -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
+        <!-- Email Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
@@ -46,7 +51,8 @@
             android:hint="@string/email"
             android:textColorHint="@color/black"
             android:transitionName="email_tran"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -56,6 +62,7 @@
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Password Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
@@ -64,7 +71,8 @@
             android:textColorHint="@color/black"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            android:layout_marginBottom="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -74,13 +82,16 @@
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Remember Me Checkbox -->
         <CheckBox
             android:id="@+id/RememberMeSignIns"
-            android:layout_width="138dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remember_me"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp" />
 
+        <!-- Sign In Button -->
         <Button
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
@@ -91,6 +102,7 @@
             android:transitionName="button_tran"
             android:layout_marginVertical="10dp" />
 
+        <!-- Sign Up Button -->
         <Button
             android:id="@+id/SignUpBut"
             android:layout_width="match_parent"
@@ -98,6 +110,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/new_user_sign_up"
             android:textColor="@color/black"
-            android:transitionName="login_signup_tran" />
+            android:transitionName="login_signup_tran"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 </LinearLayout>

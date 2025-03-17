@@ -108,6 +108,7 @@ public class AddFragment extends Fragment {
             return;
         }
 
+        // Save phone number in SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_PHONE_NUMBER, phoneNo);
         editor.apply();
@@ -141,7 +142,6 @@ public class AddFragment extends Fragment {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
                     navigateToHomeFragment();
-                    navigateToMyAnnouncements();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getActivity(), "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -149,20 +149,10 @@ public class AddFragment extends Fragment {
     }
 
     private void navigateToHomeFragment() {
-        if (getActivity() == null) {
-            Toast.makeText(getContext(), "Error: Activity not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, homeFragment);
+        transaction.replace(R.id.fragment_container, new HomeFragment());
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    private void navigateToMyAnnouncements() {
-        Intent intent = new Intent(getActivity(), MyAnouncments.class);
-        startActivity(intent);
     }
 
     @Override
