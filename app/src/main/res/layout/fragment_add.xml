@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".AddFragment">
 
     <!-- Image Button for Uploading Image -->
     <ImageButton
@@ -16,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.15"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.15"/>
 
     <!-- Title EditText -->
     <EditText
@@ -28,10 +30,11 @@
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/uploadImageButtonadd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
 
     <!-- Description EditText -->
     <EditText
@@ -43,10 +46,11 @@
         android:minLines="4"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/edit_text_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
 
     <!-- Price EditText -->
     <EditText
@@ -54,13 +58,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/enter_post_price"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/edit_text_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
 
     <!-- Phone Number EditText -->
     <EditText
@@ -68,59 +73,49 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/enter_phone_no"
-        android:inputType="number"
+        android:inputType="phone"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/edit_number_price"
-        app:layout_marginTop="24dp" />
-
-    <!-- Add Post Button -->
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <!-- Remember Phone Number Checkbox -->
-
-    <!-- Service Checkbox -->
-
-    <Button
-        android:id="@+id/button_add_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:backgroundTint="#000000"
-        android:text="@string/add_post"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_number_phone_no"
-        app:layout_marginTop="32dp" />
-
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="@string/remember_my_phone_no"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/edit_number_phone_no"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_number_phone_no"
-        app:layout_constraintVertical_bias="0.014"
-        app:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"/>
 
+    <!-- Service Checkbox -->
     <CheckBox
         android:id="@+id/checkBoxser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/service"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox"
-        app:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Add Post Button -->
+    <Button
+        android:id="@+id/button_add_post"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:text="@string/add_post"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

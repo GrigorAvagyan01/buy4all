@@ -70,6 +70,7 @@ public class AddFragment extends Fragment {
         String description = binding.editTextDescription.getText().toString().trim();
         String price = binding.editNumberPrice.getText().toString().trim();
         String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
+        boolean isService = binding.checkBoxser.isChecked();  // Check if the checkbox is checked
 
         if (TextUtils.isEmpty(title)) {
             binding.editTextTitle.setError("Title is required");
@@ -114,10 +115,10 @@ public class AddFragment extends Fragment {
         editor.apply();
 
         String imagePath = imageUri.toString();
-        savePostToFirestore(title, description, price, phoneNo, imagePath);
+        savePostToFirestore(title, description, price, phoneNo, imagePath, isService);  // Pass checkbox state
     }
 
-    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imagePath) {
+    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imagePath, boolean isService) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -137,10 +138,24 @@ public class AddFragment extends Fragment {
         post.put("imagePath", imagePath);
         post.put("userId", userId);
 
+        // Add post to general "posts" collection
         db.collection("posts")
                 .add(post)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
+
+                    // If the post is for service, also add to the "service" collection
+                    if (isService) {
+                        db.collection("service")
+                                .add(post)
+                                .addOnSuccessListener(docRef -> {
+                                    // Successfully added to the service collection
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(getActivity(), "Failed to add post to service: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                });
+                    }
+
                     navigateToHomeFragment();
                 })
                 .addOnFailureListener(e -> {

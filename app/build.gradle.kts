@@ -60,4 +60,9 @@ dependencies {
     implementation(libs.appcompat.v161)
     implementation(libs.material.v190)
     implementation (libs.constraintlayout.v214)
+    implementation (libs.recyclerview)
+    implementation (libs.firebase.firestore.v2491)
+    implementation (libs.firebase.storage.v2030)
+    implementation (libs.glide.v4160)
+    annotationProcessor (libs.compiler.v4160)
 }

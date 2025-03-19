@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -22,20 +23,26 @@ public class HomeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> postList;
 
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        // Initialize the list
         postList = new ArrayList<>();
 
+        // Ensure context is available before using it
         if (getContext() != null) {
-            postAdapter = new PostAdapter(getContext(), postList, null); // No edit/delete options
+            postAdapter = new PostAdapter(getContext(), postList, null, null); // Fix: Pass all required parameters
         } else {
             return null;
         }
 
+        // Set up RecyclerView
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
+        // Fetch posts from Firestore
         fetchPosts();
 
         return binding.getRoot();
@@ -53,8 +60,19 @@ public class HomeFragment extends Fragment {
                             post.setPostId(document.getId());
                             postList.add(post);
                         }
-                        postAdapter.notifyDataSetChanged();
+                        postAdapter.notifyDataSetChanged(); // Refresh RecyclerView
+                    } else {
+                        // Log error for debugging
+                        if (task.getException() != null) {
+                            task.getException().printStackTrace();
+                        }
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Prevent memory leaks
     }
 }

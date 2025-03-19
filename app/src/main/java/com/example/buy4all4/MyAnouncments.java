@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class MyAnouncments extends AppCompatActivity {
     private PostAdapterMa adapter;
     private List<Post> postList;
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class MyAnouncments extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
         postList = new ArrayList<>();
 
         setupRecyclerView();
@@ -57,7 +64,15 @@ public class MyAnouncments extends AppCompatActivity {
     }
 
     private void loadPosts() {
-        db.collection("posts").get()
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+        db.collection("posts")
+                .whereEqualTo("userId", userId)  // Filter posts by userId
+                .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     postList.clear();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {

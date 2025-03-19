@@ -54,7 +54,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:src="@drawable/baseline_favorite_24"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Favorite Button"/>
+        android:contentDescription="Favorite Button"
+        android:src="@drawable/baseline_more_vert_24" />
 </LinearLayout>

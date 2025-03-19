@@ -1,6 +1,8 @@
 package com.example.buy4all4;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     private String postId;
     private String title;
     private String description;
@@ -8,10 +10,14 @@ public class Post {
     private String phoneNo;
     private String userId;
     private String imageUrl;
+    private boolean isFavorite;
 
+    // Default constructor required for Firestore serialization
     public Post() {}
 
-    public Post(String postId, String title, String description, String price, String phoneNo, String userId, String imageUrl) {
+    // Constructor with all fields
+    public Post(String postId, String title, String description, String price, String phoneNo,
+                String userId, String imageUrl, boolean isFavorite) {
         this.postId = postId;
         this.title = title;
         this.description = description;
@@ -19,8 +25,10 @@ public class Post {
         this.phoneNo = phoneNo;
         this.userId = userId;
         this.imageUrl = imageUrl;
+        this.isFavorite = isFavorite;
     }
 
+    // Getters and Setters
     public String getPostId() {
         return postId;
     }
@@ -75,5 +83,13 @@ public class Post {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
