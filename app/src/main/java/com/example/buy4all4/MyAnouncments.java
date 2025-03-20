@@ -37,6 +37,9 @@ public class MyAnouncments extends AppCompatActivity {
 
         setupRecyclerView();
         loadPosts();
+
+        // Handle back button click
+        binding.imageButtonback.setOnClickListener(v -> navigateToProfileFragment());
     }
 
     private void setupRecyclerView() {
@@ -89,5 +92,13 @@ public class MyAnouncments extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadPosts(); // Refresh list when returning from UpdateActivity
+    }
+
+    private void navigateToProfileFragment() {
+        Intent intent = new Intent(MyAnouncments.this, ProfileFragment.class);
+        intent.putExtra("openProfileFragment", true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 }

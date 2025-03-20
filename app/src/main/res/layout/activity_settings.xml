@@ -48,16 +48,19 @@
         app:layout_constraintVertical_bias="0.316" />
 
     <ImageButton
-        android:id="@+id/backsettings"
-        android:layout_width="56dp"
-        android:layout_height="49dp"
-        android:background="@color/white"
-        android:contentDescription="Null"
+        android:id="@+id/backButton"
+        android:layout_width="64dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back_24" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/roompreferencetext"

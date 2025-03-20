@@ -2,12 +2,8 @@ package com.example.buy4all4;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.buy4all4.databinding.ActivityHistoryBinding;
-import com.example.buy4all4.databinding.ActivityMyAnouncmentsBinding;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -16,20 +12,21 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.setAppLanguage(this);
         binding = ActivityHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HistoryActivity.this, ProfileFragment.class);
-            startActivity(intent);
-            finish();
-        });
+        // Handle back button click
+        binding.backButton.setOnClickListener(v -> navigateToProfileFragment());
+
+        // Add your history-related logic here
+        // ...
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
+    private void navigateToProfileFragment() {
+        Intent intent = new Intent(HistoryActivity.this, ProfileFragment.class);
+        intent.putExtra("openProfileFragment", true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 }

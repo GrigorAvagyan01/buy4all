@@ -10,12 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.buy4all4.databinding.ActivityChangePasswordBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.buy4all4.databinding.ActivityChangePasswordBinding;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -52,32 +53,61 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void changePassword() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            String newPassword = binding.newPassword.getText().toString().trim(); // Get new password from user input
+            String currentPassword = binding.currentPassword.getText().toString().trim();
+            String newPassword = binding.newPassword.getText().toString().trim();
+
+            if (TextUtils.isEmpty(currentPassword)) {
+                Toast.makeText(this, "Please enter your current password", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             if (TextUtils.isEmpty(newPassword)) {
                 Toast.makeText(this, "Please enter a new password", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (newPassword.length() < 6) {
                 Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Step 1: Update password
-            user.updatePassword(newPassword)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // Password updated successfully
-                                Toast.makeText(ChangePasswordActivity.this, "Password updated successfully", Toast.LENGTH_SHORT).show();
-                                // Step 2: Go to the profile screen
-                                goToProfile();
-                            } else {
-                                Toast.makeText(ChangePasswordActivity.this, "Failed to update password", Toast.LENGTH_SHORT).show();
+            // Step 1: Re-authenticate the user with their current password
+            String userEmail = user.getEmail();
+            if (userEmail == null) {
+                Toast.makeText(this, "Error: Cannot retrieve email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
+            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Step 2: Update password after successful re-authentication
+                        user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(ChangePasswordActivity.this,
+                                            "Password updated successfully",
+                                            Toast.LENGTH_SHORT).show();
+                                    goToProfile();
+                                } else {
+                                    String errorMessage = task.getException().getMessage();
+                                    Toast.makeText(ChangePasswordActivity.this,
+                                            "Failed: " + errorMessage,
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        String errorMessage = task.getException().getMessage();
+                        Toast.makeText(ChangePasswordActivity.this,
+                                "Re-authentication failed: " + errorMessage,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         }
     }
 
