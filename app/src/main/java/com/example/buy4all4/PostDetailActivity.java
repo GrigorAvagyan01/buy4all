@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +23,9 @@ public class PostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
-        // Initialize Firestore
+        // Initialize Firestore and FirebaseAuth
         db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
         postImage = findViewById(R.id.postImage);
@@ -50,13 +52,14 @@ public class PostDetailActivity extends AppCompatActivity {
         postDescription.setText(description != null ? description : "No Description");
         postPhone.setText(phone != null ? phone : "No Phone");
 
-        // Save to history
-        if (postId != null) {
-            saveToHistory(postId, title, description, price, phone, imageUrl);
+        // Save to history (only if user is authenticated)
+        if (mAuth.getCurrentUser() != null && postId != null) {
+            String userId = mAuth.getCurrentUser().getUid(); // Get the current user's ID
+            saveToHistory(userId, postId, title, description, price, phone, imageUrl);
         }
     }
 
-    private void saveToHistory(String postId, String title, String description, String price, String phone, String imageUrl) {
+    private void saveToHistory(String userId, String postId, String title, String description, String price, String phone, String imageUrl) {
         Map<String, Object> historyPost = new HashMap<>();
         historyPost.put("postId", postId);
         historyPost.put("title", title);
@@ -66,13 +69,19 @@ public class PostDetailActivity extends AppCompatActivity {
         historyPost.put("imageUrl", imageUrl);
         historyPost.put("timestamp", System.currentTimeMillis()); // Store timestamp for sorting
 
-        db.collection("history").document(postId)
-                .set(historyPost) // Using set() so a post is not duplicated in history
+        // Reference to the user's history collection
+        db.collection("users")
+                .document(userId) // Reference the current user's document
+                .collection("history") // History subcollection under the user
+                .document(postId) // Use the postId as the document ID to avoid duplicates
+                .set(historyPost) // Set the post data in history
                 .addOnSuccessListener(aVoid -> {
                     // Successfully saved to history
+                    // You can log this or show a message
                 })
                 .addOnFailureListener(e -> {
                     // Log failure
+                    // You can show an error message to the user if needed
                 });
     }
 }
