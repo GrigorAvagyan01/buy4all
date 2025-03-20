@@ -1,31 +1,27 @@
 package com.example.buy4all4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostBinding;
-
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     private Context context;
     private List<Post> postList;
-    private OnPostOptionsClickListener onPostOptionsClickListener;
     private OnFavoriteClickListener onFavoriteClickListener;
     private OnItemClickListener onItemClickListener;
 
-    public PostAdapter(Context context, List<Post> postList, OnPostOptionsClickListener listener, OnFavoriteClickListener favoriteListener) {
+    public PostAdapter(Context context, List<Post> postList, OnItemClickListener itemClickListener, OnFavoriteClickListener favoriteListener) {
         this.context = context;
         this.postList = postList;
-        this.onPostOptionsClickListener = listener;
+        this.onItemClickListener = itemClickListener;
         this.onFavoriteClickListener = favoriteListener;
     }
 
@@ -45,13 +41,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.binding.postPrice.setText(post.getPrice() != null ? post.getPrice() : "No Price");
 
         if (post.getImageUrl() != null) {
-            Glide.with(context)
-                    .load(post.getImageUrl())
-                    .into(holder.binding.postImage);
+            Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
         }
 
-        // Handle item click
+        // Handle item click to open PostDetailActivity
         holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("title", post.getTitle());
+            intent.putExtra("price", post.getPrice());
+            intent.putExtra("description", post.getDescription());
+            intent.putExtra("phone", post.getPhoneNo());
+            context.startActivity(intent);
+
+            // Trigger click listener if defined
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(post);
             }
@@ -72,10 +76,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
-    }
-
-    public interface OnPostOptionsClickListener {
-        void onPostOptionsClicked(View view, int position, Post post);
     }
 
     public interface OnFavoriteClickListener {

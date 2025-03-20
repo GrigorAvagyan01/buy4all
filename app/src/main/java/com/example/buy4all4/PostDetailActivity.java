@@ -6,16 +6,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PostDetailActivity extends AppCompatActivity {
 
     private ImageView postImage;
     private TextView postTitle, postPrice, postDescription, postPhone;
+    private FirebaseFirestore db;
+    private String postId; // Store post ID for history tracking
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance();
 
         // Initialize views
         postImage = findViewById(R.id.postImage);
@@ -26,13 +34,14 @@ public class PostDetailActivity extends AppCompatActivity {
 
         // Get post data from Intent
         Intent intent = getIntent();
+        postId = intent.getStringExtra("postId");
         String imageUrl = intent.getStringExtra("imageUrl");
         String title = intent.getStringExtra("title");
         String price = intent.getStringExtra("price");
         String description = intent.getStringExtra("description");
         String phone = intent.getStringExtra("phone");
 
-        // Set post data to the views
+        // Set post data to views
         if (imageUrl != null) {
             Glide.with(this).load(imageUrl).into(postImage);
         }
@@ -40,5 +49,30 @@ public class PostDetailActivity extends AppCompatActivity {
         postPrice.setText(price != null ? price : "No Price");
         postDescription.setText(description != null ? description : "No Description");
         postPhone.setText(phone != null ? phone : "No Phone");
+
+        // Save to history
+        if (postId != null) {
+            saveToHistory(postId, title, description, price, phone, imageUrl);
+        }
+    }
+
+    private void saveToHistory(String postId, String title, String description, String price, String phone, String imageUrl) {
+        Map<String, Object> historyPost = new HashMap<>();
+        historyPost.put("postId", postId);
+        historyPost.put("title", title);
+        historyPost.put("description", description);
+        historyPost.put("price", price);
+        historyPost.put("phone", phone);
+        historyPost.put("imageUrl", imageUrl);
+        historyPost.put("timestamp", System.currentTimeMillis()); // Store timestamp for sorting
+
+        db.collection("history").document(postId)
+                .set(historyPost) // Using set() so a post is not duplicated in history
+                .addOnSuccessListener(aVoid -> {
+                    // Successfully saved to history
+                })
+                .addOnFailureListener(e -> {
+                    // Log failure
+                });
     }
 }
