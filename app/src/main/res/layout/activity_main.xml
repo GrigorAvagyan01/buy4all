@@ -9,7 +9,6 @@
     android:background="#D4D4D4"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/buy4all"
         android:layout_width="wrap_content"
