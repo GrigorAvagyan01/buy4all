@@ -22,14 +22,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.setAppLanguage(this);
 
+        // Initialize view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        // Check for saved credentials and auto-login
         String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
         String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Function to automatically log in a user
     private void autoLogin(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    // Set up button click listeners
     private void setupClickListeners() {
         binding.signin.setOnClickListener(v -> {
             Log.d("MainActivity", "Sign In button clicked");
@@ -70,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
             navigateToActivity(HomePageGuest.class);
         });
 
+        binding.testUserButton.setOnClickListener(v -> {
+            Log.d("MainActivity", "Test User button clicked");
+            autoLogin("testuser1@gmail.com", "Testuser1");
+        });
     }
 
     private void navigateToActivity(Class<?> targetActivity) {

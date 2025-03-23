@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Warning"
+        android:text="@string/warning"
         android:textColor="@color/black"
         android:textSize="60dp" />
 
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20sp"
-                android:text="You are about to delete your account. Are you sure you want to delete your account?"
+                android:text="@string/you_are_about_to_delete_your_account_are_you_sure_you_want_to_delete_your_account"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -45,7 +45,7 @@
                 android:id="@+id/deleteAccount2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delete Account"
+                android:text="@string/delete_account"
                 android:textAlignment="center"
                 android:textColor="@color/red"
                 android:textSize="23sp" />
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Go back"
+                android:text="@string/go_backda"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp" />

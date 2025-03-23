@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#D4D4D4"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragmentGuest">
 
@@ -43,7 +43,7 @@
         android:id="@+id/SettingsButGuest"
         android:layout_width="56dp"
         android:layout_height="49dp"
-        android:background="@color/white"
+        android:backgroundTint="#D4D4D4"
         android:contentDescription="Null"
         android:src="@drawable/baseline_settings_24"
         app:layout_constraintEnd_toEndOf="parent"

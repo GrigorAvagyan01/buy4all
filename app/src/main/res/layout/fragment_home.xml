@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/white"
+    android:background="#D4D4D4"
     tools:context=".HomeFragment">
 
     <androidx.appcompat.widget.SearchView

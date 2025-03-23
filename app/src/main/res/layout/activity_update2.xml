@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update Post"
+                android:text="@string/update_post"
                 android:textAlignment="center"
                 android:textSize="30sp" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
-                android:hint="Enter Post Title"
+                android:hint="@string/enter_post_title_up"
                 android:padding="16dp" />
 
             <EditText
@@ -64,7 +64,7 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
-                android:hint="Enter Post Description"
+                android:hint="@string/enter_post_description_up"
                 android:padding="16dp" />
 
             <EditText
@@ -73,7 +73,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
-                android:hint="Enter Post Price"
+                android:hint="@string/enter_post_price_up"
                 android:padding="16dp" />
 
             <EditText
@@ -82,7 +82,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
-                android:hint="Enter PhoneNo"
+                android:hint="@string/enter_phoneno_up"
                 android:padding="16dp" />
 
             <Button
@@ -91,7 +91,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#000000"
-                android:text="Update"
+                android:text="@string/update_p"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
 

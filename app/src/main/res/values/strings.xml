@@ -16,7 +16,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="remember_mesignup">Remember Me</string>
     <string name="sign_upbut">Sign Up</string>
-    <string name="allready_have_an_acount_sign_in">Allready have an acount? SIGN IN</string>
+    <string name="allready_have_an_acount_sign_in">Already have an account? SIGN IN</string>
     <string name="guest">GUEST</string>
     <string name="sign_upmain">Sign Up</string>
     <string name="sign_inmain">Sign In</string>
@@ -66,8 +66,38 @@
     <string name="submit">Submit</string>
     <string name="Service">servicech</string>
     <string name="service">Service</string>
-
-
+    <string name="change_mail">Change Mail</string>
+    <string name="please_enter_your_new_mail">Please enter your new mail</string>
+    <string name="enter_your_current_password">Enter your current password</string>
+    <string name="new_mail">New Mail</string>
+    <string name="change">Change</string>
+    <string name="go_back">Go back</string>
+    <string name="change_password">Change Password</string>
+    <string name="please_enter_your_new_password">Please enter your new password</string>
+    <string name="enter_current_password">Enter current password</string>
+    <string name="new_password">New Password</string>
+    <string name="changepas">Change</string>
+    <string name="go_backp">Go back</string>
+    <string name="go_backu">Go back</string>
+    <string name="changeu">Change</string>
+    <string name="new_username">New Username</string>
+    <string name="enter_current_passwordus">Enter current password</string>
+    <string name="please_enter_your_new_username">Please enter your new username</string>
+    <string name="change_username">Change Username</string>
+    <string name="warning">Warning</string>
+    <string name="you_are_about_to_delete_your_account_are_you_sure_you_want_to_delete_your_account">
+        You are about to delete your account. Are you sure you want to delete your account?
+    </string>
+    <string name="delete_account">Delete Account</string>
+    <string name="go_backda">Go back</string>
+    <string name="delete_accountset">Delete Account</string>
+    <string name="update_post">Update Post</string>
+    <string name="enter_post_title_up">Enter Post Title</string>
+    <string name="enter_post_description_up">Enter Post Description</string>
+    <string name="enter_post_price_up">Enter Post Price</string>
+    <string name="enter_phoneno_up">Enter PhoneNo</string>
+    <string name="update_p">Update</string>
+    <string name="test_user">Test User</string>
+    <string name="edit_post">Edit</string>
+    <string name="delete_post">Delete</string>
 </resources>
-
-
