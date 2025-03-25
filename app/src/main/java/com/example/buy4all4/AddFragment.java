@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,18 +35,27 @@ public class AddFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_PHONE_NUMBER = "phoneNumber";
-    private CloudinaryManager cloudinaryManager; // Assuming you already have a CloudinaryManager class
+    private CloudinaryManager cloudinaryManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddBinding.inflate(inflater, container, false);
 
-        sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String savedPhoneNumber = sharedPreferences.getString(KEY_PHONE_NUMBER, "");
         binding.editNumberPhoneNo.setText(savedPhoneNumber);
 
-        cloudinaryManager = new CloudinaryManager();  // Initialize CloudinaryManager
+        cloudinaryManager = new CloudinaryManager();
+
+        // Setup currency spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.currency_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCurrency.setAdapter(adapter);
 
         binding.uploadImageButtonadd.setOnClickListener(v -> openGallery());
         binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
@@ -73,7 +83,8 @@ public class AddFragment extends Fragment {
         String description = binding.editTextDescription.getText().toString().trim();
         String price = binding.editNumberPrice.getText().toString().trim();
         String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
-        boolean isService = binding.checkBoxser.isChecked();  // Check if the checkbox is checked
+        boolean isService = binding.checkBoxser.isChecked();
+        String currency = binding.spinnerCurrency.getSelectedItem().toString();
 
         if (TextUtils.isEmpty(title)) {
             binding.editTextTitle.setError("Title is required");
@@ -112,25 +123,18 @@ public class AddFragment extends Fragment {
             return;
         }
 
-        // Save phone number in SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_PHONE_NUMBER, phoneNo);
         editor.apply();
 
-        uploadImageToCloudinary();  // Call the image upload method
+        uploadImageToCloudinary(title, description, price, phoneNo, currency, isService);
     }
 
-    private void uploadImageToCloudinary() {
+    private void uploadImageToCloudinary(String title, String description, String price, String phoneNo, String currency, boolean isService) {
         cloudinaryManager.uploadImage(getActivity(), imageUri, new CloudinaryManager.UploadCallback() {
             @Override
             public void onSuccess(String imageUrl) {
-                String title = binding.editTextTitle.getText().toString().trim();
-                String description = binding.editTextDescription.getText().toString().trim();
-                String price = binding.editNumberPrice.getText().toString().trim();
-                String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
-                boolean isService = binding.checkBoxser.isChecked();
-
-                savePostToFirestore(title, description, price, phoneNo, imageUrl, isService);  // Use the Cloudinary URL
+                savePostToFirestore(title, description, price + " " + currency, phoneNo, imageUrl, isService);
             }
 
             @Override
@@ -160,19 +164,14 @@ public class AddFragment extends Fragment {
         post.put("imageUrl", imageUrl);
         post.put("userId", userId);
 
-        // Add post to general "posts" collection
         db.collection("posts")
                 .add(post)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
 
-                    // If the post is for service, also add to the "service" collection
                     if (isService) {
                         db.collection("service")
                                 .add(post)
-                                .addOnSuccessListener(docRef -> {
-                                    // Successfully added to the service collection
-                                })
                                 .addOnFailureListener(e -> {
                                     Toast.makeText(getActivity(), "Failed to add post to service: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 });

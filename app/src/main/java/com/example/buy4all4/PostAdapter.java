@@ -36,15 +36,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
 
-        // Bind data to views
+        // Bind title
         holder.binding.postTitle.setText(post.getTitle() != null ? post.getTitle() : "No Title");
-        holder.binding.postPrice.setText(post.getPrice() != null ? post.getPrice() : "No Price");
 
+        // Format price with currency symbol
+        holder.binding.postPrice.setText(formatPrice(post.getPrice()));
+
+        // Load image
         if (post.getImageUrl() != null) {
             Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
         }
 
-        // Handle item click to open PostDetailActivity
+        // Item click listener
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
@@ -55,13 +58,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             intent.putExtra("phone", post.getPhoneNo());
             context.startActivity(intent);
 
-            // Trigger click listener if defined
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(post);
             }
         });
 
-        // Handle favorite button click
+        // Favorite button click
         holder.binding.favoriteButton.setOnClickListener(v -> {
             if (onFavoriteClickListener != null) {
                 onFavoriteClickListener.onFavoriteClick(post);
@@ -93,5 +95,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    // Method to format price with correct symbol
+    private String formatPrice(String price) {
+        if (price == null || price.isEmpty()) {
+            return "No Price";
+        }
+
+        // Trim and check for the last word in the price string
+        String trimmedPrice = price.trim();
+        if (trimmedPrice.endsWith("EUR")) {
+            return trimmedPrice.replace("EUR", "€");
+        } else if (trimmedPrice.endsWith("USD")) {
+            return trimmedPrice.replace("USD", "$");
+        } else if (trimmedPrice.endsWith("AMD")) {
+            return trimmedPrice.replace("AMD", "֏");
+        }
+
+        return price; // If no currency is detected, return as is
     }
 }

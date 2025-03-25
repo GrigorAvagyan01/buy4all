@@ -67,10 +67,12 @@
         android:padding="8dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_description" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_description"
+        app:layout_constraintVertical_bias="0.006" />
 
     <EditText
         android:id="@+id/edit_number_phone_no"
@@ -123,14 +125,14 @@
         android:layout_marginTop="24dp"/>
 
     <Spinner
-        android:id="@+id/spinnerCurrency"
+        android:id="@+id/spinner_currency"
         android:layout_width="115dp"
         android:layout_height="37dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edit_number_price"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.488" />
+        app:layout_constraintVertical_bias="0.439" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
