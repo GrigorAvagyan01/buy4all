@@ -1,88 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.buy4all4" >
+    package="com.example.buy4all4">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Permissions for Internet and Storage -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Buy4All4"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Buy4all4"
-        tools:targetApi="31" >
+        android:theme="@style/Theme.Buy4all4">
 
-<!--        <activity-->
-<!--            android:name=".PostAdapterFv"-->
-<!--            android:exported="false" />-->
-        <activity
-            android:name=".DeleteAccount"
-            android:exported="false" />
-        <activity
-            android:name=".ChangeMailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChangePasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChangeUsernameActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UpdateActivity"
-            android:exported="false" />
+        <!-- Firebase Initialization -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="default_channel"/>
+        <meta-data
+            android:name="com.google.firebase.database"
+            android:value="true"/>
 
+        <!-- Main Activity -->
         <activity
-            android:name=".PostDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MyAnouncments"
-            android:exported="false" />
-        <activity
-            android:name=".Update"
-            android:exported="false" />
-        <activity
-            android:name=".PreferanceActivitySettings"
-            android:exported="false" />
-        <activity
-            android:name=".PreferanceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SettingsActivityGuest"
-            android:exported="false" />
-        <activity
-            android:name=".HomePageGuest"
-            android:exported="false" />
-        <activity android:name=".SettingsActivity" />
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Authentication Activities -->
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
-        <activity
-            android:name=".HomePage"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!-- Home & User Activities -->
+        <activity android:name=".HomePage"/>
+        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".MyAnouncments"/>
+        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SettingsActivityGuest"/>
+        <activity android:name=".HomePageGuest"/>
+        <activity android:name=".PreferanceActivity"/>
+        <activity android:name=".PreferanceActivitySettings"/>
+
+        <activity android:name=".UpdateActivity"/>
+        <activity android:name=".PostDetailActivity"/>
+        <activity android:name=".DeleteAccount"/>
+        <activity android:name=".ChangeMailActivity"/>
+        <activity android:name=".ChangePasswordActivity"/>
+        <activity android:name=".ChangeUsernameActivity"/>
+
+        <!-- Cloudinary & Firebase Dependencies -->
+        <meta-data
+            android:name="com.cloudinary.CLOUD_NAME"
+            android:value="dya4h3ime"/> <!-- Replace with your Cloudinary Cloud Name -->
 
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"/> <!-- Replace with your AdMob App ID -->
+
     </application>
 
 </manifest>

@@ -34,6 +34,7 @@ public class AddFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_PHONE_NUMBER = "phoneNumber";
+    private CloudinaryManager cloudinaryManager; // Assuming you already have a CloudinaryManager class
 
     @Nullable
     @Override
@@ -43,6 +44,8 @@ public class AddFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String savedPhoneNumber = sharedPreferences.getString(KEY_PHONE_NUMBER, "");
         binding.editNumberPhoneNo.setText(savedPhoneNumber);
+
+        cloudinaryManager = new CloudinaryManager();  // Initialize CloudinaryManager
 
         binding.uploadImageButtonadd.setOnClickListener(v -> openGallery());
         binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
@@ -114,11 +117,30 @@ public class AddFragment extends Fragment {
         editor.putString(KEY_PHONE_NUMBER, phoneNo);
         editor.apply();
 
-        String imagePath = imageUri.toString();
-        savePostToFirestore(title, description, price, phoneNo, imagePath, isService);  // Pass checkbox state
+        uploadImageToCloudinary();  // Call the image upload method
     }
 
-    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imagePath, boolean isService) {
+    private void uploadImageToCloudinary() {
+        cloudinaryManager.uploadImage(getActivity(), imageUri, new CloudinaryManager.UploadCallback() {
+            @Override
+            public void onSuccess(String imageUrl) {
+                String title = binding.editTextTitle.getText().toString().trim();
+                String description = binding.editTextDescription.getText().toString().trim();
+                String price = binding.editNumberPrice.getText().toString().trim();
+                String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
+                boolean isService = binding.checkBoxser.isChecked();
+
+                savePostToFirestore(title, description, price, phoneNo, imageUrl, isService);  // Use the Cloudinary URL
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getActivity(), "Image upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imageUrl, boolean isService) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -135,7 +157,7 @@ public class AddFragment extends Fragment {
         post.put("description", description);
         post.put("price", price);
         post.put("phoneNo", phoneNo);
-        post.put("imagePath", imagePath);
+        post.put("imageUrl", imageUrl);
         post.put("userId", userId);
 
         // Add post to general "posts" collection

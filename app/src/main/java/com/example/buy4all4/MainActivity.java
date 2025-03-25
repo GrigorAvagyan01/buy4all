@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.testUserButton.setOnClickListener(v -> {
             Log.d("MainActivity", "Test User button clicked");
-            autoLogin("testuser1@gmail.com", "Testuser1");
+            autoLogin("testuser@gmail.com", "Testuser");
         });
     }
 

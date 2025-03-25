@@ -29,9 +29,9 @@ public class HistoryActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PostAdapter(this, historyList, null, null);
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerViewPosts.setAdapter(adapter);
 
         if (mAuth.getCurrentUser() != null) {
             loadHistory();
