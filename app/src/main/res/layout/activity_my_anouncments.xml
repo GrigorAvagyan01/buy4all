@@ -5,17 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#daeae7"
     tools:context=".MyAnouncments">
 
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/imageButtonback"
-        android:layout_width="70dp"
-        android:layout_height="54dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="54dp"
+        android:layout_height="49dp"
+        android:backgroundTint="#daeae7"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
 
     <androidx.recyclerview.widget.RecyclerView

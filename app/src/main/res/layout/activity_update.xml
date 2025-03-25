@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="#daeae7"
     android:layout_height="match_parent">
 
     <!-- Title Text -->
@@ -20,20 +20,22 @@
         android:layout_marginTop="16dp" />
 
     <!-- Username Button -->
+
+    <!-- Mail Button -->
+
     <Button
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:text="@string/usernameupd"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toStartOf="@id/mail" />
+        android:layout_marginTop="116dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/usernameupd"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@id/mail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Mail Button -->
     <Button
         android:id="@+id/mail"
         android:layout_width="wrap_content"
@@ -67,7 +69,7 @@
         android:layout_width="60dp"
         android:layout_height="65dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
+        android:background="#daeae7"
         android:contentDescription="Null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"

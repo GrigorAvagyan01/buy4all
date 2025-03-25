@@ -6,52 +6,38 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D4D4D4"
+    android:background="#daeae7"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/buy4all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bangers"
-        android:gravity="center"
-        android:text="Buy4All"
-        android:textColor="#000"
-        android:textSize="70sp"
-        android:transitionName="logo_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signin"
         android:layout_width="113dp"
         android:layout_height="41dp"
-        android:layout_marginTop="112dp"
-        android:background="#000"
+        android:background="#225a63"
         android:text="@string/sign_inmain"
-        android:textColor="#D4D4D4"
+        android:textColor="@color/white"
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buy4all" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup"
         android:layout_width="122dp"
         android:layout_height="41dp"
-        android:layout_marginTop="112dp"
-        android:background="#000"
+        android:background="#225a63"
         android:text="@string/sign_upmain"
-        android:textColor="#D4D4D4"
+        android:textColor="@color/white"
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/signin"
-        app:layout_constraintTop_toBottomOf="@+id/buy4all" />
+        app:layout_constraintHorizontal_bias="0.792"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53" />
 
     <Button
         android:id="@+id/guestbut"
@@ -60,7 +46,7 @@
         android:layout_marginTop="36dp"
         android:background="?attr/selectableItemBackground"
         android:text="@string/guest"
-        android:textColor="#000"
+        android:textColor="#225a63"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -72,13 +58,25 @@
         android:id="@+id/testUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/test_user"
+        android:layout_marginTop="24dp"
         android:background="?attr/selectableItemBackground"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/guestbut"
+        android:text="@string/test_user"
+        android:textColor="#225a63"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/guestbut" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="312dp"
+        android:layout_height="390dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.606"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/buy4all" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

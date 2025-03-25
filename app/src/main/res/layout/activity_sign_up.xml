@@ -7,36 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#D4D4D4"
+    android:background="#daeae7"
     android:padding="20dp"
     tools:context=".SignInActivity">
 
     <!-- Welcome Text -->
+
+    <!-- Sign Up Text -->
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="119dp"
+        android:layout_height="115dp"
+        app:srcCompat="@drawable/buy4all" />
+
     <TextView
         android:id="@+id/Welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/agdasima"
         android:gravity="center"
         android:text="@string/welcome"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:transitionName="logo_text"
-        android:layout_marginBottom="30dp" />
+        android:transitionName="logo_text" />
 
-    <!-- Sign Up Text -->
+    <!-- Input Fields -->
     <TextView
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/sign_up"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:transitionName="signUpText"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp" />
+        android:transitionName="signUpText" />
 
-    <!-- Input Fields -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

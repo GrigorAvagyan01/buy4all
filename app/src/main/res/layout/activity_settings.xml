@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="#daeae7"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
@@ -25,7 +25,7 @@
         android:id="@+id/roompreference"
         android:layout_width="41dp"
         android:layout_height="35dp"
-        android:background="@color/white"
+        android:background="#daeae7"
         android:src="@drawable/baseline_room_preferences_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/logout"
         android:layout_width="45dp"
         android:layout_height="39dp"
-        android:background="@color/white"
+        android:background="#daeae7"
         android:src="@drawable/baseline_logout_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="#D4D4D4"
+    android:background="#daeae7"
     tools:context=".HistoryActivity">
 
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#D4D4D4"
+        android:backgroundTint="#daeae7"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -3,9 +3,9 @@
     package="com.example.buy4all4">
 
     <!-- Permissions for Internet and Storage -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
     <application
@@ -19,14 +19,14 @@
         <!-- Firebase Initialization -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_channel"/>
+            android:value="default_channel" />
         <meta-data
             android:name="com.google.firebase.database"
-            android:value="true"/>
+            android:value="true" />
 
         <!-- Main Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivityAnim"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,34 +39,37 @@
             android:name=".SignInActivity"
             android:exported="true" />
         <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
+        <activity
             android:name=".SignUpActivity"
             android:exported="true" />
 
         <!-- Home & User Activities -->
-        <activity android:name=".HomePage"/>
-        <activity android:name=".HistoryActivity"/>
-        <activity android:name=".MyAnouncments"/>
-        <activity android:name=".SettingsActivity"/>
-        <activity android:name=".SettingsActivityGuest"/>
-        <activity android:name=".HomePageGuest"/>
-        <activity android:name=".PreferanceActivity"/>
-        <activity android:name=".PreferanceActivitySettings"/>
+        <activity android:name=".HomePage" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".MyAnouncments" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivityGuest" />
+        <activity android:name=".HomePageGuest" />
+        <activity android:name=".PreferanceActivity" />
+        <activity android:name=".PreferanceActivitySettings" />
 
-        <activity android:name=".UpdateActivity"/>
-        <activity android:name=".PostDetailActivity"/>
-        <activity android:name=".DeleteAccount"/>
-        <activity android:name=".ChangeMailActivity"/>
-        <activity android:name=".ChangePasswordActivity"/>
-        <activity android:name=".ChangeUsernameActivity"/>
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".PostDetailActivity" />
+        <activity android:name=".DeleteAccount" />
+        <activity android:name=".ChangeMailActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".ChangeUsernameActivity" />
 
         <!-- Cloudinary & Firebase Dependencies -->
         <meta-data
             android:name="com.cloudinary.CLOUD_NAME"
-            android:value="dya4h3ime"/> <!-- Replace with your Cloudinary Cloud Name -->
+            android:value="dya4h3ime" /> <!-- Replace with your Cloudinary Cloud Name -->
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"/> <!-- Replace with your AdMob App ID -->
+            android:value="ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX" /> <!-- Replace with your AdMob App ID -->
 
     </application>
 
