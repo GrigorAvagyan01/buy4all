@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddFragment extends Fragment {
@@ -36,6 +39,8 @@ public class AddFragment extends Fragment {
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_PHONE_NUMBER = "phoneNumber";
     private CloudinaryManager cloudinaryManager;
+    private Spinner categorySpinner;
+    private String selectedCategory;
 
     @Nullable
     @Override
@@ -49,13 +54,20 @@ public class AddFragment extends Fragment {
         cloudinaryManager = new CloudinaryManager();
 
         // Setup currency spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.currency_array,
                 android.R.layout.simple_spinner_item
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerCurrency.setAdapter(adapter);
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCurrency.setAdapter(currencyAdapter);
+
+        // Setup category spinner
+        categorySpinner = binding.categorySpinner;
+        List<String> categories = Arrays.asList("Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other"); // Add your categories
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
 
         binding.uploadImageButtonadd.setOnClickListener(v -> openGallery());
         binding.buttonAddPost.setOnClickListener(v -> addPostToFirestore());
@@ -85,6 +97,7 @@ public class AddFragment extends Fragment {
         String phoneNo = binding.editNumberPhoneNo.getText().toString().trim();
         boolean isService = binding.checkBoxser.isChecked();
         String currency = binding.spinnerCurrency.getSelectedItem().toString();
+        selectedCategory = categorySpinner.getSelectedItem().toString(); // Get selected category
 
         if (TextUtils.isEmpty(title)) {
             binding.editTextTitle.setError("Title is required");
@@ -127,14 +140,14 @@ public class AddFragment extends Fragment {
         editor.putString(KEY_PHONE_NUMBER, phoneNo);
         editor.apply();
 
-        uploadImageToCloudinary(title, description, price, phoneNo, currency, isService);
+        uploadImageToCloudinary(title, description, price, phoneNo, currency, isService, selectedCategory);
     }
 
-    private void uploadImageToCloudinary(String title, String description, String price, String phoneNo, String currency, boolean isService) {
+    private void uploadImageToCloudinary(String title, String description, String price, String phoneNo, String currency, boolean isService, String category) {
         cloudinaryManager.uploadImage(getActivity(), imageUri, new CloudinaryManager.UploadCallback() {
             @Override
             public void onSuccess(String imageUrl) {
-                savePostToFirestore(title, description, price + " " + currency, phoneNo, imageUrl, isService);
+                savePostToFirestore(title, description, price + " " + currency, phoneNo, imageUrl, isService, category);
             }
 
             @Override
@@ -144,7 +157,7 @@ public class AddFragment extends Fragment {
         });
     }
 
-    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imageUrl, boolean isService) {
+    private void savePostToFirestore(String title, String description, String price, String phoneNo, String imageUrl, boolean isService, String category) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -163,6 +176,7 @@ public class AddFragment extends Fragment {
         post.put("phoneNo", phoneNo);
         post.put("imageUrl", imageUrl);
         post.put("userId", userId);
+        post.put("category", category); // Save the selected category
 
         db.collection("posts")
                 .add(post)
@@ -170,8 +184,9 @@ public class AddFragment extends Fragment {
                     Toast.makeText(getActivity(), "Post added successfully", Toast.LENGTH_SHORT).show();
 
                     if (isService) {
+                        Map<String, Object> servicePost = new HashMap<>(post); // Create a copy
                         db.collection("service")
-                                .add(post)
+                                .add(servicePost)
                                 .addOnFailureListener(e -> {
                                     Toast.makeText(getActivity(), "Failed to add post to service: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 });

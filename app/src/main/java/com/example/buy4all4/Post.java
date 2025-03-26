@@ -12,11 +12,12 @@ public class Post implements Serializable {
     private String userId;
     private String imageUrl;
     private boolean isFavorite;
+    private String category;
 
     public Post() {}
 
     public Post(String postId, String title, String description, String price, String currency,
-                String phoneNo, String userId, String imageUrl, boolean isFavorite) {
+                String phoneNo, String userId, String imageUrl, boolean isFavorite, String category) {
         this.postId = postId;
         this.title = title;
         this.description = description;
@@ -26,6 +27,7 @@ public class Post implements Serializable {
         this.userId = userId;
         this.imageUrl = imageUrl;
         this.isFavorite = isFavorite;
+        this.category = category;
     }
 
     public String getPostId() { return postId; }
@@ -54,4 +56,7 @@ public class Post implements Serializable {
 
     public boolean isFavorite() { return isFavorite; }
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
+
+    public String getCategory() { return category; } // Getter for category
+    public void setCategory(String category) { this.category = category; } // Setter for category
 }

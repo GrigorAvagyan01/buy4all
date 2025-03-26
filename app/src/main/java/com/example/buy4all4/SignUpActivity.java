@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Log.d("SignUpActivity", "User successfully saved in Firestore");
                     Toast.makeText(SignUpActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUpActivity.this, PreferanceActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, HomePage.class)); // Directly go to HomePage
                     finish();
                 })
                 .addOnFailureListener(e -> {

@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.SearchView; // Correct import for SearchView
+import androidx.appcompat.widget.SearchView;
 
 import com.example.buy4all4.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -16,53 +20,78 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private PostAdapter postAdapter;
-    private List<Post> postList;
-    private List<Post> filteredPostList;
+    private List<Post> allPosts;
+    private List<Post> filteredPosts;
+    private Spinner categorySpinner;
+    private ArrayAdapter<String> spinnerAdapter;
+    private String selectedCategory = "All"; // Default selection
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        // Initialize lists
-        postList = new ArrayList<>();
-        filteredPostList = new ArrayList<>();
+        allPosts = new ArrayList<>();
+        filteredPosts = new ArrayList<>();
 
-        // Ensure context is available before using it
         if (getContext() != null) {
-            postAdapter = new PostAdapter(getContext(), filteredPostList, null, null);
+            postAdapter = new PostAdapter(getContext(), filteredPosts, null, null);
         } else {
             return null;
         }
 
-        // Set up RecyclerView
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
-        // Set up SearchView
-        SearchView searchView = binding.searchView; // Correct way to access SearchView
-
+        SearchView searchView = binding.searchView;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterPosts(query);
+                filterPostsBySearch(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterPosts(newText);
+                filterPostsBySearch(newText);
                 return true;
             }
         });
 
-        // Fetch posts from Firestore
+        // Setup Category Spinner
+        categorySpinner = binding.categorySpinner;
+        List<String> categories = new ArrayList<>();
+        categories.add("All");
+        categories.add("Sport");
+        categories.add("Gadgets");
+        categories.add("Car");
+        categories.add("Realty");
+        categories.add("Electronics");
+        categories.add("Health");
+        categories.add("Other");
+
+        spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories);
+        categorySpinner.setAdapter(spinnerAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = parent.getItemAtPosition(position).toString();
+                filterPosts();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedCategory = "All";
+                filterPosts();
+            }
+        });
+
         fetchPosts();
 
         return binding.getRoot();
@@ -74,15 +103,13 @@ public class HomeFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        postList.clear();
+                        allPosts.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Post post = document.toObject(Post.class);
                             post.setPostId(document.getId());
-                            postList.add(post);
+                            allPosts.add(post);
                         }
-                        filteredPostList.clear();
-                        filteredPostList.addAll(postList);
-                        postAdapter.notifyDataSetChanged();
+                        filterPosts(); // Initial filtering after fetching
                     } else {
                         if (task.getException() != null) {
                             task.getException().printStackTrace();
@@ -91,14 +118,25 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private void filterPosts(String query) {
-        filteredPostList.clear();
-        if (query.isEmpty()) {
-            filteredPostList.addAll(postList);
-        } else {
-            filteredPostList.addAll(postList.stream()
-                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
-                    .collect(Collectors.toList()));
+    private void filterPosts() {
+        filteredPosts.clear();
+        for (Post post : allPosts) {
+            if (selectedCategory.equals("All") || (post.getCategory() != null && post.getCategory().equals(selectedCategory))) {
+                filteredPosts.add(post);
+            }
+        }
+        postAdapter.notifyDataSetChanged();
+    }
+
+    private void filterPostsBySearch(String query) {
+        String lowerQuery = query.toLowerCase();
+        filteredPosts.clear();
+        for (Post post : allPosts) {
+            boolean matchesCategory = selectedCategory.equals("All") || (post.getCategory() != null && post.getCategory().equals(selectedCategory));
+            boolean matchesSearch = post.getTitle().toLowerCase().contains(lowerQuery) || post.getDescription().toLowerCase().contains(lowerQuery);
+            if (matchesCategory && matchesSearch) {
+                filteredPosts.add(post);
+            }
         }
         postAdapter.notifyDataSetChanged();
     }
