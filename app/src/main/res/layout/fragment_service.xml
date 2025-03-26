@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#daeae7"
-    android:orientation="vertical">
+    tools:context=".ServiceFragment">
 
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <!-- SearchView for filtering services -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search services..." />
 
+    <!-- RecyclerView to display service posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewServicePosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"/>
-
+        android:padding="8dp" />
 
 </LinearLayout>

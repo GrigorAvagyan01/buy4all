@@ -98,4 +98,9 @@
     <string name="edit_post">Edit</string>
     <string name="delete_post">Delete</string>
     <string name="updateprof">Update</string>
+    <string name="car">CAR</string>
+    <string name="realty">Realty</string>
+    <string name="fashion_and_style">Fashion and style</string>
+    <string name="electronics">Electronics</string>
+    <string name="health">Health</string>
 </resources>
