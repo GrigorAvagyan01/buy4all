@@ -1,18 +1,16 @@
 package com.example.buy4all4;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.SearchView;
 
 import com.example.buy4all4.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,41 +27,22 @@ public class HomeFragment extends Fragment {
     private List<Post> filteredPosts;
     private Spinner categorySpinner;
     private ArrayAdapter<String> spinnerAdapter;
-    private String selectedCategory = "All"; // Default selection
+    private String selectedCategory = "All";
+    private SearchView searchView;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         allPosts = new ArrayList<>();
         filteredPosts = new ArrayList<>();
 
-        if (getContext() != null) {
-            postAdapter = new PostAdapter(getContext(), filteredPosts, null, null);
-        } else {
-            return null;
-        }
+        postAdapter = new PostAdapter(getContext(), filteredPosts, null, null);
 
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
-        SearchView searchView = binding.searchView;
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filterPostsBySearch(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterPostsBySearch(newText);
-                return true;
-            }
-        });
-
-        // Setup Category Spinner
+        // Set up the category spinner
         categorySpinner = binding.categorySpinner;
         List<String> categories = new ArrayList<>();
         categories.add("All");
@@ -92,6 +71,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // Set up the search view
+        searchView = binding.searchView;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterPosts(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterPosts(newText);
+                return false;
+            }
+        });
+
         fetchPosts();
 
         return binding.getRoot();
@@ -109,41 +104,30 @@ public class HomeFragment extends Fragment {
                             post.setPostId(document.getId());
                             allPosts.add(post);
                         }
-                        filterPosts(); // Initial filtering after fetching
+                        filterPosts("");
                     } else {
-                        if (task.getException() != null) {
-                            task.getException().printStackTrace();
-                        }
+                        Log.e("FirestoreError", "Error fetching posts", task.getException());
                     }
                 });
     }
 
     private void filterPosts() {
-        filteredPosts.clear();
-        for (Post post : allPosts) {
-            if (selectedCategory.equals("All") || (post.getCategory() != null && post.getCategory().equals(selectedCategory))) {
-                filteredPosts.add(post);
-            }
-        }
-        postAdapter.notifyDataSetChanged();
+        filterPosts("");
     }
 
-    private void filterPostsBySearch(String query) {
-        String lowerQuery = query.toLowerCase();
+    private void filterPosts(String query) {
         filteredPosts.clear();
+
+        // Filter posts based on category and search query
         for (Post post : allPosts) {
             boolean matchesCategory = selectedCategory.equals("All") || (post.getCategory() != null && post.getCategory().equals(selectedCategory));
-            boolean matchesSearch = post.getTitle().toLowerCase().contains(lowerQuery) || post.getDescription().toLowerCase().contains(lowerQuery);
+            boolean matchesSearch = query.isEmpty() || (post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase())) ||
+                    (post.getDescription() != null && post.getDescription().toLowerCase().contains(query.toLowerCase()));
+
             if (matchesCategory && matchesSearch) {
                 filteredPosts.add(post);
             }
         }
         postAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

@@ -57,6 +57,6 @@ public class Post implements Serializable {
     public boolean isFavorite() { return isFavorite; }
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
 
-    public String getCategory() { return category; } // Getter for category
-    public void setCategory(String category) { this.category = category; } // Setter for category
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 }
