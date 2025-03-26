@@ -32,8 +32,6 @@ public class Update extends AppCompatActivity {
     }
 
     private void navigateToProfileFragment() {
-        // Create an Intent to go back to the MainActivity with a specific flag
-        // or extra, so that MainActivity knows to open ProfileFragment.
         Intent intent = new Intent(Update.this, ProfileFragment.class);
         intent.putExtra("openProfileFragment", true); // Add an extra to indicate ProfileFragment should be opened.
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP); //Clear activities on top and reuse main activity if exists.

@@ -52,10 +52,9 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".SettingsActivityGuest" />
         <activity android:name=".HomePageGuest" />
-        <activity android:name=".PreferanceActivity" />
-        <activity android:name=".PreferanceActivitySettings" />
 
         <activity android:name=".UpdateActivity" />
+        <activity android:name=".Update" />
         <activity android:name=".PostDetailActivity" />
         <activity android:name=".DeleteAccount" />
         <activity android:name=".ChangeMailActivity" />
