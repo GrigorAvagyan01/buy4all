@@ -5,17 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.SearchView; // Correct import
 
 import com.example.buy4all4.databinding.FragmentServiceBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteClickListener {
 
@@ -23,7 +24,6 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
     private FirebaseFirestore db;
     private PostAdapter adapter;
     private List<Post> postList = new ArrayList<>();
-    private List<Post> filteredPostList = new ArrayList<>(); // List for filtered posts
 
     @Nullable
     @Override
@@ -36,38 +36,14 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
         // Setup RecyclerView
         binding.recyclerViewServicePosts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Initialize Adapter with empty filtered list
-        adapter = new PostAdapter(getActivity(), filteredPostList, null, this);
+        // Initialize Adapter with an empty list
+        adapter = new PostAdapter(getActivity(), postList, null, this);
         binding.recyclerViewServicePosts.setAdapter(adapter);
 
-        // Fetch posts from Firestore
+        // Fetch posts
         fetchServicePosts();
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Ensure searchView is not null
-        if (binding.searchView != null) {
-            binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    filterPosts(query);
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    filterPosts(newText);
-                    return true;
-                }
-            });
-        } else {
-            System.out.println("Error: searchView is NULL!");
-        }
     }
 
     private void fetchServicePosts() {
@@ -77,13 +53,9 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
                     if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                         // Convert Firestore documents to Post objects
                         List<Post> fetchedPosts = queryDocumentSnapshots.toObjects(Post.class);
-                        postList.clear();
+                        postList.clear();  // Clear the previous list
                         postList.addAll(fetchedPosts);
-
-                        // Update filtered list with all posts initially
-                        filteredPostList.clear();
-                        filteredPostList.addAll(postList);
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();  // Notify adapter to update UI
 
                         System.out.println("Fetched " + postList.size() + " service posts.");
                     } else {
@@ -94,18 +66,6 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Failed to load service posts.", Toast.LENGTH_SHORT).show();
                 });
-    }
-
-    private void filterPosts(String query) {
-        filteredPostList.clear();
-        if (query.isEmpty()) {
-            filteredPostList.addAll(postList);
-        } else {
-            filteredPostList.addAll(postList.stream()
-                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
-                    .collect(Collectors.toList()));
-        }
-        adapter.notifyDataSetChanged();
     }
 
     @Override

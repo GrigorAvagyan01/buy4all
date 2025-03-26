@@ -12,19 +12,20 @@
     tools:context=".SignInActivity">
 
     <!-- Welcome Text -->
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="175dp"
-        android:layout_height="153dp"
-        app:srcCompat="@drawable/buy4all" />
 
     <!-- Login Text -->
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="119dp"
+        android:layout_height="115dp"
+        app:srcCompat="@drawable/buy4all" />
+
     <TextView
         android:id="@+id/Welcome"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/agdasima"
         android:gravity="center"
         android:text="@string/welcome"
@@ -32,19 +33,19 @@
         android:textSize="40sp"
         android:transitionName="logo_text" />
 
+    <!-- Input Fields -->
     <TextView
         android:id="@+id/logins"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:text="@string/log_in"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:transitionName="signInText"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp" />
+        android:transitionName="signInText" />
 
-    <!-- Input Fields -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
