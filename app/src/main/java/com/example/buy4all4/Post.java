@@ -1,8 +1,9 @@
 package com.example.buy4all4;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Post implements Serializable {
+public class Post implements Parcelable {
     private String postId;
     private String title;
     private String description;
@@ -29,6 +30,31 @@ public class Post implements Serializable {
         this.isFavorite = isFavorite;
         this.category = category;
     }
+
+    protected Post(Parcel in) {
+        postId = in.readString();
+        title = in.readString();
+        description = in.readString();
+        price = in.readString();
+        currency = in.readString();
+        phoneNo = in.readString();
+        userId = in.readString();
+        imageUrl = in.readString();
+        isFavorite = in.readByte() != 0;
+        category = in.readString();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     public String getPostId() { return postId; }
     public void setPostId(String postId) { this.postId = postId; }
@@ -59,4 +85,23 @@ public class Post implements Serializable {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(postId);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(price);
+        parcel.writeString(currency);
+        parcel.writeString(phoneNo);
+        parcel.writeString(userId);
+        parcel.writeString(imageUrl);
+        parcel.writeByte((byte) (isFavorite ? 1 : 0));
+        parcel.writeString(category);
+    }
 }

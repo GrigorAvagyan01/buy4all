@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
-        <!-- Firebase Initialization -->
+        <activity android:name=".ModerActivity" />
+        <activity
+            android:name=".HomePageModer"
+            android:exported="false" /> <!-- Firebase Initialization -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="default_channel" />

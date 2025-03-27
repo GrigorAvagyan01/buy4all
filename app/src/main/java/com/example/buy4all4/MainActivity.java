@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buy4all4.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,5 +85,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, targetActivity);
         startActivity(intent);
         finish();
+    }
+
+    // Save credentials to SharedPreferences after successful sign-in
+    private void saveCredentials(String email, String password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PASSWORD, password);
+        editor.apply();
+    }
+
+    // You may call this function once the user successfully logs in to save credentials.
+    private void onSignInSuccess(String email, String password) {
+        saveCredentials(email, password);
+        navigateToActivity(HomePage.class);  // Or HomePageModer, based on the user type
+    }
+
+    // Function to handle successful login and saving credentials
+    private void onLoginComplete(String email, String password) {
+        // Assuming you're calling this function when the login succeeds in the SignInActivity
+        saveCredentials(email, password);
+        navigateToActivity(HomePage.class);  // Or HomePageModer, depending on the user type
     }
 }

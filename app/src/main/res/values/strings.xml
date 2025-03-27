@@ -103,4 +103,7 @@
     <string name="fashion_and_style">Fashion and style</string>
     <string name="electronics">Electronics</string>
     <string name="health">Health</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="moderator">Moderator</string>
 </resources>

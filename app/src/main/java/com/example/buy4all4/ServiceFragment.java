@@ -72,13 +72,14 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
     public void onFavoriteClick(Post post) {
         // Add the post to the FavoriteFragment
         Bundle bundle = new Bundle();
-        bundle.putSerializable("post", post);
+        bundle.putParcelable("post", post);  // Use putParcelable instead of putSerializable
 
+        // Instantiate the FavoriteFragment and pass the bundle
         FavoriteFragment favoriteFragment = new FavoriteFragment();
         favoriteFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, favoriteFragment)
+                .replace(R.id.fragment_container, favoriteFragment)  // Use the correct container ID
                 .addToBackStack(null)
                 .commit();
     }
