@@ -73,7 +73,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/edit_number_price"
-        app:layout_constraintTop_toTopOf="@+id/edit_number_price" />
+        app:layout_constraintTop_toTopOf="@+id/edit_number_price"
+        android:theme="@style/SpinnerStyle"/>
 
     <EditText
         android:id="@+id/edit_number_phone_no"

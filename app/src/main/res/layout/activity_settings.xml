@@ -19,7 +19,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintVertical_bias="0.115"
+        android:popupBackground="@android:color/white"
+        android:theme="@style/SpinnerStyle" />
+
 
 
     <ImageButton
@@ -56,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/log_out"
+        android:textColor="@color/black"
         android:textSize="19dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,6 +13,7 @@
         android:layout_height="51dp"
         android:layout_marginEnd="16dp"
         android:queryHint="Search Posts"
+        android:background="#daeae7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"

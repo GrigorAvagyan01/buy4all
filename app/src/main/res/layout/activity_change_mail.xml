@@ -47,6 +47,7 @@
                 android:id="@+id/currentPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:hint="@string/enter_your_current_password"
                 android:inputType="textPassword"/>
 
