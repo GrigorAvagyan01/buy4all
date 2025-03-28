@@ -116,11 +116,25 @@ public class ModerActivity extends AppCompatActivity {
     // Delete the post from Firestore and the RecyclerView
     private void deletePost(Post post) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // 1. Delete from the "posts" collection
         DocumentReference postRef = db.collection("posts").document(post.getPostId());
 
-        postRef.delete()
+        // 2. Delete from the "history" collection (if the post exists in history)
+        DocumentReference historyRef = db.collection("history").document(post.getPostId());
+
+        // 3. Delete from the "service" collection (if the post exists in service)
+        DocumentReference serviceRef = db.collection("service").document(post.getPostId());
+
+        db.runTransaction(transaction -> {
+                    transaction.delete(postRef);
+                    transaction.delete(historyRef);
+                    transaction.delete(serviceRef);
+                    return null;
+                })
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(ModerActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModerActivity.this, "Post deleted from all collections", Toast.LENGTH_SHORT).show();
+
                     // Remove the post from the list and update the RecyclerView
                     allPosts.remove(post);
                     filteredPosts.remove(post);
@@ -128,6 +142,7 @@ public class ModerActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(ModerActivity.this, "Error deleting post", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore Error", "Error deleting post from collections", e);
                 });
     }
 }

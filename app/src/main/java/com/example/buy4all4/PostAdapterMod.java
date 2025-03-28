@@ -1,17 +1,15 @@
 package com.example.buy4all4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostModBinding;
-
 import java.util.List;
 
 public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostViewHolder> {
@@ -45,8 +43,17 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
             Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImageMod);
         }
 
-        // Click to open post detail
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(post));
+        // Item click listener to open PostDetailActivity
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("title", post.getTitle());
+            intent.putExtra("price", post.getPrice());
+            intent.putExtra("description", post.getDescription());
+            intent.putExtra("phone", post.getPhoneNo());
+            context.startActivity(intent);
+        });
 
         // Set up options menu (3 dots button)
         holder.binding.optionsMenuImageViewmod.setOnClickListener(v -> {

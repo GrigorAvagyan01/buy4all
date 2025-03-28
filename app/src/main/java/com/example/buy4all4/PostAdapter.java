@@ -15,8 +15,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private Context context;
     private List<Post> postList;
-    private OnFavoriteClickListener onFavoriteClickListener;
     private OnItemClickListener onItemClickListener;
+    private OnFavoriteClickListener onFavoriteClickListener;
 
     public PostAdapter(Context context, List<Post> postList, OnItemClickListener itemClickListener, OnFavoriteClickListener favoriteListener) {
         this.context = context;
@@ -47,11 +47,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
         }
 
-        // Item click listener
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(post);
-            }
+        // Item click listener to open PostDetailActivity
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("title", post.getTitle());
+            intent.putExtra("price", post.getPrice());
+            intent.putExtra("description", post.getDescription());
+            intent.putExtra("phone", post.getPhoneNo());
+            context.startActivity(intent);
         });
 
         // Favorite button click

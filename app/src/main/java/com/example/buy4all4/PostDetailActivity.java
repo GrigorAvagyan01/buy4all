@@ -77,11 +77,9 @@ public class PostDetailActivity extends AppCompatActivity {
                 .set(historyPost) // Set the post data in history
                 .addOnSuccessListener(aVoid -> {
                     // Successfully saved to history
-                    // You can log this or show a message
                 })
                 .addOnFailureListener(e -> {
                     // Log failure
-                    // You can show an error message to the user if needed
                 });
     }
 }
