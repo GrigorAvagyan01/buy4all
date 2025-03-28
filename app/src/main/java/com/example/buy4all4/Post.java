@@ -56,6 +56,8 @@ public class Post implements Parcelable {
         }
     };
 
+    // Getters and Setters for each field
+
     public String getPostId() { return postId; }
     public void setPostId(String postId) { this.postId = postId; }
 

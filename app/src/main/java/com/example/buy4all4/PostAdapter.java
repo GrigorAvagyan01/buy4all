@@ -49,15 +49,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         // Item click listener
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PostDetailActivity.class);
-            intent.putExtra("postId", post.getPostId());
-            intent.putExtra("imageUrl", post.getImageUrl());
-            intent.putExtra("title", post.getTitle());
-            intent.putExtra("price", post.getPrice());
-            intent.putExtra("description", post.getDescription());
-            intent.putExtra("phone", post.getPhoneNo());
-            context.startActivity(intent);
-
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(post);
             }

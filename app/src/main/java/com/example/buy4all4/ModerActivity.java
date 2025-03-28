@@ -1,39 +1,55 @@
 package com.example.buy4all4;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.widget.SearchView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
+import com.example.buy4all4.databinding.ActivityModerBinding;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModerActivity extends AppCompatActivity {
 
-    private ImageButton profileImageButton;
-    private List<Post> allPosts;  // List to hold posts
+    private ActivityModerBinding binding;
+    private PostAdapterMod postAdapter;
+    private List<Post> allPosts;
+    private List<Post> filteredPosts;
+    private Post postToDelete;  // To keep track of the selected post for deletion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_moder); // Ensure activity_moder.xml exists
 
-        profileImageButton = findViewById(R.id.imageButton);
-
-        if (profileImageButton == null) {
-            Log.e("ModerActivity", "ImageButton is null. Check your layout file.");
-            return;
-        }
+        binding = ActivityModerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         allPosts = new ArrayList<>();
+        filteredPosts = new ArrayList<>();
+
+        // Set up RecyclerView and adapter
+        postAdapter = new PostAdapterMod(this, filteredPosts, post -> {
+            openPostDetailActivity(post);
+        }, post -> {
+            // Handle delete action when the "Delete" option is selected from PopupMenu
+            postToDelete = post;  // Save the post to delete
+            deletePost(post);
+        });
+
+        binding.postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.postsRecyclerView.setAdapter(postAdapter);
+
+        // Fetch posts from Firestore
         fetchPostsFromFirestore();
 
-        // Set click listener to navigate to ProfileFragmentModer
-        profileImageButton.setOnClickListener(v -> openProfileFragmentModer());
+        // Set up SearchView listener
+        setupSearchView();
     }
 
     private void fetchPostsFromFirestore() {
@@ -48,40 +64,70 @@ public class ModerActivity extends AppCompatActivity {
                             post.setPostId(document.getId());
                             allPosts.add(post);
                         }
+
+                        // Initially display all posts
+                        filteredPosts.clear();
+                        filteredPosts.addAll(allPosts);
+                        postAdapter.notifyDataSetChanged();
                     } else {
                         Log.e("Firestore Error", "Error fetching posts", task.getException());
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firestore Error", "Error fetching posts", e);
                 });
     }
 
-    private void openProfileFragmentModer() {
-        ProfileFragmentModer profileFragmentModer = new ProfileFragmentModer();
+    private void setupSearchView() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterPosts(query);
+                return false;
+            }
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("posts", new ArrayList<>(allPosts));
-        profileFragmentModer.setArguments(bundle);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, profileFragmentModer); // Ensure activity_moder.xml has a FrameLayout with this ID
-        transaction.addToBackStack(null);
-        transaction.commit();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterPosts(newText);
+                return false;
+            }
+        });
     }
 
-    // Open AddFragment to add a new post
-    private void openAddFragment() {
-        AddFragment addFragment = new AddFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, addFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    // Handle result from AddFragment (to refresh posts)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            fetchPostsFromFirestore(); // Refresh posts list when returning from AddFragment
+    private void filterPosts(String query) {
+        filteredPosts.clear();
+        if (query.isEmpty()) {
+            filteredPosts.addAll(allPosts); // Show all posts if the query is empty
+        } else {
+            for (Post post : allPosts) {
+                if (post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    filteredPosts.add(post);
+                }
+            }
         }
+        postAdapter.notifyDataSetChanged();
+    }
+
+    private void openPostDetailActivity(Post post) {
+        // Handle post click, open the post detail activity (if needed)
+        Log.d("ModerActivity", "Post clicked: " + post.getTitle());
+    }
+
+    // Delete the post from Firestore and the RecyclerView
+    private void deletePost(Post post) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference postRef = db.collection("posts").document(post.getPostId());
+
+        postRef.delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ModerActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                    // Remove the post from the list and update the RecyclerView
+                    allPosts.remove(post);
+                    filteredPosts.remove(post);
+                    postAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ModerActivity.this, "Error deleting post", Toast.LENGTH_SHORT).show();
+                });
     }
 }
