@@ -13,6 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
+        <activity
+            android:name=".MainActivityAnim"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ModerActivity" />
         <activity
             android:name=".HomePageModer"
@@ -22,16 +31,7 @@
             android:value="default_channel" />
         <meta-data
             android:name="com.google.firebase.database"
-            android:value="true" /> <!-- Main Activity -->
-        <activity
-            android:name=".MainActivityAnim"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Authentication Activities -->
+            android:value="true" /> <!-- Authentication Activities -->
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
