@@ -77,7 +77,7 @@
 
             binding.testUserButton.setOnClickListener(v -> {
                 Log.d("MainActivity", "Test User button clicked");
-                autoLogin("testuser2@gmail.com", "Testuser2");
+                autoLogin("testuser3@gmail.com", "Testuser3");
             });
         }
 

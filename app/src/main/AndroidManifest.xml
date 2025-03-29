@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
+            android:name=".PostProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivityAnim"
             android:exported="true">
             <intent-filter>

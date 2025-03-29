@@ -8,8 +8,6 @@
     android:padding="16dp">
 
     <!-- Back Button -->
-
-    <!-- Post Image -->
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -37,7 +35,7 @@
         android:textColor="@android:color/black"
         android:layout_marginBottom="8dp" />
 
-    <!-- Post Price with Label -->
+    <!-- Post Price -->
     <TextView
         android:id="@+id/postPrice"
         android:layout_width="match_parent"
@@ -64,5 +62,6 @@
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:paddingTop="5dp" />
+
 
 </LinearLayout>
