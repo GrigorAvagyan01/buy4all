@@ -62,7 +62,7 @@ public class ProfileFragmentModer extends Fragment {
 
         binding.moder.setOnClickListener(v -> {
             Log.d("ProfileFragmentModer", "Moder button clicked");
-            Intent intent = new Intent(requireContext(), ModerActivity.class);
+            Intent intent = new Intent(requireContext(), ModerHomePage.class);
             startActivity(intent);
         });
 

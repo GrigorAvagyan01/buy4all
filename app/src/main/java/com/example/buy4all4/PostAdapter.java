@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostBinding;
+
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
@@ -40,7 +43,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.binding.postTitle.setText(post.getTitle() != null ? post.getTitle() : "No Title");
 
         // Format price with currency symbol
-        holder.binding.postPrice.setText(formatPrice(post.getPrice()));
+        holder.binding.postPrice.setText(formatPrice(post.getPrice(), post.getCurrency()));
 
         // Load image
         if (post.getImageUrl() != null) {
@@ -61,6 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         // Favorite button click
         holder.binding.favoriteButton.setOnClickListener(v -> {
+            FavoriteManager.getInstance().addFavorite(post);
             if (onFavoriteClickListener != null) {
                 onFavoriteClickListener.onFavoriteClick(post);
             }
@@ -94,19 +98,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     // Method to format price with correct symbol
-    private String formatPrice(String price) {
+    private String formatPrice(String price, String currency) {
         if (price == null || price.isEmpty()) {
             return "No Price";
         }
 
-        // Trim and check for the last word in the price string
+        // Trim and check for the currency code to append the symbol
         String trimmedPrice = price.trim();
-        if (trimmedPrice.endsWith("EUR")) {
-            return trimmedPrice.replace("EUR", "€");
-        } else if (trimmedPrice.endsWith("USD")) {
-            return trimmedPrice.replace("USD", "$");
-        } else if (trimmedPrice.endsWith("AMD")) {
-            return trimmedPrice.replace("AMD", "֏");
+
+        if ("EUR".equals(currency)) {
+            return "€" + trimmedPrice;
+        } else if ("USD".equals(currency)) {
+            return "$ " + trimmedPrice;
+        } else if ("AMD".equals(currency)) {
+            return "֏" + trimmedPrice;  // Add the Armenian Dram symbol for AMD
         }
 
         return price; // If no currency is detected, return as is

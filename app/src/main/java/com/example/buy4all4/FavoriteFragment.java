@@ -4,39 +4,40 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
+import com.example.buy4all4.databinding.FragmentFavoriteBinding;
 import java.util.List;
 
-public class FavoriteFragment extends Fragment implements PostAdapter.OnFavoriteClickListener {
+public class FavoriteFragment extends Fragment implements PostAdapterFv.OnFavoriteRemoveClickListener {
 
-    private RecyclerView favoriteRecyclerView;
-    private PostAdapterFv postAdapterFv;
-    private List<Post> favoritePosts = new ArrayList<>();
+    private FragmentFavoriteBinding binding;
+    private PostAdapterFv adapter;
+    private List<Post> favoritePosts;
 
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-
-        favoriteRecyclerView = view.findViewById(R.id.favoriteRecyclerView);
-        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        postAdapterFv = new PostAdapterFv(favoritePosts);
-        favoriteRecyclerView.setAdapter(postAdapterFv);
-
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentFavoriteBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onFavoriteClick(Post post) {
-        if (!favoritePosts.contains(post)) {
-            favoritePosts.add(post);
-            postAdapterFv.notifyDataSetChanged();
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        favoritePosts = FavoriteManager.getInstance().getFavorites();
+        adapter = new PostAdapterFv(requireContext(), favoritePosts, this);
+        binding.favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.favoriteRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onFavoriteRemoveClick(Post post) {
+        FavoriteManager.getInstance().removeFavorite(post);
+        favoritePosts.remove(post);
+        adapter.notifyDataSetChanged();
     }
 }

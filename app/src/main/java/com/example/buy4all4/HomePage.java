@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,15 +22,12 @@ public class HomePage extends AppCompatActivity {
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
+        // Load HomeFragment by default
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
-
-
 
         binding.bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -44,7 +42,7 @@ public class HomePage extends AppCompatActivity {
                         selectedFragment = new ServiceFragment();
                         break;
                     case R.id.add_nav:
-                        selectedFragment = new AddFragment();
+                        selectedFragment = new AddFragmentSerOrSell();
                         break;
                     case R.id.favorite_nav:
                         selectedFragment = new FavoriteFragment();

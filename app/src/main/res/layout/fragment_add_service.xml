@@ -6,7 +6,20 @@
     android:layout_height="match_parent"
     android:background="#daeae7"
     android:padding="16dp"
-    tools:context=".AddFragment">
+    tools:context=".AddFragmentService">
+
+
+    <Spinner
+        android:id="@+id/spinner_service"
+        android:layout_width="193dp"
+        android:layout_height="35dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_number_price"
+        app:layout_constraintVertical_bias="0.132" />
 
     <ImageButton
         android:id="@+id/uploadImageButtonadd"
@@ -52,9 +65,9 @@
 
     <EditText
         android:id="@+id/edit_number_price"
-        android:layout_width="266dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="201dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="12dp"
         android:hint="Enter Item Price"
         android:inputType="numberDecimal"
         android:padding="8dp"
@@ -80,13 +93,14 @@
         android:id="@+id/edit_number_phone_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:hint="@string/enter_phone_no"
         android:inputType="phone"
         android:padding="8dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_number_price" />
 
@@ -94,33 +108,24 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:text="@string/remember_my_phone_no"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_number_phone_no" />
 
-    <Spinner
-        android:id="@+id/categorySpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/button_add_post"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="204dp"
         android:backgroundTint="@color/black"
         android:padding="12dp"
         android:text="@string/add_post"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

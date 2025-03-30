@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
+            android:name=".ModerHomePage"
+            android:exported="false" />
+        <activity
+            android:name=".AddActivityService"
+            android:exported="false" />
+        <activity
+            android:name=".AddActivitySerOrPost"
+            android:exported="false" />
+        <activity
             android:name=".PostProfileActivity"
             android:exported="false" />
         <activity
