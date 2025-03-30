@@ -1,8 +1,6 @@
 package com.example.buy4all4;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +19,10 @@ public class ModerActivity extends AppCompatActivity {
     private PostAdapterMod postAdapter;
     private List<Post> allPosts;
     private List<Post> filteredPosts;
-    private Post postToDelete;  // To keep track of the selected post for deletion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityModerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -34,21 +30,15 @@ public class ModerActivity extends AppCompatActivity {
         filteredPosts = new ArrayList<>();
 
         // Set up RecyclerView and adapter
-        postAdapter = new PostAdapterMod(this, filteredPosts, post -> {
-            openPostDetailActivity(post);
-        }, post -> {
-            // Handle delete action when the "Delete" option is selected from PopupMenu
-            postToDelete = post;  // Save the post to delete
-            deletePost(post);
-        });
+        postAdapter = new PostAdapterMod(this, filteredPosts,
+                post -> openPostDetailActivity(post),
+                post -> deletePost(post)
+        );
 
         binding.postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.postsRecyclerView.setAdapter(postAdapter);
 
-        // Fetch posts from Firestore
         fetchPostsFromFirestore();
-
-        // Set up SearchView listener
         setupSearchView();
     }
 
@@ -64,18 +54,12 @@ public class ModerActivity extends AppCompatActivity {
                             post.setPostId(document.getId());
                             allPosts.add(post);
                         }
-
-                        // Initially display all posts
-                        filteredPosts.clear();
-                        filteredPosts.addAll(allPosts);
-                        postAdapter.notifyDataSetChanged();
+                        updateRecyclerView();
                     } else {
                         Log.e("Firestore Error", "Error fetching posts", task.getException());
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Log.e("Firestore Error", "Error fetching posts", e);
-                });
+                .addOnFailureListener(e -> Log.e("Firestore Error", "Error fetching posts", e));
     }
 
     private void setupSearchView() {
@@ -97,7 +81,7 @@ public class ModerActivity extends AppCompatActivity {
     private void filterPosts(String query) {
         filteredPosts.clear();
         if (query.isEmpty()) {
-            filteredPosts.addAll(allPosts); // Show all posts if the query is empty
+            filteredPosts.addAll(allPosts);
         } else {
             for (Post post : allPosts) {
                 if (post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase())) {
@@ -109,21 +93,19 @@ public class ModerActivity extends AppCompatActivity {
     }
 
     private void openPostDetailActivity(Post post) {
-        // Handle post click, open the post detail activity (if needed)
         Log.d("ModerActivity", "Post clicked: " + post.getTitle());
     }
 
-    // Delete the post from Firestore and the RecyclerView
     private void deletePost(Post post) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 1. Delete from the "posts" collection
+        if (post.getPostId() == null) {
+            Toast.makeText(this, "Error: Post ID is missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         DocumentReference postRef = db.collection("posts").document(post.getPostId());
-
-        // 2. Delete from the "history" collection (if the post exists in history)
         DocumentReference historyRef = db.collection("history").document(post.getPostId());
-
-        // 3. Delete from the "service" collection (if the post exists in service)
         DocumentReference serviceRef = db.collection("service").document(post.getPostId());
 
         db.runTransaction(transaction -> {
@@ -133,16 +115,24 @@ public class ModerActivity extends AppCompatActivity {
                     return null;
                 })
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(ModerActivity.this, "Post deleted from all collections", Toast.LENGTH_SHORT).show();
-
-                    // Remove the post from the list and update the RecyclerView
-                    allPosts.remove(post);
-                    filteredPosts.remove(post);
-                    postAdapter.notifyDataSetChanged();
+                    Toast.makeText(this, "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                    removePostFromList(post);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(ModerActivity.this, "Error deleting post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error deleting post", Toast.LENGTH_SHORT).show();
                     Log.e("Firestore Error", "Error deleting post from collections", e);
                 });
+    }
+
+    private void removePostFromList(Post post) {
+        allPosts.remove(post);
+        filteredPosts.remove(post);
+        postAdapter.notifyDataSetChanged();
+    }
+
+    private void updateRecyclerView() {
+        filteredPosts.clear();
+        filteredPosts.addAll(allPosts);
+        postAdapter.notifyDataSetChanged();
     }
 }

@@ -11,30 +11,30 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signin"
-        android:layout_width="113dp"
-        android:layout_height="41dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:background="#225a63"
         android:text="@string/sign_inmain"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.53" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup"
-        android:layout_width="122dp"
-        android:layout_height="41dp"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
         android:background="#225a63"
         android:text="@string/sign_upmain"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.792"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.53" />
@@ -43,7 +43,7 @@
         android:id="@+id/guestbut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:background="?attr/selectableItemBackground"
         android:text="@string/guest"
         android:textColor="#225a63"
@@ -58,7 +58,7 @@
         android:id="@+id/testUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:background="?attr/selectableItemBackground"
         android:text="@string/test_user"
         android:textColor="#225a63"
@@ -68,15 +68,14 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="312dp"
-        android:layout_height="390dp"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155"
+        app:layout_constraintVertical_bias="0.1"
         app:srcCompat="@drawable/buy4all" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
