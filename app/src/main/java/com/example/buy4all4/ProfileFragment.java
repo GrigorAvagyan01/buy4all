@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
         });
 
         binding.MyAnouncmentsBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyAnouncments.class);
+            Intent intent = new Intent(getActivity(), MyAnouncmentsHomePage.class);
             startActivity(intent);
         });
 

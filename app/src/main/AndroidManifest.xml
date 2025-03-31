@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
+            android:name=".MyAnnouncementsFragment"
+            android:exported="false" />
+        <activity
+            android:name=".MyAnouncmentsHomePage"
+            android:exported="false" />
+        <activity
             android:name=".ModerHomePage"
             android:exported="false" />
         <activity
