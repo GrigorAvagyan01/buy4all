@@ -3,24 +3,21 @@ package com.example.buy4all4;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Post implements Parcelable {
-    private String postId;
+public class Service implements Parcelable {
+    private String serviceId;
     private String title;
     private String description;
-    private String price; // Price stored as String
-    private String currency; // "AMD", "EUR", etc.
+    private String price;
+    private String currency;
     private String phoneNo;
     private String userId;
     private String imageUrl;
-    private boolean isFavorite;
-    private String category;
 
-    // Default constructor required for Firebase
-    public Post() {}
+    public Service() {}
 
-    public Post(String postId, String title, String description, String price, String currency,
-                String phoneNo, String userId, String imageUrl, boolean isFavorite, String category) {
-        this.postId = postId;
+    public Service(String serviceId, String title, String description, String price, String currency,
+                   String phoneNo, String userId, String imageUrl) {
+        this.serviceId = serviceId;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -28,13 +25,10 @@ public class Post implements Parcelable {
         this.phoneNo = phoneNo;
         this.userId = userId;
         this.imageUrl = imageUrl;
-        this.isFavorite = isFavorite;
-        this.category = category;
     }
 
-    // Parcelable constructor
-    protected Post(Parcel in) {
-        postId = in.readString();
+    protected Service(Parcel in) {
+        serviceId = in.readString();
         title = in.readString();
         description = in.readString();
         price = in.readString();
@@ -42,26 +36,22 @@ public class Post implements Parcelable {
         phoneNo = in.readString();
         userId = in.readString();
         imageUrl = in.readString();
-        isFavorite = in.readByte() != 0;
-        category = in.readString();
     }
 
-    public static final Creator<Post> CREATOR = new Creator<Post>() {
+    public static final Creator<Service> CREATOR = new Creator<Service>() {
         @Override
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
+        public Service createFromParcel(Parcel in) {
+            return new Service(in);
         }
 
         @Override
-        public Post[] newArray(int size) {
-            return new Post[size];
+        public Service[] newArray(int size) {
+            return new Service[size];
         }
     };
 
-    // Getters and Setters
-
-    public String getPostId() { return postId; }
-    public void setPostId(String postId) { this.postId = postId; }
+    public String getServiceId() { return serviceId; }
+    public void setServiceId(String serviceId) { this.serviceId = serviceId; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -84,17 +74,14 @@ public class Post implements Parcelable {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public boolean isFavorite() { return isFavorite; }
-    public void setFavorite(boolean favorite) { isFavorite = favorite; }
-
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-
-    // Parcelable Implementation
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeString(postId);
+        parcel.writeString(serviceId);
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeString(price);
@@ -102,12 +89,5 @@ public class Post implements Parcelable {
         parcel.writeString(phoneNo);
         parcel.writeString(userId);
         parcel.writeString(imageUrl);
-        parcel.writeByte((byte) (isFavorite ? 1 : 0));
-        parcel.writeString(category);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 }

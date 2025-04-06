@@ -76,8 +76,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+        notifyDataSetChanged();
     }
 
     public interface OnFavoriteClickListener {

@@ -1,21 +1,18 @@
 package com.example.buy4all4;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.*;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.example.buy4all4.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +27,11 @@ public class HomeFragment extends Fragment {
     private String selectedCategory = "All";
     private SearchView searchView;
 
+    private String currentSearchQuery = "";
+    private double filterMinPrice = Double.MIN_VALUE;
+    private double filterMaxPrice = Double.MAX_VALUE;
+    private String filterCurrency = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -38,11 +40,19 @@ public class HomeFragment extends Fragment {
         filteredPosts = new ArrayList<>();
 
         postAdapter = new PostAdapter(getContext(), filteredPosts, null, null);
-
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
-        // Set up the category spinner
+        setupCategorySpinner();
+        setupSearchView();
+        setupFilterButton();
+
+        fetchPosts();
+
+        return binding.getRoot();
+    }
+
+    private void setupCategorySpinner() {
         categorySpinner = binding.categorySpinner;
         List<String> categories = new ArrayList<>();
         categories.add("All");
@@ -61,35 +71,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCategory = parent.getItemAtPosition(position).toString();
-                filterPosts();
+                filterPosts(currentSearchQuery);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selectedCategory = "All";
-                filterPosts();
+                filterPosts(currentSearchQuery);
             }
         });
+    }
 
-        // Set up the search view
+    private void setupSearchView() {
         searchView = binding.searchView;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                currentSearchQuery = query;
                 filterPosts(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                currentSearchQuery = newText;
                 filterPosts(newText);
                 return false;
             }
         });
+    }
 
-        fetchPosts();
-
-        return binding.getRoot();
+    private void setupFilterButton() {
+        binding.btnFilter.setOnClickListener(v -> showFilterDialog());
     }
 
     private void fetchPosts() {
@@ -104,30 +117,113 @@ public class HomeFragment extends Fragment {
                             post.setPostId(document.getId());
                             allPosts.add(post);
                         }
-                        filterPosts("");
+                        filterPosts(currentSearchQuery);
                     } else {
                         Log.e("FirestoreError", "Error fetching posts", task.getException());
                     }
                 });
     }
 
-    private void filterPosts() {
-        filterPosts("");
-    }
-
     private void filterPosts(String query) {
         filteredPosts.clear();
-
-        // Filter posts based on category and search query
         for (Post post : allPosts) {
-            boolean matchesCategory = selectedCategory.equals("All") || (post.getCategory() != null && post.getCategory().equals(selectedCategory));
-            boolean matchesSearch = query.isEmpty() || (post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase())) ||
+            boolean matchesCategory = selectedCategory.equals("All") ||
+                    (post.getCategory() != null && post.getCategory().equals(selectedCategory));
+
+            boolean matchesSearch = query.isEmpty() ||
+                    (post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase())) ||
                     (post.getDescription() != null && post.getDescription().toLowerCase().contains(query.toLowerCase()));
 
-            if (matchesCategory && matchesSearch) {
+            boolean matchesPrice = true;
+
+            if (filterCurrency != null) {
+                try {
+                    // Parse price as a double
+                    double price = parsePrice(post.getPrice());
+                    matchesPrice = post.getCurrency() != null && post.getCurrency().equals(filterCurrency)
+                            && price >= filterMinPrice && price <= filterMaxPrice;
+                } catch (NumberFormatException e) {
+                    matchesPrice = false; // ignore posts with invalid price format
+                }
+            }
+
+            if (matchesCategory && matchesSearch && matchesPrice) {
                 filteredPosts.add(post);
             }
         }
         postAdapter.notifyDataSetChanged();
+        Log.d("FilterDebug", "Filtered posts count: " + filteredPosts.size());
+    }
+
+    private double parsePrice(String priceString) {
+        if (priceString == null || priceString.isEmpty()) {
+            return 0.0;
+        }
+
+        try {
+            // Remove non-numeric characters, such as commas or currency symbols, before parsing
+            priceString = priceString.replaceAll("[^\\d.]", "");
+            return Double.parseDouble(priceString);
+        } catch (NumberFormatException e) {
+            Log.e("PriceParseError", "Invalid price format: " + priceString);
+            return 0.0;
+        }
+    }
+
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Filter by Price");
+
+        LinearLayout layout = new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);
+
+        EditText minPriceInput = new EditText(getContext());
+        minPriceInput.setHint("Min Price");
+        minPriceInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        layout.addView(minPriceInput);
+
+        EditText maxPriceInput = new EditText(getContext());
+        maxPriceInput.setHint("Max Price");
+        maxPriceInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        layout.addView(maxPriceInput);
+
+        Spinner currencySpinner = new Spinner(getContext());
+        List<String> currencies = new ArrayList<>();
+        currencies.add("USD");
+        currencies.add("EUR");
+        currencies.add("AMD");
+        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencies);
+        currencySpinner.setAdapter(currencyAdapter);
+        layout.addView(currencySpinner);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("Apply", (dialog, which) -> {
+            try {
+                filterMinPrice = Double.parseDouble(minPriceInput.getText().toString());
+            } catch (NumberFormatException e) {
+                filterMinPrice = Double.MIN_VALUE;
+            }
+
+            try {
+                filterMaxPrice = Double.parseDouble(maxPriceInput.getText().toString());
+            } catch (NumberFormatException e) {
+                filterMaxPrice = Double.MAX_VALUE;
+            }
+
+            filterCurrency = currencySpinner.getSelectedItem().toString();
+
+            filterPosts(currentSearchQuery);
+        });
+
+        builder.setNegativeButton("Clear", (dialog, which) -> {
+            filterCurrency = null;
+            filterMinPrice = Double.MIN_VALUE;
+            filterMaxPrice = Double.MAX_VALUE;
+            filterPosts(currentSearchQuery);
+        });
+
+        builder.show();
     }
 }
