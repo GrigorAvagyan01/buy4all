@@ -7,15 +7,14 @@ public class Post implements Parcelable {
     private String postId;
     private String title;
     private String description;
-    private String price; // Price stored as String
-    private String currency; // "AMD", "EUR", etc.
+    private String price;
+    private String currency;
     private String phoneNo;
     private String userId;
     private String imageUrl;
     private boolean isFavorite;
     private String category;
 
-    // Default constructor required for Firebase
     public Post() {}
 
     public Post(String postId, String title, String description, String price, String currency,
@@ -32,7 +31,6 @@ public class Post implements Parcelable {
         this.category = category;
     }
 
-    // Parcelable constructor
     protected Post(Parcel in) {
         postId = in.readString();
         title = in.readString();
@@ -58,7 +56,6 @@ public class Post implements Parcelable {
         }
     };
 
-    // Getters and Setters
 
     public String getPostId() { return postId; }
     public void setPostId(String postId) { this.postId = postId; }

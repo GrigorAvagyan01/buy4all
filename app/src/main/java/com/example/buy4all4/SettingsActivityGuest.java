@@ -27,7 +27,6 @@ public class SettingsActivityGuest extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
 
-        // Setup language spinner
         String language = LocaleHelper.getSelectedLanguageCode(this);
         setupLanguageSpinner(language);
 

@@ -17,19 +17,17 @@ import com.google.firebase.auth.FirebaseUser;
 public class DeleteAccount extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private ActivityDeleteAccountBinding binding; // View Binding
+    private ActivityDeleteAccountBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize View Binding
         binding = ActivityDeleteAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Set click listeners using binding
         binding.deleteAccount2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

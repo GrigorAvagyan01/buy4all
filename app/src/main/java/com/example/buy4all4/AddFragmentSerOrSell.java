@@ -21,14 +21,12 @@ public class AddFragmentSerOrSell extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddSerOrSellBinding.inflate(inflater, container, false);
 
-        // Handle button clicks
         binding.sellbut.setOnClickListener(v -> openFragment(new AddFragment()));
         binding.servicebut.setOnClickListener(v -> openFragment(new AddFragmentService()));
 
         return binding.getRoot();
     }
 
-    // Function to replace fragment in the container
     private void openFragment(Fragment fragment) {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);

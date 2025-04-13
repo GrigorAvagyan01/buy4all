@@ -21,7 +21,6 @@ public class Update extends AppCompatActivity {
         binding.username.setOnClickListener(v -> navigateTo(ChangeUsernameActivity.class));
         binding.password.setOnClickListener(v -> navigateTo(ChangePasswordActivity.class));
 
-        // Add backup ImageButton functionality
         binding.backupd.setOnClickListener(v -> navigateToProfileFragment());
     }
 

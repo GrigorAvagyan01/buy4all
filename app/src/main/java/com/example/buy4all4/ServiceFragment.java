@@ -30,17 +30,13 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentServiceBinding.inflate(inflater, container, false);
 
-        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-        // Setup RecyclerView
         binding.recyclerViewServicePosts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Initialize Adapter with an empty list
         adapter = new PostAdapter(getActivity(), postList, null, this);
         binding.recyclerViewServicePosts.setAdapter(adapter);
 
-        // Fetch posts
         fetchServicePosts();
 
         return binding.getRoot();
@@ -51,11 +47,10 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                        // Convert Firestore documents to Post objects
                         List<Post> fetchedPosts = queryDocumentSnapshots.toObjects(Post.class);
-                        postList.clear();  // Clear the previous list
+                        postList.clear();
                         postList.addAll(fetchedPosts);
-                        adapter.notifyDataSetChanged();  // Notify adapter to update UI
+                        adapter.notifyDataSetChanged();
 
                         System.out.println("Fetched " + postList.size() + " service posts.");
                     } else {
@@ -70,16 +65,14 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
 
     @Override
     public void onFavoriteClick(Post post) {
-        // Add the post to the FavoriteFragment
         Bundle bundle = new Bundle();
-        bundle.putParcelable("post", post);  // Use putParcelable instead of putSerializable
+        bundle.putParcelable("post", post);
 
-        // Instantiate the FavoriteFragment and pass the bundle
         FavoriteFragment favoriteFragment = new FavoriteFragment();
         favoriteFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, favoriteFragment)  // Use the correct container ID
+                .replace(R.id.fragment_container, favoriteFragment)
                 .addToBackStack(null)
                 .commit();
     }

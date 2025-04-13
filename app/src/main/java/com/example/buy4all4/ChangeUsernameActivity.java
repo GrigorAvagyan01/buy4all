@@ -23,19 +23,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ChangeUsernameActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private ActivityChangeUsernameBinding binding;  // View Binding object
+    private ActivityChangeUsernameBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize View Binding
         binding = ActivityChangeUsernameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Click listener for the change username button
         binding.changeUsernameReally.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +41,6 @@ public class ChangeUsernameActivity extends AppCompatActivity {
             }
         });
 
-        // Click listener for going back to settings
         binding.gobackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +70,6 @@ public class ChangeUsernameActivity extends AppCompatActivity {
                 return;
             }
 
-            // Re-authenticate the user before updating the username
             reAuthenticateAndChangeUsername(user, currentPassword, newUsername);
         }
     }
@@ -90,14 +86,12 @@ public class ChangeUsernameActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // Step 1: Update the Firebase Authentication profile
                     user.updateProfile(new UserProfileChangeRequest.Builder()
                             .setDisplayName(newUsername)
                             .build()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                // Step 2: Update Firestore
                                 updateUsernameInFirestore(user.getUid(), newUsername);
                             } else {
                                 String errorMessage = task.getException().getMessage();
@@ -140,13 +134,13 @@ public class ChangeUsernameActivity extends AppCompatActivity {
     }
 
     private void goToProfile() {
-        Intent intent = new Intent(this, ProfileFragment.class); // Change to your actual profile screen
+        Intent intent = new Intent(this, ProfileFragment.class);
         startActivity(intent);
         finish();
     }
 
     private void goBackToSettings() {
-        Intent intent = new Intent(this, Update.class); // Change to your actual settings screen
+        Intent intent = new Intent(this, Update.class);
         startActivity(intent);
         finish();
     }
@@ -154,6 +148,6 @@ public class ChangeUsernameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        binding = null; // Clean up view binding
+        binding = null;
     }
 }

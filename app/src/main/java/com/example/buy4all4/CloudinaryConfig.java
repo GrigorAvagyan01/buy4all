@@ -5,10 +5,9 @@ import com.cloudinary.utils.ObjectUtils;
 
 public class CloudinaryConfig {
 
-    // Replace these with your Cloudinary credentials
-    private static final String CLOUD_NAME = "dya4h3ime"; // Replace with your Cloudinary cloud name
-    private static final String API_KEY = "249752166732665"; // Replace with your Cloudinary API key
-    private static final String API_SECRET = "-QtH6X4F7Fo8ABowSQN1NkUDNHs"; // Replace with your Cloudinary API secret
+    private static final String CLOUD_NAME = "dya4h3ime";
+    private static final String API_KEY = "249752166732665";
+    private static final String API_SECRET = "-QtH6X4F7Fo8ABowSQN1NkUDNHs";
 
     private Cloudinary cloudinary;
 

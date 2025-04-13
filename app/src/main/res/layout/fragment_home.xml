@@ -29,6 +29,16 @@
         android:backgroundTint="#daeae7"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_filter_alt_24" />
+    <TextView
+        android:id="@+id/noResultsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No posts match your filters."
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
+
 
 
 

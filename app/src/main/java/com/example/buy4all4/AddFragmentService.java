@@ -55,7 +55,6 @@ public class AddFragmentService extends Fragment {
     }
 
     private void setupSpinners() {
-        // Currency Spinner
         ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.currency_array,
@@ -64,7 +63,6 @@ public class AddFragmentService extends Fragment {
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerCurrency.setAdapter(currencyAdapter);
 
-        // Service Pricing Type Spinner
         ArrayAdapter<CharSequence> serviceAdapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,

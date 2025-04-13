@@ -72,7 +72,6 @@ public class SettingsActivity extends AppCompatActivity {
         binding.logout.setOnClickListener(v -> logoutUser());
         binding.deleteAccount.setOnClickListener(v -> goToDeleteAccountActivity());
 
-        // Handle the back button click
         binding.backButton.setOnClickListener(v -> goToProfileFragment());
     }
 
@@ -92,7 +91,6 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Navigate to ProfileFragment
     private void goToProfileFragment() {
         Intent intent = new Intent(SettingsActivity.this, ProfileFragment.class);
         startActivity(intent);

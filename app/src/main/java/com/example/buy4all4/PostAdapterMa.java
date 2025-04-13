@@ -44,7 +44,6 @@ public class PostAdapterMa extends RecyclerView.Adapter<PostAdapterMa.PostViewHo
                     .into(holder.binding.postImageMa);
         }
 
-        // 🔥 Open PostDetailActivity when clicking on a post
         holder.binding.getRoot().setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
@@ -56,7 +55,6 @@ public class PostAdapterMa extends RecyclerView.Adapter<PostAdapterMa.PostViewHo
             context.startActivity(intent);
         });
 
-        // 🛠 Show Popup Menu (Edit/Delete Options)
         holder.binding.optionsMenuImageViewMa.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {

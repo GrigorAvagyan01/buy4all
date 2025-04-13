@@ -21,7 +21,7 @@ public class MyAnouncments extends AppCompatActivity {
     private ActivityMyAnouncmentsBinding binding;
     private PostAdapterMa adapter;
     private List<Post> postList;
-    private List<Post> filteredPostList;  // List for filtered results
+    private List<Post> filteredPostList;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -37,16 +37,15 @@ public class MyAnouncments extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
 
         postList = new ArrayList<>();
-        filteredPostList = new ArrayList<>();  // Initialize filtered list
+        filteredPostList = new ArrayList<>();
 
         setupRecyclerView();
         loadPosts();
 
-        setupSearchView();  // Set up search functionality
+        setupSearchView();
 
-        // Handle back button click
         ImageButton backButton = findViewById(R.id.imageButtonback);
-        backButton.setOnClickListener(v -> onBackPressed());  // Handle back button press
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     private void setupRecyclerView() {
@@ -65,7 +64,7 @@ public class MyAnouncments extends AppCompatActivity {
                         .delete()
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(MyAnouncments.this, "Post deleted", Toast.LENGTH_SHORT).show();
-                            loadPosts(); // Refresh list after deletion
+                            loadPosts();
                         })
                         .addOnFailureListener(e -> Toast.makeText(MyAnouncments.this, "Failed to delete post", Toast.LENGTH_SHORT).show());
             }
@@ -81,17 +80,17 @@ public class MyAnouncments extends AppCompatActivity {
 
         String userId = currentUser.getUid();
         db.collection("posts")
-                .whereEqualTo("userId", userId)  // Filter posts by userId
+                .whereEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     postList.clear();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Post post = document.toObject(Post.class);
-                        post.setPostId(document.getId()); // Ensure postId is set
+                        post.setPostId(document.getId());
                         postList.add(post);
                     }
-                    filteredPostList.clear();  // Reset filtered list
-                    filteredPostList.addAll(postList);  // Add all posts initially
+                    filteredPostList.clear();
+                    filteredPostList.addAll(postList);
                     adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> Toast.makeText(MyAnouncments.this, "Failed to load posts", Toast.LENGTH_SHORT).show());
@@ -101,25 +100,25 @@ public class MyAnouncments extends AppCompatActivity {
         binding.searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterPosts(query);  // Filter posts when user submits search
+                filterPosts(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterPosts(newText);  // Filter posts as the user types
+                filterPosts(newText);
                 return true;
             }
         });
     }
 
     private void filterPosts(String query) {
-        filteredPostList.clear();  // Clear current filtered list
+        filteredPostList.clear();
         if (query.isEmpty()) {
-            filteredPostList.addAll(postList);  // If no query, show all posts
+            filteredPostList.addAll(postList);
         } else {
             filteredPostList.addAll(postList.stream()
-                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))  // Match query with post titles
+                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList()));
         }
         adapter.notifyDataSetChanged();
@@ -128,12 +127,12 @@ public class MyAnouncments extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadPosts(); // Refresh list when returning from UpdateActivity
+        loadPosts();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish(); // Close the activity when back is pressed
+        finish();
     }
 }

@@ -39,18 +39,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
 
-        // Bind title
         holder.binding.postTitle.setText(post.getTitle() != null ? post.getTitle() : "No Title");
 
-        // Format price with currency symbol
         holder.binding.postPrice.setText(formatPrice(post.getPrice(), post.getCurrency()));
 
-        // Load image
         if (post.getImageUrl() != null) {
             Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
         }
 
-        // Item click listener to open PostDetailActivity
         holder.binding.getRoot().setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
@@ -62,7 +58,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             context.startActivity(intent);
         });
 
-        // Favorite button click
         holder.binding.favoriteButton.setOnClickListener(v -> {
             FavoriteManager.getInstance().addFavorite(post);
             if (onFavoriteClickListener != null) {
@@ -98,13 +93,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
     }
 
-    // Method to format price with correct symbol
     private String formatPrice(String price, String currency) {
         if (price == null || price.isEmpty()) {
             return "No Price";
         }
 
-        // Trim and check for the currency code to append the symbol
         String trimmedPrice = price.trim();
 
         if ("EUR".equals(currency)) {
@@ -112,9 +105,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         } else if ("USD".equals(currency)) {
             return "$ " + trimmedPrice;
         } else if ("AMD".equals(currency)) {
-            return "֏" + trimmedPrice;  // Add the Armenian Dram symbol for AMD
+            return "֏" + trimmedPrice;
         }
 
-        return price; // If no currency is detected, return as is
+        return price;
     }
 }

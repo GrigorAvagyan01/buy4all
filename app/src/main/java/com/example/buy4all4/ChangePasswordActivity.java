@@ -21,19 +21,17 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private ActivityChangePasswordBinding binding;  // Declare the View Binding object
+    private ActivityChangePasswordBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize the View Binding
         binding = ActivityChangePasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Set the click listener for the change password button
         binding.changePasswordReally.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +39,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
-        // Set the click listener for going back to settings
         binding.gobackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +68,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // Step 1: Re-authenticate the user with their current password
             String userEmail = user.getEmail();
             if (userEmail == null) {
                 Toast.makeText(this, "Error: Cannot retrieve email", Toast.LENGTH_SHORT).show();
@@ -112,13 +108,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void goToProfile() {
-        Intent intent = new Intent(this, ProfileFragment.class); // Change ProfileActivity to your actual profile screen
-        startActivity(intent);
+        Intent intent = new Intent(this, ProfileFragment.class);
         finish();
     }
 
     private void goBackToSettings() {
-        Intent intent = new Intent(this, Update.class); // Change to your actual settings screen
+        Intent intent = new Intent(this, Update.class);
         startActivity(intent);
         finish();
     }
@@ -126,7 +121,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Clean up view binding when the activity is destroyed
         binding = null;
     }
 }

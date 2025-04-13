@@ -23,15 +23,12 @@
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            // Initialize view binding
             binding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
 
-            // Initialize Firebase Auth
             mAuth = FirebaseAuth.getInstance();
             sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-            // Check for saved credentials and auto-login
             String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
             String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
 
@@ -43,13 +40,12 @@
             }
         }
 
-        // Function to automatically log in a user
         private void autoLogin(String email, String password) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             Log.d("MainActivity", "Auto-login successful, saving credentials and navigating to HomePage");
-                            saveCredentials(email, password); // Save test user credentials
+                            saveCredentials(email, password);
                             navigateToActivity(HomePage.class);
                         } else {
                             Log.d("MainActivity", "Auto-login failed, navigating to SignInActivity");
@@ -58,7 +54,6 @@
                     });
         }
 
-        // Set up button click listeners
         private void setupClickListeners() {
             binding.signin.setOnClickListener(v -> {
                 Log.d("MainActivity", "Sign In button clicked");
@@ -86,8 +81,6 @@
             startActivity(intent);
             finish();
         }
-
-        // Save credentials to SharedPreferences after successful sign-in
         private void saveCredentials(String email, String password) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(KEY_EMAIL, email);
@@ -95,7 +88,6 @@
             editor.apply();
         }
 
-        // Function to handle successful login and saving credentials
         private void onLoginComplete(String email, String password) {
             saveCredentials(email, password);
             navigateToActivity(HomePage.class);

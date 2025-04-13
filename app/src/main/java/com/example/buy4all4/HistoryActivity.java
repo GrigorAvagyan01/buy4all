@@ -34,7 +34,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize Adapter with filtered list
         adapter = new PostAdapter(this, filteredHistoryList, null, null);
         binding.recyclerViewPosts.setAdapter(adapter);
 
@@ -44,7 +43,7 @@ public class HistoryActivity extends AppCompatActivity {
             Log.e("HistoryActivity", "User not logged in");
         }
 
-        setupSearchView(); // Call method to set up search
+        setupSearchView();
     }
 
     private void loadHistory() {
@@ -61,7 +60,6 @@ public class HistoryActivity extends AppCompatActivity {
                         Post post = document.toObject(Post.class);
                         historyList.add(post);
                     }
-                    // Copy all history to filtered list initially
                     filteredHistoryList.clear();
                     filteredHistoryList.addAll(historyList);
                     adapter.notifyDataSetChanged();

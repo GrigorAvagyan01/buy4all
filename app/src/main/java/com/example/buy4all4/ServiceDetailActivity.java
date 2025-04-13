@@ -20,7 +20,6 @@ public class ServiceDetailActivity extends AppCompatActivity {
         binding = ActivityPostDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Retrieve the data passed from the adapter
         Intent intent = getIntent();
         String serviceId = intent.getStringExtra("serviceId");
         String imageUrl = intent.getStringExtra("imageUrl");
@@ -29,13 +28,11 @@ public class ServiceDetailActivity extends AppCompatActivity {
         String description = intent.getStringExtra("description");
         String phone = intent.getStringExtra("phone");
 
-        // Set the data to views
         binding.postTitle.setText(title);
         binding.postPrice.setText(formatPrice(price));
         binding.postDescription.setText(description);
         binding.postPhone.setText(phone);
 
-        // Load the service image using Glide
         if (imageUrl != null && !imageUrl.isEmpty()) {
             Glide.with(this).load(imageUrl).into(binding.postImage);
         }
@@ -46,11 +43,10 @@ public class ServiceDetailActivity extends AppCompatActivity {
         if (price == null || price.isEmpty()) {
             return "No Price";
         }
-        return "$ " + price; // Assuming default as USD. Modify as needed.
+        return "$ " + price;
     }
 
     private void initiateCall(String phoneNumber) {
-        // Code to initiate a call
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(android.net.Uri.parse("tel:" + phoneNumber));
         startActivity(intent);

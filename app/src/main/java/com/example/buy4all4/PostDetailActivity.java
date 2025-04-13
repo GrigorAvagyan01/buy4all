@@ -16,25 +16,22 @@ public class PostDetailActivity extends AppCompatActivity {
     private ImageView postImage;
     private TextView postTitle, postPrice, postDescription, postPhone;
     private FirebaseFirestore db;
-    private String postId; // Store post ID for history tracking
+    private String postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
-        // Initialize Firestore and FirebaseAuth
         db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        // Initialize views
         postImage = findViewById(R.id.postImage);
         postTitle = findViewById(R.id.postTitle);
         postPrice = findViewById(R.id.postPrice);
         postDescription = findViewById(R.id.postDescription);
         postPhone = findViewById(R.id.postPhone);
 
-        // Get post data from Intent
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
         String imageUrl = intent.getStringExtra("imageUrl");
@@ -43,7 +40,6 @@ public class PostDetailActivity extends AppCompatActivity {
         String description = intent.getStringExtra("description");
         String phone = intent.getStringExtra("phone");
 
-        // Set post data to views
         if (imageUrl != null) {
             Glide.with(this).load(imageUrl).into(postImage);
         }
@@ -52,9 +48,8 @@ public class PostDetailActivity extends AppCompatActivity {
         postDescription.setText(description != null ? description : "No Description");
         postPhone.setText(phone != null ? phone : "No Phone");
 
-        // Save to history (only if user is authenticated)
         if (mAuth.getCurrentUser() != null && postId != null) {
-            String userId = mAuth.getCurrentUser().getUid(); // Get the current user's ID
+            String userId = mAuth.getCurrentUser().getUid();
             saveToHistory(userId, postId, title, description, price, phone, imageUrl);
         }
     }
@@ -67,19 +62,16 @@ public class PostDetailActivity extends AppCompatActivity {
         historyPost.put("price", price);
         historyPost.put("phone", phone);
         historyPost.put("imageUrl", imageUrl);
-        historyPost.put("timestamp", System.currentTimeMillis()); // Store timestamp for sorting
+        historyPost.put("timestamp", System.currentTimeMillis());
 
-        // Reference to the user's history collection
         db.collection("users")
-                .document(userId) // Reference the current user's document
-                .collection("history") // History subcollection under the user
-                .document(postId) // Use the postId as the document ID to avoid duplicates
-                .set(historyPost) // Set the post data in history
+                .document(userId)
+                .collection("history")
+                .document(postId)
+                .set(historyPost)
                 .addOnSuccessListener(aVoid -> {
-                    // Successfully saved to history
                 })
                 .addOnFailureListener(e -> {
-                    // Log failure
                 });
     }
 }

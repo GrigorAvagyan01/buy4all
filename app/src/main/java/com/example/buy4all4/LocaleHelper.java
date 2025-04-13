@@ -25,11 +25,9 @@ public class LocaleHelper {
             configuration.locale = locale;
         }
 
-        // Ensure configuration changes take effect
         Resources resources = context.getResources();
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
-        // Handle configuration changes on Android N and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             context.createConfigurationContext(configuration);
         }
@@ -37,13 +35,13 @@ public class LocaleHelper {
 
     public static String getSelectedLanguageCode(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return preferences.getString(LANGUAGE_KEY, "en");  // Default to "en" if no language is set
+        return preferences.getString(LANGUAGE_KEY, "en");
     }
 
     public static void saveSelectedLanguage(Context context, String languageCode) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(LANGUAGE_KEY, languageCode);
-        editor.apply();  // Asynchronous saving
+        editor.apply();
     }
 }

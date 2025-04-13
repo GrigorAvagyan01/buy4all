@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.buy4all4.databinding.ActivityModerHomePageBinding;
 import com.example.buy4all4.databinding.ActivityMyAnouncmentsHomePageBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,10 +21,9 @@ public class MyAnouncmentsHomePage extends AppCompatActivity {
         binding = ActivityMyAnouncmentsHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Load HomeFragment by default
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ModerHomeFragment()) // Fixed this line
+                    .replace(R.id.fragment_container, new MyAnnouncementsFragment())
                     .commit();
         }
 

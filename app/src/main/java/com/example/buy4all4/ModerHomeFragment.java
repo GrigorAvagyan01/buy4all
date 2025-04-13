@@ -2,44 +2,52 @@ package com.example.buy4all4;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.SearchView;
+
+import com.example.buy4all4.databinding.FragmentModerHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.DocumentReference;
-import com.example.buy4all4.databinding.ActivityModerBinding;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModerActivity extends AppCompatActivity {
+public class ModerHomeFragment extends Fragment {
 
-    private ActivityModerBinding binding;
+    private FragmentModerHomeBinding binding;
     private PostAdapterMod postAdapter;
     private List<Post> allPosts;
     private List<Post> filteredPosts;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityModerBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public ModerHomeFragment() {
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentModerHomeBinding.inflate(inflater, container, false);
         allPosts = new ArrayList<>();
         filteredPosts = new ArrayList<>();
 
-        // Set up RecyclerView and adapter
-        postAdapter = new PostAdapterMod(this, filteredPosts,
+        postAdapter = new PostAdapterMod(getContext(), filteredPosts,
                 post -> openPostDetailActivity(post),
                 post -> deletePost(post)
         );
 
-        binding.postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.postsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.postsRecyclerView.setAdapter(postAdapter);
 
         fetchPostsFromFirestore();
         setupSearchView();
+
+        return binding.getRoot();
     }
 
     private void fetchPostsFromFirestore() {
@@ -93,33 +101,30 @@ public class ModerActivity extends AppCompatActivity {
     }
 
     private void openPostDetailActivity(Post post) {
-        Log.d("ModerActivity", "Post clicked: " + post.getTitle());
+        Log.d("ModerFragment", "Post clicked: " + post.getTitle());
     }
 
     private void deletePost(Post post) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if (post.getPostId() == null) {
-            Toast.makeText(this, "Error: Post ID is missing", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error: Post ID is missing", Toast.LENGTH_SHORT).show();
             return;
         }
 
         DocumentReference postRef = db.collection("posts").document(post.getPostId());
-        DocumentReference historyRef = db.collection("history").document(post.getPostId());
-        DocumentReference serviceRef = db.collection("service").document(post.getPostId());
+
 
         db.runTransaction(transaction -> {
                     transaction.delete(postRef);
-                    transaction.delete(historyRef);
-                    transaction.delete(serviceRef);
                     return null;
                 })
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Post deleted successfully", Toast.LENGTH_SHORT).show();
                     removePostFromList(post);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error deleting post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error deleting post", Toast.LENGTH_SHORT).show();
                     Log.e("Firestore Error", "Error deleting post from collections", e);
                 });
     }

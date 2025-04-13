@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.buy4all4.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +129,7 @@ public class HomeFragment extends Fragment {
 
     private void filterPosts(String query) {
         filteredPosts.clear();
+
         for (Post post : allPosts) {
             boolean matchesCategory = selectedCategory.equals("All") ||
                     (post.getCategory() != null && post.getCategory().equals(selectedCategory));
@@ -137,22 +141,38 @@ public class HomeFragment extends Fragment {
             boolean matchesPrice = true;
 
             if (filterCurrency != null) {
-                try {
-                    // Parse price as a double
-                    double price = parsePrice(post.getPrice());
-                    matchesPrice = post.getCurrency() != null && post.getCurrency().equals(filterCurrency)
-                            && price >= filterMinPrice && price <= filterMaxPrice;
-                } catch (NumberFormatException e) {
-                    matchesPrice = false; // ignore posts with invalid price format
+                String postCurrency = post.getCurrency();
+                String postPriceStr = post.getPrice();
+
+                if (postCurrency == null || postPriceStr == null || postPriceStr.isEmpty()) {
+                    matchesPrice = false;
+                } else {
+                    try {
+                        double price = parsePrice(postPriceStr);
+                        matchesPrice = postCurrency.equals(filterCurrency)
+                                && price >= filterMinPrice && price <= filterMaxPrice;
+                    } catch (NumberFormatException e) {
+                        Log.e("FilterError", "Invalid price: " + postPriceStr);
+                        matchesPrice = false;
+                    }
                 }
             }
+
+            Log.d("FilterCheck", "Post: " + post.getTitle() + ", matchesCategory: " + matchesCategory + ", matchesSearch: " + matchesSearch + ", matchesPrice: " + matchesPrice);
 
             if (matchesCategory && matchesSearch && matchesPrice) {
                 filteredPosts.add(post);
             }
         }
+
         postAdapter.notifyDataSetChanged();
         Log.d("FilterDebug", "Filtered posts count: " + filteredPosts.size());
+
+        if (filteredPosts.isEmpty()) {
+            binding.noResultsText.setVisibility(View.VISIBLE);
+        } else {
+            binding.noResultsText.setVisibility(View.GONE);
+        }
     }
 
     private double parsePrice(String priceString) {
@@ -161,7 +181,6 @@ public class HomeFragment extends Fragment {
         }
 
         try {
-            // Remove non-numeric characters, such as commas or currency symbols, before parsing
             priceString = priceString.replaceAll("[^\\d.]", "");
             return Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
@@ -194,6 +213,7 @@ public class HomeFragment extends Fragment {
         currencies.add("EUR");
         currencies.add("AMD");
         ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencies);
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(currencyAdapter);
         layout.addView(currencySpinner);
 

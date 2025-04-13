@@ -53,7 +53,6 @@ public class AddFragment extends Fragment {
 
         cloudinaryManager = new CloudinaryManager();
 
-        // Setup currency spinner
         ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.currency_array,
@@ -62,7 +61,6 @@ public class AddFragment extends Fragment {
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerCurrency.setAdapter(currencyAdapter);
 
-        // Setup category spinner
         categorySpinner = binding.categorySpinner;
         List<String> categories = Arrays.asList("Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other");
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories);
@@ -135,12 +133,10 @@ public class AddFragment extends Fragment {
             return;
         }
 
-        // Save phone number
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_PHONE_NUMBER, phoneNo);
         editor.apply();
 
-        // Upload image to Cloudinary before saving the post
         uploadImageToCloudinary(title, description, price, phoneNo, currency, selectedCategory);
     }
 

@@ -25,13 +25,10 @@ public class SignInActivity extends AppCompatActivity {
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
-        // Check if user is already signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // If user is signed in, check for their email and navigate accordingly
             String email = currentUser.getEmail();
             if (email != null) {
                 if (email.equals("moder2@gmail.com")) {
@@ -71,12 +68,10 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // If email matches the moderator email, navigate to HomePageModer
                             if (email.equals("moder2@gmail.com") && password.equals("Moder2")) {
                                 Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignInActivity.this, HomePageModer.class));
                             } else {
-                                // Otherwise navigate to the regular HomePage
                                 Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignInActivity.this, HomePage.class));
                             }

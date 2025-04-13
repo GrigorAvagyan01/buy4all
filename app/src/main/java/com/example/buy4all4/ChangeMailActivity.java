@@ -27,13 +27,11 @@ public class ChangeMailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize View Binding
         binding = ActivityChangeMailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Click listener for the change email button
         binding.changeMailReally.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +39,6 @@ public class ChangeMailActivity extends AppCompatActivity {
             }
         });
 
-        // Click listener for going back to settings
         binding.gobackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,20 +63,17 @@ public class ChangeMailActivity extends AppCompatActivity {
                 return;
             }
 
-            // Get user's current email
             String currentEmail = user.getEmail();
             if (currentEmail == null) {
                 Toast.makeText(this, "Error: Cannot retrieve current email", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Step 1: Re-authenticate the user
             AuthCredential credential = EmailAuthProvider.getCredential(currentEmail, currentPassword);
             user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        // Step 2: Update email
                         user.updateEmail(newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -116,6 +110,6 @@ public class ChangeMailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        binding = null; // Clean up view binding
+        binding = null;
     }
 }

@@ -96,10 +96,8 @@ public class ProfileFragment extends Fragment {
             InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-            // Encode image to Base64
             String encodedImage = encodeImage(bitmap);
 
-            // Save the encoded image in a file (or you can save it in Firestore if needed)
             File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(encodedImage.getBytes());
