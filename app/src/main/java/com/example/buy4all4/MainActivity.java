@@ -1,95 +1,70 @@
-    package com.example.buy4all4;
+package com.example.buy4all4;
 
-    import android.content.Context;
-    import android.content.Intent;
-    import android.content.SharedPreferences;
-    import android.os.Bundle;
-    import android.util.Log;
-    import androidx.appcompat.app.AppCompatActivity;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.util.Pair;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-    import com.example.buy4all4.databinding.ActivityMainBinding;
-    import com.google.firebase.auth.FirebaseAuth;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-    public class MainActivity extends AppCompatActivity {
+import com.example.buy4all4.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
-        private ActivityMainBinding binding;
-        private SharedPreferences sharedPreferences;
-        private static final String PREFS_NAME = "LoginPrefs";
-        private static final String KEY_EMAIL = "email";
-        private static final String KEY_PASSWORD = "password";
-        private FirebaseAuth mAuth;
+public class MainActivity extends AppCompatActivity {
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    private ActivityMainBinding binding;
 
-            binding = ActivityMainBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            mAuth = FirebaseAuth.getInstance();
-            sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-            String savedEmail = sharedPreferences.getString(KEY_EMAIL, null);
-            String savedPassword = sharedPreferences.getString(KEY_PASSWORD, null);
+        EdgeToEdge.enable(this);
 
-            if (savedEmail != null && savedPassword != null) {
-                Log.d("MainActivity", "Found saved credentials, attempting auto-login");
-                autoLogin(savedEmail, savedPassword);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        Animation bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        Animation topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+
+        binding.buy4all.setAnimation(topAnim);
+
+        long splashScreenDuration = 2500;
+
+        new Handler().postDelayed(() -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
             } else {
-                setupClickListeners();
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<>(binding.buy4all, "logo_image");
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                startActivity(intent, options.toBundle());
             }
-        }
-
-        private void autoLogin(String email, String password) {
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()) {
-                            Log.d("MainActivity", "Auto-login successful, saving credentials and navigating to HomePage");
-                            saveCredentials(email, password);
-                            navigateToActivity(HomePage.class);
-                        } else {
-                            Log.d("MainActivity", "Auto-login failed, navigating to SignInActivity");
-                            navigateToActivity(SignInActivity.class);
-                        }
-                    });
-        }
-
-        private void setupClickListeners() {
-            binding.signin.setOnClickListener(v -> {
-                Log.d("MainActivity", "Sign In button clicked");
-                navigateToActivity(SignInActivity.class);
-            });
-
-            binding.signup.setOnClickListener(v -> {
-                Log.d("MainActivity", "Sign Up button clicked");
-                navigateToActivity(SignUpActivity.class);
-            });
-
-            binding.guestbut.setOnClickListener(v -> {
-                Log.d("MainActivity", "Guest button clicked");
-                navigateToActivity(HomePageGuest.class);
-            });
-
-            binding.testUserButton.setOnClickListener(v -> {
-                Log.d("MainActivity", "Test User button clicked");
-                autoLogin("testuser3@gmail.com", "Testuser3");
-            });
-        }
-
-        private void navigateToActivity(Class<?> targetActivity) {
-            Intent intent = new Intent(MainActivity.this, targetActivity);
-            startActivity(intent);
             finish();
-        }
-        private void saveCredentials(String email, String password) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(KEY_EMAIL, email);
-            editor.putString(KEY_PASSWORD, password);
-            editor.apply();
-        }
-
-        private void onLoginComplete(String email, String password) {
-            saveCredentials(email, password);
-            navigateToActivity(HomePage.class);
-        }
+        }, splashScreenDuration);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
+}

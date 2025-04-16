@@ -19,6 +19,11 @@ public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private FirebaseAuth mAuth;
 
+    // Optional: store login credentials
+    private static final String PREFS_NAME = "LoginPrefs";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,19 @@ public class SignInActivity extends AppCompatActivity {
 
             signInUser(email, password);
         });
+
+        // === TEST USER BUTTON ===
+        binding.testUserButton.setOnClickListener(v -> {
+            Log.d("SignInActivity", "Test User button clicked");
+            signInUser("testuser3@gmail.com", "Testuser3");
+        });
+
+        // === GUEST BUTTON ===
+        binding.guestbut.setOnClickListener(v -> {
+            Log.d("SignInActivity", "Guest button clicked");
+            startActivity(new Intent(SignInActivity.this, HomePageGuest.class));
+            finish();
+        });
     }
 
     private void signInUser(String email, String password) {
@@ -68,6 +86,7 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
+                            saveCredentials(email, password);
                             if (email.equals("moder2@gmail.com") && password.equals("Moder2")) {
                                 Toast.makeText(SignInActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignInActivity.this, HomePageModer.class));
@@ -83,5 +102,13 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.makeText(SignInActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void saveCredentials(String email, String password) {
+        getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString(KEY_EMAIL, email)
+                .putString(KEY_PASSWORD, password)
+                .apply();
     }
 }

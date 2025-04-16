@@ -2,22 +2,27 @@ package com.example.buy4all4;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostModBinding;
+
 import java.util.List;
 
 public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostViewHolder> {
-    private Context context;
+    private final Context context;
     private List<Post> posts;
-    private OnPostClickListener postClickListener;
-    private OnDeleteClickListener deleteClickListener;
-    private OnApproveClickListener approveClickListener;
+    private final OnPostClickListener postClickListener;
+    private final OnDeleteClickListener deleteClickListener;
+    private final OnApproveClickListener approveClickListener;
 
-    public PostAdapterMod(Context context, List<Post> posts,
+    public PostAdapterMod(Context context,
+                          List<Post> posts,
                           OnPostClickListener postClickListener,
                           OnDeleteClickListener deleteClickListener,
                           OnApproveClickListener approveClickListener) {
@@ -28,49 +33,76 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
         this.approveClickListener = approveClickListener;
     }
 
+    @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemPostModBinding binding = ItemPostModBinding.inflate(LayoutInflater.from(context), parent, false);
+    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemPostModBinding binding = ItemPostModBinding.inflate(
+                LayoutInflater.from(context), parent, false);
         return new PostViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
-        holder.binding.postTitleMod.setText(post.getTitle());
-        holder.binding.postPriceMod.setText(post.getPrice());
 
+        // Title & Price
+        holder.binding.postTitleMod.setText(
+                post.getTitle() != null ? post.getTitle() : "No Title");
+        holder.binding.postPriceMod.setText(
+                post.getPrice() != null ? post.getPrice() : "N/A");
+
+        // Load image with Glide
+        String imageUrl = post.getImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.error_image)
+                    .error(R.drawable.error_image)
+                    .into(holder.binding.postImageMod);
+        } else {
+            holder.binding.postImageMod.setImageResource(R.drawable.error_image);
+        }
+
+        // Item click
         holder.itemView.setOnClickListener(v -> postClickListener.onPostClick(post));
 
-        holder.binding.optionsMenuImageViewmod.setOnClickListener(v -> showPopupMenu(v, post));
+        // Options menu (delete / approve)
+        holder.binding.optionsMenuImageViewmod.setOnClickListener(v ->
+                showPopupMenu(v, post));
     }
 
-    private void showPopupMenu(View view, Post post) {
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.getMenuInflater().inflate(R.menu.moder_menu, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_delete_post) {
+    private void showPopupMenu(View anchor, Post post) {
+        PopupMenu popup = new PopupMenu(context, anchor);
+        popup.getMenuInflater().inflate(R.menu.moder_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.action_delete_post) {
                 deleteClickListener.onDeleteClick(post);
                 return true;
-            } else if (item.getItemId() == R.id.action_approve_post) {
+            } else if (id == R.id.action_approve_post) {
                 approveClickListener.onApproveClick(post);
                 return true;
             }
             return false;
         });
-
-        popupMenu.show();
+        popup.show();
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return posts != null ? posts.size() : 0;
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
-        ItemPostModBinding binding;
-        public PostViewHolder(ItemPostModBinding binding) {
+    /** If you need to refresh the list from outside: */
+    public void updatePosts(List<Post> newPosts) {
+        this.posts = newPosts;
+        notifyDataSetChanged();
+    }
+
+    static class PostViewHolder extends RecyclerView.ViewHolder {
+        final ItemPostModBinding binding;
+
+        PostViewHolder(@NonNull ItemPostModBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

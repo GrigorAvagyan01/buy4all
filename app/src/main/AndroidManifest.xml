@@ -14,25 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
-            android:name=".MyAnnouncementsFragment"
-            android:exported="false" />
-        <activity
             android:name=".MyAnouncmentsHomePage"
             android:exported="false" />
         <activity
             android:name=".ModerHomePage"
             android:exported="false" />
+
         <activity
-            android:name=".AddActivityService"
-            android:exported="false" />
-        <activity
-            android:name=".AddActivitySerOrPost"
-            android:exported="false" />
-        <activity
-            android:name=".PostProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivityAnim"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModerActivity" />
         <activity
             android:name=".HomePageModer"
             android:exported="false" /> <!-- Firebase Initialization -->
@@ -53,9 +41,7 @@
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+
         <activity
             android:name=".SignUpActivity"
             android:exported="true" /> <!-- Home & User Activities -->
