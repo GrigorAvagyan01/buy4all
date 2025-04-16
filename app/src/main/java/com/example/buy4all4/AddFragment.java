@@ -173,6 +173,7 @@ public class AddFragment extends Fragment {
         post.put("imageUrl", imageUrl);
         post.put("userId", userId);
         post.put("category", category);
+        post.put("isVerified", false);
 
         db.collection("posts")
                 .add(post)

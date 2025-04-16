@@ -14,13 +14,18 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
     private Context context;
     private List<Post> posts;
     private OnPostClickListener postClickListener;
-    private OnImageButtonClickListener imageButtonClickListener;
+    private OnDeleteClickListener deleteClickListener;
+    private OnApproveClickListener approveClickListener;
 
-    public PostAdapterMod(Context context, List<Post> posts, OnPostClickListener postClickListener, OnImageButtonClickListener imageButtonClickListener) {
+    public PostAdapterMod(Context context, List<Post> posts,
+                          OnPostClickListener postClickListener,
+                          OnDeleteClickListener deleteClickListener,
+                          OnApproveClickListener approveClickListener) {
         this.context = context;
         this.posts = posts;
         this.postClickListener = postClickListener;
-        this.imageButtonClickListener = imageButtonClickListener;
+        this.deleteClickListener = deleteClickListener;
+        this.approveClickListener = approveClickListener;
     }
 
     @Override
@@ -37,16 +42,19 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
 
         holder.itemView.setOnClickListener(v -> postClickListener.onPostClick(post));
 
-        holder.binding.optionsMenuImageViewmod.setOnClickListener(v -> showPopupMenu(v, position));
+        holder.binding.optionsMenuImageViewmod.setOnClickListener(v -> showPopupMenu(v, post));
     }
 
-    private void showPopupMenu(View view, int position) {
+    private void showPopupMenu(View view, Post post) {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.moder_menu, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_delete) {
-                imageButtonClickListener.onImageButtonClick(posts.get(position));
+            if (item.getItemId() == R.id.action_delete_post) {
+                deleteClickListener.onDeleteClick(post);
+                return true;
+            } else if (item.getItemId() == R.id.action_approve_post) {
+                approveClickListener.onApproveClick(post);
                 return true;
             }
             return false;
@@ -62,7 +70,6 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         ItemPostModBinding binding;
-
         public PostViewHolder(ItemPostModBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -73,7 +80,11 @@ public class PostAdapterMod extends RecyclerView.Adapter<PostAdapterMod.PostView
         void onPostClick(Post post);
     }
 
-    public interface OnImageButtonClickListener {
-        void onImageButtonClick(Post post);
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Post post);
+    }
+
+    public interface OnApproveClickListener {
+        void onApproveClick(Post post);
     }
 }

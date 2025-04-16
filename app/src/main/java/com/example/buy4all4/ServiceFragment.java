@@ -44,6 +44,7 @@ public class ServiceFragment extends Fragment implements PostAdapter.OnFavoriteC
 
     private void fetchServicePosts() {
         db.collection("service")
+                .whereEqualTo("isVerified", true)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {

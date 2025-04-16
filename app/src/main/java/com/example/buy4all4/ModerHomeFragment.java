@@ -14,7 +14,6 @@ import androidx.appcompat.widget.SearchView;
 import com.example.buy4all4.databinding.FragmentModerHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +25,17 @@ public class ModerHomeFragment extends Fragment {
     private List<Post> allPosts;
     private List<Post> filteredPosts;
 
-    public ModerHomeFragment() {
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentModerHomeBinding.inflate(inflater, container, false);
         allPosts = new ArrayList<>();
         filteredPosts = new ArrayList<>();
 
-        postAdapter = new PostAdapterMod(getContext(), filteredPosts,
+        postAdapter = new PostAdapterMod(
+                getContext(), filteredPosts,
                 post -> openPostDetailActivity(post),
-                post -> deletePost(post)
+                post -> deletePost(post),
+                post -> approvePost(post)
         );
 
         binding.postsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,6 +50,7 @@ public class ModerHomeFragment extends Fragment {
     private void fetchPostsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts")
+                .whereEqualTo("isVerified", false)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -112,20 +110,35 @@ public class ModerHomeFragment extends Fragment {
             return;
         }
 
-        DocumentReference postRef = db.collection("posts").document(post.getPostId());
-
-
-        db.runTransaction(transaction -> {
-                    transaction.delete(postRef);
-                    return null;
-                })
+        db.collection("posts").document(post.getPostId())
+                .delete()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Post deleted", Toast.LENGTH_SHORT).show();
                     removePostFromList(post);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Error deleting post", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore Error", "Error deleting post from collections", e);
+                    Log.e("Firestore Error", "Delete failed", e);
+                });
+    }
+
+    private void approvePost(Post post) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (post.getPostId() == null) {
+            Toast.makeText(getContext(), "Error: Post ID is missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.collection("posts").document(post.getPostId())
+                .update("isVerified", true)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "Post approved", Toast.LENGTH_SHORT).show();
+                    removePostFromList(post);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error approving post", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore Error", "Approve failed", e);
                 });
     }
 

@@ -2,6 +2,7 @@ package com.example.buy4all4;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +18,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
     private PostAdapter postAdapter;
     private List<Post> allPosts;
     private List<Post> filteredPosts;
-    private Spinner categorySpinner;
     private ArrayAdapter<String> spinnerAdapter;
     private String selectedCategory = "All";
-    private SearchView searchView;
-
     private String currentSearchQuery = "";
     private double filterMinPrice = Double.MIN_VALUE;
     private double filterMaxPrice = Double.MAX_VALUE;
@@ -46,7 +44,7 @@ public class HomeFragment extends Fragment {
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewPosts.setAdapter(postAdapter);
 
-        setupCategorySpinner();
+        setupCategoryRecyclerView();
         setupSearchView();
         setupFilterButton();
 
@@ -55,39 +53,24 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void setupCategorySpinner() {
-        categorySpinner = binding.categorySpinner;
-        List<String> categories = new ArrayList<>();
-        categories.add("All");
-        categories.add("Sport");
-        categories.add("Gadgets");
-        categories.add("Car");
-        categories.add("Realty");
-        categories.add("Electronics");
-        categories.add("Health");
-        categories.add("Other");
+    private void setupCategoryRecyclerView() {
+        List<String> categories = Arrays.asList(
+                "All", "Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other"
+        );
 
-        spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories);
-        categorySpinner.setAdapter(spinnerAdapter);
-
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory = parent.getItemAtPosition(position).toString();
-                filterPosts(currentSearchQuery);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selectedCategory = "All";
-                filterPosts(currentSearchQuery);
-            }
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, category -> {
+            selectedCategory = category;
+            filterPosts(currentSearchQuery);
         });
+
+        binding.categoryRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
+
     private void setupSearchView() {
-        searchView = binding.searchView;
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 currentSearchQuery = query;
@@ -109,8 +92,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchPosts() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts")
+                .whereEqualTo("isVerified", true)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -120,7 +105,9 @@ public class HomeFragment extends Fragment {
                             post.setPostId(document.getId());
                             allPosts.add(post);
                         }
-                        filterPosts(currentSearchQuery);
+
+                        filterPosts(currentSearchQuery); // <--- move before hiding progress
+                        binding.progressBar.setVisibility(View.GONE);
                     } else {
                         Log.e("FirestoreError", "Error fetching posts", task.getException());
                     }
@@ -147,6 +134,7 @@ public class HomeFragment extends Fragment {
                 if (postCurrency == null || postPriceStr == null || postPriceStr.isEmpty()) {
                     matchesPrice = false;
                 } else {
+                    System.out.println("137: :)");
                     try {
                         double price = parsePrice(postPriceStr);
                         matchesPrice = postCurrency.equals(filterCurrency)
@@ -188,7 +176,6 @@ public class HomeFragment extends Fragment {
             return 0.0;
         }
     }
-
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Filter by Price");
@@ -199,20 +186,17 @@ public class HomeFragment extends Fragment {
 
         EditText minPriceInput = new EditText(getContext());
         minPriceInput.setHint("Min Price");
-        minPriceInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        minPriceInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         layout.addView(minPriceInput);
 
         EditText maxPriceInput = new EditText(getContext());
         maxPriceInput.setHint("Max Price");
-        maxPriceInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        maxPriceInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         layout.addView(maxPriceInput);
 
         Spinner currencySpinner = new Spinner(getContext());
-        List<String> currencies = new ArrayList<>();
-        currencies.add("USD");
-        currencies.add("EUR");
-        currencies.add("AMD");
-        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencies);
+        List<String> currencies = Arrays.asList("USD", "EUR", "AMD");
+        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, currencies);
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(currencyAdapter);
         layout.addView(currencySpinner);
@@ -220,17 +204,11 @@ public class HomeFragment extends Fragment {
         builder.setView(layout);
 
         builder.setPositiveButton("Apply", (dialog, which) -> {
-            try {
-                filterMinPrice = Double.parseDouble(minPriceInput.getText().toString());
-            } catch (NumberFormatException e) {
-                filterMinPrice = Double.MIN_VALUE;
-            }
+            String minPriceStr = minPriceInput.getText().toString().trim();
+            String maxPriceStr = maxPriceInput.getText().toString().trim();
 
-            try {
-                filterMaxPrice = Double.parseDouble(maxPriceInput.getText().toString());
-            } catch (NumberFormatException e) {
-                filterMaxPrice = Double.MAX_VALUE;
-            }
+            filterMinPrice = minPriceStr.isEmpty() ? Double.MIN_VALUE : parseSafeDouble(minPriceStr, Double.MIN_VALUE);
+            filterMaxPrice = maxPriceStr.isEmpty() ? Double.MAX_VALUE : parseSafeDouble(maxPriceStr, Double.MAX_VALUE);
 
             filterCurrency = currencySpinner.getSelectedItem().toString();
 
@@ -246,4 +224,14 @@ public class HomeFragment extends Fragment {
 
         builder.show();
     }
+
+    // Helper method to safely parse double
+    private double parseSafeDouble(String input, double fallback) {
+        try {
+            return Double.parseDouble(input.replace(",", "."));
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
+    }
+
 }

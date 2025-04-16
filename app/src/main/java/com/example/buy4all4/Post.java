@@ -14,11 +14,12 @@ public class Post implements Parcelable {
     private String imageUrl;
     private boolean isFavorite;
     private String category;
+    private boolean isVerified;
 
     public Post() {}
 
     public Post(String postId, String title, String description, String price, String currency,
-                String phoneNo, String userId, String imageUrl, boolean isFavorite, String category) {
+                String phoneNo, String userId, String imageUrl, boolean isFavorite, String category, boolean isVerified) {
         this.postId = postId;
         this.title = title;
         this.description = description;
@@ -29,6 +30,7 @@ public class Post implements Parcelable {
         this.imageUrl = imageUrl;
         this.isFavorite = isFavorite;
         this.category = category;
+        this.isVerified = isVerified;
     }
 
     protected Post(Parcel in) {
@@ -42,6 +44,7 @@ public class Post implements Parcelable {
         imageUrl = in.readString();
         isFavorite = in.readByte() != 0;
         category = in.readString();
+        isVerified = in.readBoolean();
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -88,6 +91,13 @@ public class Post implements Parcelable {
     public void setCategory(String category) { this.category = category; }
 
     // Parcelable Implementation
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
@@ -101,6 +111,7 @@ public class Post implements Parcelable {
         parcel.writeString(imageUrl);
         parcel.writeByte((byte) (isFavorite ? 1 : 0));
         parcel.writeString(category);
+        parcel.writeBoolean(isVerified);
     }
 
     @Override

@@ -169,6 +169,8 @@ public class AddFragmentService extends Fragment {
         post.put("phoneNo", phoneNo);
         post.put("imageUrl", imageUrl);
         post.put("userId", user.getUid());
+        post.put("isVerified", false);
+
 
         db.collection("service").add(post).addOnSuccessListener(documentReference -> {
             Toast.makeText(getActivity(), "Service added successfully", Toast.LENGTH_SHORT).show();

@@ -2,6 +2,8 @@ package com.example.buy4all4;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostDetailActivity extends AppCompatActivity {
-
     private ImageView postImage;
     private TextView postTitle, postPrice, postDescription, postPhone;
+    private ImageButton backButton;
     private FirebaseFirestore db;
     private String postId;
 
@@ -31,6 +33,7 @@ public class PostDetailActivity extends AppCompatActivity {
         postPrice = findViewById(R.id.postPrice);
         postDescription = findViewById(R.id.postDescription);
         postPhone = findViewById(R.id.postPhone);
+        backButton = findViewById(R.id.backButton);
 
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
@@ -52,6 +55,8 @@ public class PostDetailActivity extends AppCompatActivity {
             String userId = mAuth.getCurrentUser().getUid();
             saveToHistory(userId, postId, title, description, price, phone, imageUrl);
         }
+
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     private void saveToHistory(String userId, String postId, String title, String description, String price, String phone, String imageUrl) {
