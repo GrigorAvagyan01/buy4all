@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:id="@+id/sell_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/option_background"
+        android:text="Sell Product"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:gravity="center" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <TextView
+        android:id="@+id/offer_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/option_background"
+        android:text="Offer Service"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:gravity="center" />
+</LinearLayout>
