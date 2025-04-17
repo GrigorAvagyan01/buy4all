@@ -1,86 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="#daeae7"
+    android:background="#F4F7F9"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <!-- Language Spinner -->
+
+    <!-- Logout Button -->
+
+    <!-- Back Button -->
+
+    <!-- Logout Text -->
+
     <Spinner
         android:id="@+id/language_spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/rounded_spinner"
+        android:elevation="4dp"
         android:entries="@array/languages"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="12dp"
+        android:popupBackground="@android:color/white"
+        android:theme="@style/SpinnerStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115"
-        android:popupBackground="@android:color/white"
-        android:theme="@style/SpinnerStyle" />
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/logout"
-        android:layout_width="45dp"
-        android:layout_height="39dp"
-        android:background="#daeae7"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="8dp"
         android:src="@drawable/baseline_logout_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintTop_toBottomOf="@id/language_spinner" />
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="64dp"
-        android:layout_height="35dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentStart="true"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/rounded_button"
         android:contentDescription="Back"
+        android:elevation="8dp"
         android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Delete Account Button -->
 
     <TextView
         android:id="@+id/logouttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
         android:text="@string/log_out"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="19dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.243" />
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
 
     <Button
         android:id="@+id/delete_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/red"
+        android:elevation="8dp"
+        android:padding="12dp"
         android:text="@string/delete_accountset"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.314" />
+        app:layout_constraintTop_toBottomOf="@id/logouttext" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,5 +8,6 @@
         <item>@font/bungee</item>
         <item>@font/nunito_extralight</item>
         <item>@font/nunito_sans_extralight</item>
+        <item>@font/roboto_thin</item>
     </array>
 </resources>

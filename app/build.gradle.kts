@@ -66,4 +66,6 @@ dependencies {
     implementation (libs.glide.v4160)
     annotationProcessor (libs.compiler.v4160)
     implementation (libs.cloudinary.android)
+    implementation (libs.cardview)
+
 }

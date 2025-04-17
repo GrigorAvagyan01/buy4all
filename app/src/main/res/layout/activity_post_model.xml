@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#daeae7"
+    android:background="#F4F7F9"
     tools:context=".PostModel">
 
 

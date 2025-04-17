@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#daeae7"
+    android:background="#F4F7F9"
     tools:context=".UpdateActivity">
 
     <androidx.cardview.widget.CardView
@@ -19,29 +19,32 @@
         app:cardElevation="20dp">
 
         <LinearLayout
-            android:layout_width="383dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="20dp">
+
+            <!-- ProgressBar for loading -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
-                android:background="@color/white"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:indeterminate="true"/>
 
-
-
+            <!-- Title Text -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_post"
                 android:textColor="@color/black"
                 android:textAlignment="center"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:layout_marginBottom="20dp"/>
 
+            <!-- Image Button for updating image -->
             <ImageButton
                 android:id="@+id/updateImage"
                 android:layout_width="124dp"
@@ -51,6 +54,7 @@
                 android:background="@color/white"
                 android:src="@drawable/baseline_image_search_24" />
 
+            <!-- Update Post Title Input -->
             <EditText
                 android:id="@+id/updateTitle"
                 android:layout_width="match_parent"
@@ -58,8 +62,10 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:hint="@string/enter_post_title_up"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:background="@drawable/edittext_bg"/>
 
+            <!-- Update Post Description Input -->
             <EditText
                 android:id="@+id/updateDesc"
                 android:layout_width="match_parent"
@@ -67,8 +73,10 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:hint="@string/enter_post_description_up"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:background="@drawable/edittext_bg"/>
 
+            <!-- Update Post Price Input -->
             <EditText
                 android:id="@+id/updatePrice"
                 android:layout_width="match_parent"
@@ -76,8 +84,10 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:hint="@string/enter_post_price_up"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:background="@drawable/edittext_bg"/>
 
+            <!-- Update Phone Number Input -->
             <EditText
                 android:id="@+id/updatephoneno"
                 android:layout_width="match_parent"
@@ -85,8 +95,10 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:hint="@string/enter_phoneno_up"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:background="@drawable/edittext_bg"/>
 
+            <!-- Update Post Button -->
             <Button
                 android:id="@+id/updateButton"
                 android:layout_width="match_parent"
@@ -95,8 +107,8 @@
                 android:backgroundTint="#000000"
                 android:text="@string/update_p"
                 android:textSize="18sp"
-                app:cornerRadius="20dp" />
-
+                app:cornerRadius="20dp"
+                android:textColor="@android:color/white"/>
 
         </LinearLayout>
 

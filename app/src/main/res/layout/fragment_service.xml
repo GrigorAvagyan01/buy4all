@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F4F7F9"
     android:orientation="vertical"
-    android:background="#daeae7"
+    android:padding="16dp"
     tools:context=".ServiceFragment">
 
-    <!-- SearchView for filtering services -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <!-- Styled SearchView -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search services..." />
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
 
-    <!-- RecyclerView to display service posts -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search services..."
+            android:iconifiedByDefault="false"
+            android:background="@android:color/transparent"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- RecyclerView for service posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewServicePosts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_post" />
 
 </LinearLayout>
