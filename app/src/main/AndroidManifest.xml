@@ -14,12 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
+            android:name=".ChatDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivty"
+            android:exported="false" />
+        <activity
             android:name=".MyAnouncmentsHomePage"
             android:exported="false" />
         <activity
             android:name=".ModerHomePage"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -41,7 +46,6 @@
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
-
         <activity
             android:name=".SignUpActivity"
             android:exported="true" /> <!-- Home & User Activities -->

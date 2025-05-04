@@ -98,4 +98,7 @@
     <string name="enter_post_price_up">Введите цену публикации</string>
     <string name="enter_phoneno_up">Введите номер телефона</string>
     <string name="update_p">Обновление</string>
+    <string name="moderator">Модератор</string>
+    <string name="sell_product">Продавайте продукт</string>
+    <string name="offer_service">Предлагайте услуги</string>
 </resources>

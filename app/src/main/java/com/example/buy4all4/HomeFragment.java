@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -26,12 +27,12 @@ public class HomeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> allPosts;
     private List<Post> filteredPosts;
-    private ArrayAdapter<String> spinnerAdapter;
     private String selectedCategory = "All";
     private String currentSearchQuery = "";
     private double filterMinPrice = Double.MIN_VALUE;
     private double filterMaxPrice = Double.MAX_VALUE;
     private String filterCurrency = null;
+    private String currentSortOrder = "None"; // "Min", "Max", "None"
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
         setupCategoryRecyclerView();
         setupSearchView();
         setupFilterButton();
+        setupSortSpinner(); // NEW
 
         fetchPosts();
 
@@ -54,9 +56,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupCategoryRecyclerView() {
-        List<String> categories = Arrays.asList(
-                "All", "Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other"
-        );
+        List<String> categories = Arrays.asList("All", "Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other");
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories, category -> {
             selectedCategory = category;
@@ -67,7 +67,6 @@ public class HomeFragment extends Fragment {
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.categoryRecyclerView.setAdapter(categoryAdapter);
     }
-
 
     private void setupSearchView() {
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -91,6 +90,35 @@ public class HomeFragment extends Fragment {
         binding.btnFilter.setOnClickListener(v -> showFilterDialog());
     }
 
+    private void setupSortSpinner() {
+        List<String> sortOptions = Arrays.asList("None", "Price: Low to High", "Price: High to Low");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, sortOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerSort.setAdapter(adapter);
+
+        binding.spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = sortOptions.get(position);
+                switch (selected) {
+                    case "Price: Low to High":
+                        currentSortOrder = "Min";
+                        break;
+                    case "Price: High to Low":
+                        currentSortOrder = "Max";
+                        break;
+                    default:
+                        currentSortOrder = "None";
+                }
+                filterPosts(currentSearchQuery);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     private void fetchPosts() {
         binding.progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -106,7 +134,7 @@ public class HomeFragment extends Fragment {
                             allPosts.add(post);
                         }
 
-                        filterPosts(currentSearchQuery); // <--- move before hiding progress
+                        filterPosts(currentSearchQuery);
                         binding.progressBar.setVisibility(View.GONE);
                     } else {
                         Log.e("FirestoreError", "Error fetching posts", task.getException());
@@ -134,7 +162,6 @@ public class HomeFragment extends Fragment {
                 if (postCurrency == null || postPriceStr == null || postPriceStr.isEmpty()) {
                     matchesPrice = false;
                 } else {
-                    System.out.println("137: :)");
                     try {
                         double price = parsePrice(postPriceStr);
                         matchesPrice = postCurrency.equals(filterCurrency)
@@ -146,21 +173,20 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            Log.d("FilterCheck", "Post: " + post.getTitle() + ", matchesCategory: " + matchesCategory + ", matchesSearch: " + matchesSearch + ", matchesPrice: " + matchesPrice);
-
             if (matchesCategory && matchesSearch && matchesPrice) {
                 filteredPosts.add(post);
             }
         }
 
-        postAdapter.notifyDataSetChanged();
-        Log.d("FilterDebug", "Filtered posts count: " + filteredPosts.size());
-
-        if (filteredPosts.isEmpty()) {
-            binding.noResultsText.setVisibility(View.VISIBLE);
-        } else {
-            binding.noResultsText.setVisibility(View.GONE);
+        // Sort logic
+        if (currentSortOrder.equals("Min")) {
+            filteredPosts.sort(Comparator.comparingDouble(p -> parsePrice(p.getPrice())));
+        } else if (currentSortOrder.equals("Max")) {
+            filteredPosts.sort((p1, p2) -> Double.compare(parsePrice(p2.getPrice()), parsePrice(p1.getPrice())));
         }
+
+        postAdapter.notifyDataSetChanged();
+        binding.noResultsText.setVisibility(filteredPosts.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private double parsePrice(String priceString) {
@@ -176,6 +202,7 @@ public class HomeFragment extends Fragment {
             return 0.0;
         }
     }
+
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Filter by Price");
@@ -225,7 +252,6 @@ public class HomeFragment extends Fragment {
         builder.show();
     }
 
-    // Helper method to safely parse double
     private double parseSafeDouble(String input, double fallback) {
         try {
             return Double.parseDouble(input.replace(",", "."));
@@ -233,5 +259,4 @@ public class HomeFragment extends Fragment {
             return fallback;
         }
     }
-
 }

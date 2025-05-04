@@ -32,7 +32,7 @@
             android:background="@drawable/edittext_bg"
             android:padding="12dp"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/uploadImageButtonadd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -46,7 +46,7 @@
             android:background="@drawable/edittext_bg"
             android:padding="12dp"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@android:color/black"
             android:gravity="top"
             android:inputType="textMultiLine"
             app:layout_constraintTop_toBottomOf="@id/edit_text_title"
@@ -63,7 +63,7 @@
             android:padding="12dp"
             android:inputType="numberDecimal"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/edit_text_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/spinner_currency" />
@@ -100,7 +100,7 @@
             android:padding="12dp"
             android:inputType="phone"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/spinner_service"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

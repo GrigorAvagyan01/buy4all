@@ -45,8 +45,8 @@ public class HomePageModer extends AppCompatActivity {
                         selectedFragment = new ServiceFragment();
                         break;
                     case R.id.add_nav:
-                        selectedFragment = new AddFragmentSerOrSell();
-                        break;
+                        new AddOptionsBottomSheet().show(getSupportFragmentManager(), "AddOptionsBottomSheet");
+                        return true;
                     case R.id.favorite_nav:
                         selectedFragment = new FavoriteFragment();
                         break;

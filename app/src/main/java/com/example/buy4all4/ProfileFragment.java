@@ -72,6 +72,7 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
+
         return binding.getRoot();
     }
 

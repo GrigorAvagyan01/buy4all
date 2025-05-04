@@ -9,24 +9,60 @@
     android:padding="16dp"
     tools:context=".ServiceFragment">
 
-    <!-- Styled SearchView -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnFilterService"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:queryHint="Search services..."
-            android:iconifiedByDefault="false"
-            android:background="@android:color/transparent"
-            android:padding="8dp" />
-    </androidx.cardview.widget.CardView>
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Filter"
+            android:src="@drawable/baseline_filter_alt_24" />
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="Search services..."
+                android:iconifiedByDefault="false"
+                android:padding="8dp" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <Spinner
+        android:id="@+id/spinnerSortService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_spinner"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:popupBackground="@android:color/white"
+        android:theme="@style/SpinnerStyle"/>
+    <TextView
+        android:id="@+id/noServiceResultsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No posts match your filters."
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
     <!-- RecyclerView for service posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewServicePosts"

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:background="@drawable/option_background"
-        android:text="Sell Product"
+        android:text="@string/sell_product"
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:gravity="center" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:background="@drawable/option_background"
-        android:text="Offer Service"
+        android:text="@string/offer_service"
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:gravity="center" />

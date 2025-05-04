@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="#F4F7F9"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:hint="      Email"
-                android:textColorHint="@color/black"
+                android:textColorHint="@android:color/black"
                 android:transitionName="email_tran"
                 app:startIconDrawable="@drawable/baseline_email_24">
 
@@ -131,6 +131,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/black"
+                android:textColor="@color/white"
                 android:text="@string/sign_upbut"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />

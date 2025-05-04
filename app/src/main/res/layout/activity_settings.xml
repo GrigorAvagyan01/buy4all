@@ -8,17 +8,10 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <!-- Language Spinner -->
-
-    <!-- Logout Button -->
-
-    <!-- Back Button -->
-
-    <!-- Logout Text -->
 
     <Spinner
         android:id="@+id/language_spinner"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
         android:background="@drawable/rounded_spinner"
@@ -41,7 +34,7 @@
         android:elevation="8dp"
         android:src="@drawable/baseline_logout_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/language_spinner" />
 
@@ -65,21 +58,21 @@
         android:id="@+id/logouttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="156dp"
         android:text="@string/log_out"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backButton" />
 
     <Button
         android:id="@+id/delete_account"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/red"
         android:elevation="8dp"
         android:padding="12dp"

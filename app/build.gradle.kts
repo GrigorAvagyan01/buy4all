@@ -67,5 +67,7 @@ dependencies {
     annotationProcessor (libs.compiler.v4160)
     implementation (libs.cloudinary.android)
     implementation (libs.cardview)
-
+    implementation (libs.firebase.database.v2005)
+    implementation (libs.firebase.auth.v2105)
+    implementation (libs.picasso)
 }

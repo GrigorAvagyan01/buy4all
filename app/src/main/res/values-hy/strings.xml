@@ -98,4 +98,7 @@
     <string name="enter_post_title_up">Մուտքագրեք հրապարակման վերնագիրը</string>
     <string name="enter_post_description_up">Մուտքագրեք հրապարակման նկարագրությունը</string>
     <string name="enter_post_price_up">Մուտքագրեք հրապարակման գինը</string>
+    <string name="moderator">Մոդերատոր</string>
+    <string name="sell_product">Վաճառել ապրանքը</string>
+    <string name="offer_service">Առաջարկեք ծառայություններ</string>
 </resources>

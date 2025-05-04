@@ -67,7 +67,17 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:paddingTop="5dp" />
+            android:paddingTop="5dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- See Profile Button -->
+        <Button
+            android:id="@+id/seeProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See Profile"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 </ScrollView>

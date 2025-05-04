@@ -7,7 +7,6 @@
     android:background="#F4F7F9"
     android:padding="16dp">
 
-    <!-- Profile Image Button inside CardView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/profileImageCard"
         android:layout_width="150dp"
