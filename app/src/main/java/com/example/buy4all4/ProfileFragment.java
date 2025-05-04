@@ -1,14 +1,9 @@
 package com.example.buy4all4;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +14,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String IMAGE_FILE_NAME = "profile_image.jpg";
     private static final String USERS_COLLECTION = "users";
 
     private FragmentProfileBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
+    private CloudinaryManager cloudinaryManager;
 
     @Nullable
     @Override
@@ -46,38 +36,29 @@ public class ProfileFragment extends Fragment {
         LocaleHelper.setAppLanguage(requireContext());
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        cloudinaryManager = new CloudinaryManager();
 
-        loadSavedImage();
         loadUserDataFromFirestore();
 
         binding.uploadImageButton.setOnClickListener(v -> openGallery());
 
-        binding.UpdateBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Update.class);
-            startActivity(intent);
-        });
+        binding.UpdateBut.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), Update.class)));
 
-        binding.MyAnouncmentsBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyAnouncmentsHomePage.class);
-            startActivity(intent);
-        });
+        binding.MyAnouncmentsBut.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), MyAnouncmentsHomePage.class)));
 
-        binding.HistoryBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ServiceHomeHistory.class);
-            startActivity(intent);
-        });
+        binding.HistoryBut.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), ServiceHomeHistory.class)));
 
-        binding.SettingsBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(intent);
-        });
-
+        binding.SettingsBut.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), SettingsActivity.class)));
 
         return binding.getRoot();
     }
 
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
@@ -87,53 +68,42 @@ public class ProfileFragment extends Fragment {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
-            encodeAndSaveImage(selectedImageUri);
-            loadSavedImage();
+            uploadToCloudinary(selectedImageUri);
         }
     }
 
-    private void encodeAndSaveImage(Uri imageUri) {
-        try {
-            InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-            String encodedImage = encodeImage(bitmap);
-
-            File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(encodedImage.getBytes());
-            fos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String encodeImage(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
-    private void loadSavedImage() {
-        File file = new File(requireActivity().getFilesDir(), IMAGE_FILE_NAME);
-        if (file.exists()) {
-            try {
-                byte[] imageBytes = new byte[(int) file.length()];
-                InputStream inputStream = requireActivity().getContentResolver().openInputStream(Uri.fromFile(file));
-                inputStream.read(imageBytes);
-                String encodedImage = new String(imageBytes);
-                byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-
-                binding.uploadImageButton.setImageBitmap(bitmap);
+    private void uploadToCloudinary(Uri imageUri) {
+        binding.uploadImageButton.setEnabled(false); // disable while uploading
+        cloudinaryManager.uploadImage(requireContext(), imageUri, new CloudinaryManager.UploadCallback() {
+            @Override
+            public void onSuccess(String imageUrl) {
+                updateProfileImageUrl(imageUrl);
+                Glide.with(requireContext())
+                        .load(imageUrl)
+                        .into(binding.uploadImageButton);
                 binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                Toast.makeText(getActivity(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                binding.uploadImageButton.setEnabled(true);
             }
-        }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getActivity(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                binding.uploadImageButton.setEnabled(true);
+            }
+        });
+    }
+
+    private void updateProfileImageUrl(String imageUrl) {
+        String userId = mAuth.getCurrentUser().getUid();
+        firestore.collection(USERS_COLLECTION)
+                .document(userId)
+                .update("profileImageUrl", imageUrl)
+                .addOnSuccessListener(aVoid -> {
+                    // Successfully saved image URL
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getActivity(), "Failed to update Firestore", Toast.LENGTH_SHORT).show());
     }
 
     private void loadUserDataFromFirestore() {
@@ -141,12 +111,20 @@ public class ProfileFragment extends Fragment {
         DocumentReference userRef = firestore.collection(USERS_COLLECTION).document(userId);
 
         userRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful() && task.getResult() != null) {
                 String email = mAuth.getCurrentUser().getEmail();
                 String username = task.getResult().getString("username");
+                String imageUrl = task.getResult().getString("profileImageUrl");
 
                 binding.emailTextView.setText(email != null ? email : "Email not available");
                 binding.usernameTextView1.setText(username != null ? username : "Username not available");
+
+                if (imageUrl != null && !imageUrl.isEmpty()) {
+                    Glide.with(requireContext())
+                            .load(imageUrl)
+                            .into(binding.uploadImageButton);
+                    binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                }
             } else {
                 Toast.makeText(getActivity(), "Failed to load user data", Toast.LENGTH_SHORT).show();
             }
