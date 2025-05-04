@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.buy4all4">
+    package="com.example.buy4all4" >
     <!-- Permissions for Internet and Storage -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,12 +12,12 @@
         android:label="Buy4All"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Buy4all4">
+        android:theme="@style/Theme.Buy4all4" >
         <activity
-            android:name=".ChatDetailActivity"
+            android:name=".ServiceHomeHistory"
             android:exported="false" />
         <activity
-            android:name=".ChatActivty"
+            android:name=".EmailVerify"
             android:exported="false" />
         <activity
             android:name=".MyAnouncmentsHomePage"
@@ -27,7 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

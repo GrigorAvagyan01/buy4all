@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
         });
 
         binding.HistoryBut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), HistoryActivity.class);
+            Intent intent = new Intent(getActivity(), ServiceHomeHistory.class);
             startActivity(intent);
         });
 

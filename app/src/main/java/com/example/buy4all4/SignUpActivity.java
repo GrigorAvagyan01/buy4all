@@ -108,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
         db.collection("users").document(userId).set(userMap)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignUpActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUpActivity.this, HomePage.class));
+                    startActivity(new Intent(SignUpActivity.this, EmailVerify.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {

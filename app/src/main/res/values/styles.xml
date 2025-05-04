@@ -4,7 +4,8 @@
     </style>
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:background">@android:color/white</item>
-        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/white</item>\
+
 
     </style>
 </resources>
