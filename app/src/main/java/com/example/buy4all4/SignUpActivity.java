@@ -52,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         // Test user auto-login
         binding.testUserButton.setOnClickListener(v -> {
             Log.d("SignUpActivity", "Test User button clicked");
-            autoLogin("testuser3@gmail.com", "Testuser3");
+            autoLogin("testuser@gmail.com", "Testuser");
         });
     }
 

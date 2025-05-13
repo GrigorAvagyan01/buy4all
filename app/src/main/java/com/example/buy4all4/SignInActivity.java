@@ -69,7 +69,7 @@ public class SignInActivity extends AppCompatActivity {
         // === TEST USER BUTTON ===
         binding.testUserButton.setOnClickListener(v -> {
             Log.d("SignInActivity", "Test User button clicked");
-            signInUser("testuser3@gmail.com", "Testuser3");
+            signInUser("testuser@gmail.com", "Testuser");
         });
 
         // === GUEST BUTTON ===

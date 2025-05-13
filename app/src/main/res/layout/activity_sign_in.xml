@@ -31,7 +31,7 @@
                 android:id="@+id/loginText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SignIn"
+                android:text="Sign In"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="36sp"
@@ -44,15 +44,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="      Email"
-                android:textColorHint="@color/black"
-                android:transitionName="email_tran"
-                app:startIconDrawable="@drawable/baseline_email_24">
+                android:transitionName="email_tran">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:hint="@string/email"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/baseline_email_24"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,16 +63,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="      Password"
-                android:textColorHint="@color/black"
                 android:transitionName="password_tran"
-                app:passwordToggleEnabled="true"
-                app:startIconDrawable="@drawable/lock">
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:hint="@string/password"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/lock"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -11,14 +11,13 @@
         android:layout_height="wrap_content">
 
         <!-- Upload Image Button -->
-        <ImageButton
+        <ImageView
             android:id="@+id/uploadImageButtonadd"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_bg_light"
-            android:padding="28dp"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/baseline_image_search_24"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

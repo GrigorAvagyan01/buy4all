@@ -24,6 +24,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
+    private FirebaseFirestore db;
     private PostAdapter postAdapter;
     private List<Post> allPosts;
     private List<Post> filteredPosts;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     private double filterMaxPrice = Double.MAX_VALUE;
     private String filterCurrency = null;
     private String currentSortOrder = "None"; // "Min", "Max", "None"
+    private boolean isFetched = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class HomeFragment extends Fragment {
 
         allPosts = new ArrayList<>();
         filteredPosts = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
 
         postAdapter = new PostAdapter(getContext(), filteredPosts, null, null);
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -121,13 +124,14 @@ public class HomeFragment extends Fragment {
 
     private void fetchPosts() {
         binding.progressBar.setVisibility(View.VISIBLE);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        binding.homeFragmentLayout.setVisibility(View.GONE);
         db.collection("posts")
                 .whereEqualTo("isVerified", true)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         allPosts.clear();
+                        isFetched = true;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Post post = document.toObject(Post.class);
                             post.setPostId(document.getId());
@@ -136,7 +140,9 @@ public class HomeFragment extends Fragment {
 
                         filterPosts(currentSearchQuery);
                         binding.progressBar.setVisibility(View.GONE);
+                        binding.homeFragmentLayout.setVisibility(View.VISIBLE);
                     } else {
+                        binding.homeFragmentLayout.setVisibility(View.VISIBLE);
                         Log.e("FirestoreError", "Error fetching posts", task.getException());
                     }
                 });
@@ -186,7 +192,9 @@ public class HomeFragment extends Fragment {
         }
 
         postAdapter.notifyDataSetChanged();
-        binding.noResultsText.setVisibility(filteredPosts.isEmpty() ? View.VISIBLE : View.GONE);
+        if (isFetched) {
+            binding.noResultsText.setVisibility(filteredPosts.isEmpty() ? View.VISIBLE : View.GONE);
+        }
     }
 
     private double parsePrice(String priceString) {
