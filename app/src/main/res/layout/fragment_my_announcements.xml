@@ -32,7 +32,7 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Announcements"
+            android:text="@string/my_announcements"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
