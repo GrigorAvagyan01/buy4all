@@ -52,14 +52,7 @@ public class ModerHomePage extends AppCompatActivity {
             }
         });
 
-        // Back to settings button
-        binding.btnBackToSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ModerHomePage.this, SettingsModerActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override
