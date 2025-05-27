@@ -1,11 +1,13 @@
 package com.example.buy4all4;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -14,12 +16,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private List<String> categories;
     private int selectedPosition = 0;
     private final OnCategoryClickListener listener;
+    private Context context;
 
     public interface OnCategoryClickListener {
         void onCategoryClick(String category);
     }
 
-    public CategoryAdapter(List<String> categories, OnCategoryClickListener listener) {
+    public CategoryAdapter(Context context, List<String> categories, OnCategoryClickListener listener) {
+        this.context = context;
         this.categories = categories;
         this.listener = listener;
     }
@@ -36,8 +40,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         String category = categories.get(position);
         holder.categoryName.setText(category);
 
-        // Handle selection UI
-        holder.itemView.setBackgroundResource(R.drawable.category_item_bg);
+        if (position == selectedPosition) {
+            holder.itemView.setBackgroundResource(R.drawable.category_item_selected_bg);
+            holder.categoryName.setTextColor(ContextCompat.getColor(context, R.color.white));
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.category_item_bg);
+            holder.categoryName.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
 
         holder.itemView.setOnClickListener(v -> {
             int oldPosition = selectedPosition;
@@ -53,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
-    static class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView categoryName;
         CategoryViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -3,10 +3,10 @@ package com.example.buy4all4;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,17 +15,19 @@ import com.example.buy4all4.databinding.ItemPostBinding;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
-
     private Context context;
     private List<Post> postList;
     private OnItemClickListener onItemClickListener;
     private OnFavoriteClickListener onFavoriteClickListener;
+    private FavoriteManager instance;
 
     public PostAdapter(Context context, List<Post> postList, OnItemClickListener itemClickListener, OnFavoriteClickListener favoriteListener) {
         this.context = context;
         this.postList = postList;
         this.onItemClickListener = itemClickListener;
         this.onFavoriteClickListener = favoriteListener;
+        FavoriteManager.init(context);
+        this.instance = FavoriteManager.getInstance();
     }
 
     @NonNull
@@ -40,12 +42,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = postList.get(position);
 
         holder.binding.postTitle.setText(post.getTitle() != null ? post.getTitle() : "No Title");
-
         holder.binding.postPrice.setText(formatPrice(post.getPrice(), post.getCurrency()));
 
         if (post.getImageUrl() != null) {
             Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
         }
+
+        boolean isFavorite = instance.isFavorite(post);
+        int color = ContextCompat.getColor(context, isFavorite ? android.R.color.holo_red_dark : android.R.color.black);
+        holder.binding.favoriteButton.setColorFilter(color);
 
         holder.binding.getRoot().setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
@@ -59,7 +64,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
 
         holder.binding.favoriteButton.setOnClickListener(v -> {
-            FavoriteManager.getInstance().addFavorite(post);
+            instance.toggleFavorite(post);
+            notifyItemChanged(holder.getAdapterPosition());
             if (onFavoriteClickListener != null) {
                 onFavoriteClickListener.onFavoriteClick(post);
             }

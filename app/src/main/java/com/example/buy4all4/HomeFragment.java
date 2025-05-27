@@ -61,14 +61,17 @@ public class HomeFragment extends Fragment {
     private void setupCategoryRecyclerView() {
         List<String> categories = Arrays.asList("All", "Sport", "Gadgets", "Car", "Realty", "Electronics", "Health", "Other");
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, category -> {
-            selectedCategory = category;
-            filterPosts(currentSearchQuery);
-        });
+        if (getContext() != null) {
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, category -> {
+                selectedCategory = category;
+                filterPosts(currentSearchQuery);
+            });
 
-        binding.categoryRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.categoryRecyclerView.setAdapter(categoryAdapter);
+
+            binding.categoryRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.categoryRecyclerView.setAdapter(categoryAdapter);
+        }
     }
 
     private void setupSearchView() {

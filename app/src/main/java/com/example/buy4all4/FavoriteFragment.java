@@ -13,13 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.buy4all4.databinding.FragmentFavoriteBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 public class FavoriteFragment extends Fragment implements PostAdapterFv.OnFavoriteRemoveClickListener {
-
     private FragmentFavoriteBinding binding;
     private PostAdapterFv adapter;
     private List<Post> favoritePosts;
@@ -30,19 +32,12 @@ public class FavoriteFragment extends Fragment implements PostAdapterFv.OnFavori
     private String filterCurrency = null;
     private String currentSortOrder = "None"; // "Min", "Max", "None"
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        favoritePosts = FavoriteManager.getInstance().getFavorites();
-        filteredPosts = new ArrayList<>(favoritePosts);
+        favoritePosts = new ArrayList<>();
+        filteredPosts = new ArrayList<>();
 
         adapter = new PostAdapterFv(requireContext(), filteredPosts, this);
         binding.favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -50,6 +45,48 @@ public class FavoriteFragment extends Fragment implements PostAdapterFv.OnFavori
 
         setupSortSpinner();
         setupFilterButton();
+
+        loadFavoritePostsFromFirestore();
+        return binding.getRoot();
+    }
+
+    private void loadFavoritePostsFromFirestore() {
+        List<String> favoriteIds = new ArrayList<>(FavoriteManager.getInstance().getFavoritePostIds());
+        if (favoriteIds.isEmpty()) {
+            favoritePosts.clear();
+            filteredPosts.clear();
+            adapter.notifyDataSetChanged();
+            binding.noResultsTextFavorites.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (String postId : favoriteIds) {
+            System.out.println("Post id: " + postId);
+            db.collection("posts")
+                    .document(postId)
+                    .get()
+                    .addOnSuccessListener(document -> {
+                        if (document.exists()) {
+                            System.out.println("PRINTEDDDDD");
+                            Post post = document.toObject(Post.class);
+                            favoritePosts.add(post);
+                            System.out.println("SZZ:: " + favoritePosts.size());
+
+                            // When all documents are fetched, apply filters
+                            if (favoritePosts.size() == favoriteIds.size()) {
+                                filteredPosts.clear();
+                                filteredPosts.addAll(favoritePosts);
+                                applyFilters();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("FavoriteFragment", "Error fetching post: " + postId, e);
+                    });
+        }
+
     }
 
     private void setupSortSpinner() {

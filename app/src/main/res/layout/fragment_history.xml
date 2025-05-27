@@ -8,6 +8,15 @@
     android:background="#F4F7F9"
     tools:context=".HistoryActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton"
@@ -21,6 +30,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HISTORY"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.376"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <!-- Search View -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
@@ -32,7 +57,7 @@
         android:background="@drawable/rounded_searchview"
         android:iconifiedByDefault="false"
         android:queryHint="Search history..."
-        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintTop_toBottomOf="@id/topLinear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

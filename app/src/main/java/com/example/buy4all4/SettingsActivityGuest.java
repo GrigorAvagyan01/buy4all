@@ -69,7 +69,7 @@ public class SettingsActivityGuest extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        binding.backsettingsguest.setOnClickListener(v -> {
+        binding.backButton.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivityGuest.this, ProfileFragmentGuest.class);
             intent.putExtra("navigate_to", "ProfileFragmentGuest");
             startActivity(intent);

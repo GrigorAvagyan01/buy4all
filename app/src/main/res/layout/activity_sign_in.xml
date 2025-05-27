@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:textColorHint="@color/black"
                 android:transitionName="email_tran">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -62,6 +63,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:layout_marginBottom="15dp"
                 android:transitionName="password_tran"
                 app:passwordToggleEnabled="true">
@@ -73,6 +75,7 @@
                     android:hint="@string/password"
                     android:drawablePadding="10dp"
                     android:drawableStart="@drawable/lock"
+                    android:tint="@color/black"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,8 +87,6 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/remember_me"
                 android:textColor="@color/black" />
-
-            <!-- Sign In Button -->
             <Button
                 android:id="@+id/signInButton"
                 android:layout_width="match_parent"

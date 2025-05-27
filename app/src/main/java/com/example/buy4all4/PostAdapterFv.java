@@ -2,24 +2,29 @@ package com.example.buy4all4;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.buy4all4.databinding.ItemPostBinding;
+
 import java.util.List;
 
 public class PostAdapterFv extends RecyclerView.Adapter<PostAdapterFv.PostViewHolder> {
-
-    private Context context;
-    private List<Post> favoritePosts;
-    private OnFavoriteRemoveClickListener onFavoriteRemoveClickListener;
+    private final Context context;
+    private final List<Post> favoritePosts;
+    private final OnFavoriteRemoveClickListener onFavoriteRemoveClickListener;
+    private final FavoriteManager instance;
 
     public PostAdapterFv(Context context, List<Post> favoritePosts, OnFavoriteRemoveClickListener listener) {
         this.context = context;
         this.favoritePosts = favoritePosts;
+        System.out.println("Len fv: " + favoritePosts.size());
         this.onFavoriteRemoveClickListener = listener;
+        this.instance = FavoriteManager.getInstance();
     }
 
     @NonNull
@@ -35,10 +40,17 @@ public class PostAdapterFv extends RecyclerView.Adapter<PostAdapterFv.PostViewHo
 
         holder.binding.postTitle.setText(post.getTitle());
         holder.binding.postPrice.setText(post.getPrice());
+
         Glide.with(context).load(post.getImageUrl()).into(holder.binding.postImage);
 
+        holder.binding.favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red));
+
         holder.binding.favoriteButton.setOnClickListener(v -> {
-            FavoriteManager.getInstance().removeFavorite(post);
+            instance.removeFavorite(post);
+            favoritePosts.remove(post);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, favoritePosts.size());
+
             if (onFavoriteRemoveClickListener != null) {
                 onFavoriteRemoveClickListener.onFavoriteRemoveClick(post);
             }

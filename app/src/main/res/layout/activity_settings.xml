@@ -7,6 +7,14 @@
     android:background="#F4F7F9"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
     <Spinner
@@ -30,7 +38,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/rounded_button"
+        android:background="#F4F7F9"
         android:elevation="8dp"
         android:src="@drawable/baseline_logout_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,14 +46,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/language_spinner" />
 
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="182dp"
+            android:layout_height="42dp"
+            android:text="SETTINGS"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_alignParentStart="true"
-        android:background="@drawable/rounded_button"
         android:contentDescription="Back"
         android:elevation="8dp"
+        android:background="#F4F7F9"
         android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
