@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.buy4all4"
+    namespace = "com.grish.buy4all4"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.buy4all4"
+        applicationId = "com.grish.buy4all4"
         minSdk = 32
         targetSdk = 34
         versionCode = 1

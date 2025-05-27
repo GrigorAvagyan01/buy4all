@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
-                android:text="Check your inbox"
+                android:text="@string/check_your_inbox"
                 android:textColor="#333333"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="We’ve sent you a link to verify your email address. Please open it to continue using the app."
+                android:text="@string/we_ve_sent_you_a_link_to_verify_your_email_address_please_open_it_to_continue_using_the_app"
                 android:textColor="#555555"
                 android:textSize="16sp"
                 android:gravity="center" />

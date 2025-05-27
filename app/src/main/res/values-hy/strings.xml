@@ -101,4 +101,36 @@
     <string name="moderator">Մոդերատոր</string>
     <string name="sell_product">Վաճառել ապրանքը</string>
     <string name="offer_service">Առաջարկեք ծառայություններ</string>
+    <string name="about_us1">Buy4All-ը շուկայի հավելված է, որտեղ կարող եք հեշտությամբ գնել և վաճառել ապրանքներ և ծառայություններ։ Անկախ նրանից՝ փնտրում եք էլեկտրոնիկա, նորաձևություն, ծառայություններ կամ այլ բան, Buy4All-ը կապում է Ձեզ վստահելի օգտատերերի հետ՝ Ձեր գործարքները դարձնելով հարթ և ապահով։</string>
+    <string name="about_buy4all">"Buy4All-ի մասին "</string>
+    <string name="contact_with_us">"Կապ մեզ հետ "</string>
+    <string name="aboutusemail">📧 Էլ. հասցե : grigoravagyan482@gmail.com</string>
+    <string name="phoneaboutus">📞 Հեռախոս: +37444238399</string>
+    <string name="whatsappaboutus">💬 WhatsApp: +37444238399</string>
+    <string name="viberaboutus">📱 Viber: +37443238399</string>
+    <string name="check_your_inbox">Ստուգեք ձեր մուտքի արկղը</string>
+    <string name="we_ve_sent_you_a_link_to_verify_your_email_address_please_open_it_to_continue_using_the_app">Մենք ձեզ ուղարկել ենք հղում ՝ Ձեր էլ. փոստի հասցեն հաստատելու համար: Խնդրում ենք բացել այն, որպեսզի շարունակեք օգտագործել հավելվածը:</string>
+    <string name="clear_history">Մաքրել պատմությունը</string>
+    <string name="settings">Կարգավորումներ</string>
+    <string name="about_us">Մեր մասին</string>
+    <string name="sport1">Սպորտ</string>
+    <string name="gadgets1">Գործիքներ</string>
+    <string name="car">Մեքենա</string>
+    <string name="realty">Անշարժ գույք</string>
+    <string name="electronics">Էլեկտրոնիկա</string>
+    <string name="health">Առողջություն</string>
+    <string name="other">Այլ</string>
+    <string name="all1">Բոլորը</string>
+    <string name="none">Ոչ ոք</string>
+    <string name="price_low_to_high">Գինը ՝ ցածրից բարձր</string>
+    <string name="price_high_to_low">Գինը ՝ բարձրից ցածր</string>
+    <string name="no_posts_match_your_filters">Ոչ մի գրառում չի համապատասխանում ձեր ֆիլտրերին:</string>
+    <string name="clear">Մաքրել</string>
+    <string name="apply">Դիմել</string>
+    <string name="max_price">Առավելագույն գինը</string>
+    <string name="min_price">Նվազագույն գին</string>
+    <string name="min">Նվազագույն</string>
+    <string name="max">Առավելագույն</string>
+    <string name="per_hour">Ժամում</string>
+    <string name="for_the_service">Մատուցված ծառայության համար</string>
 </resources>

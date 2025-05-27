@@ -58,7 +58,7 @@
         android:id="@+id/noResultsTextFavorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No posts match your filters."
+        android:text="@string/no_posts_match_your_filters"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_gravity="center"
         android:visibility="gone"

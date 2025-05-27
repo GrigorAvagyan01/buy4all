@@ -102,5 +102,36 @@
     <string name="sell_product">Sell Product</string>
     <string name="offer_service">Offer Service</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_us1">Buy4All is a marketplace app where you can buy and sell products and services easily. Whether you\'re looking for electronics, fashion, services, or more, Buy4All connects you with trusted users to make your transactions smooth and secure.</string>
+    <string name="about_buy4all">About Buy4All</string>
+    <string name="contact_with_us">Contact With Us</string>
+    <string name="aboutusemail">📧 Email: grigoravagyan482@gmail.com</string>
+    <string name="phoneaboutus">📞 Phone: +37444238399</string>
+    <string name="whatsappaboutus">💬 WhatsApp: +37444238399</string>
+    <string name="viberaboutus">📱 Viber: +37443238399</string>
+    <string name="check_your_inbox">Check your inbox</string>
+    <string name="we_ve_sent_you_a_link_to_verify_your_email_address_please_open_it_to_continue_using_the_app">We’ve sent you a link to verify your email address. Please open it to continue using the app.</string>
+    <string name="clear_history">Clear History</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About us</string>
+    <string name="sport1">Sport</string>
+    <string name="gadgets1">Gadgets</string>
+    <string name="car">Car</string>
+    <string name="realty">Realty</string>
+    <string name="electronics">Electronics</string>
+    <string name="health">Health</string>
+    <string name="other">Other</string>
+    <string name="all1">All</string>
+    <string name="none">None</string>
+    <string name="price_low_to_high">Price: Low to High</string>
+    <string name="price_high_to_low">Price: High to Low</string>
+    <string name="no_posts_match_your_filters">No posts match your filters.</string>
+    <string name="clear">Clear</string>
+    <string name="apply">Apply</string>
+    <string name="max_price">Max Price</string>
+    <string name="min_price">Min Price</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="per_hour">Per Hour</string>
+    <string name="for_the_service">For the Service</string>
 </resources>
