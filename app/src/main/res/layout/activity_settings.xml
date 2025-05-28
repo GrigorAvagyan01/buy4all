@@ -101,7 +101,6 @@
         android:layout_marginTop="224dp"
         android:layout_marginEnd="16dp"
         android:background="?android:attr/selectableItemBackground"
-
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp"
@@ -116,6 +115,7 @@
             android:layout_height="24dp"
             android:src="@drawable/rules"/>
 
+
         <TextView
             android:id="@+id/rules"
             android:layout_width="wrap_content"
@@ -127,11 +127,44 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/PrivacySection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/lock" />
+
+
+        <TextView
+            android:id="@+id/privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_policy1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/logoutSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="144dp"
         android:layout_marginEnd="16dp"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"

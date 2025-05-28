@@ -80,6 +80,10 @@ public class SettingsActivity extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsActivity.this, RulesActivity.class);
             startActivity(viewItemsIntent);
         });
+        binding.PrivacySection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsActivity.this, PrivacyPolicyActivity.class);
+            startActivity(viewItemsIntent);
+        });
     }
 
     private void logoutUser() {

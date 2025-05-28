@@ -83,7 +83,10 @@ public class SettingsModerActivity extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsModerActivity.this, RulesActivity.class);
             startActivity(viewItemsIntent);
         });
-
+        binding.PrivacySection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsModerActivity.this, PrivacyPolicyActivity.class);
+            startActivity(viewItemsIntent);
+        });
 
         binding.moder.setOnClickListener(v -> {
             Log.d("SettingsModerActivity", "Moder button clicked");

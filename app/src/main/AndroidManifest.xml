@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Buy4all4">
         <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
             android:name=".RulesActivity"
             android:exported="false" />
         <activity

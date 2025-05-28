@@ -84,6 +84,10 @@ public class SettingsActivityGuest extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsActivityGuest.this, RulesActivity.class);
             startActivity(viewItemsIntent);
         });
+        binding.PrivacySection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsActivityGuest.this, PrivacyPolicyActivity.class);
+            startActivity(viewItemsIntent);
+        });
     }
 
     @Override
