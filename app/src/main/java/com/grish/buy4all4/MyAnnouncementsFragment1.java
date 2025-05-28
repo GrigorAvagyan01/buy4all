@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,7 +100,7 @@ public class MyAnnouncementsFragment1 extends Fragment {
                     }
                     filteredPostList.clear();
                     filteredPostList.addAll(postList);
-                    adapter.notifyDataSetChanged();
+                    filterPosts(""); // Apply visibility logic for noResultsText
                 })
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to load posts", Toast.LENGTH_SHORT).show());
     }
@@ -125,10 +127,16 @@ public class MyAnnouncementsFragment1 extends Fragment {
             filteredPostList.addAll(postList);
         } else {
             filteredPostList.addAll(postList.stream()
-                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .filter(post -> post.getTitle() != null &&
+                            post.getTitle().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList()));
         }
         adapter.notifyDataSetChanged();
+
+        // Show or hide the noResultsText
+        if (binding != null) {
+            binding.noResultsText.setVisibility(filteredPostList.isEmpty() ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

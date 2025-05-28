@@ -34,17 +34,15 @@ public class ServiceHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentServiceHistoryBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Set up RecyclerView with adapter and layout manager
+        // Set up RecyclerView with adapter
         binding.recyclerViewServices.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceAdapter(getContext(), filteredServiceHistoryList,
                 service -> {
-                    // Handle item click (navigate to details)
-                    // For example, navigate to a service detail fragment or activity
+                    // Handle item click
                     Log.d("ServiceHistoryFragment", "Service clicked: " + service.getTitle());
                 },
                 new ServiceAdapter.OnActionClickListener() {
@@ -60,7 +58,6 @@ public class ServiceHistoryFragment extends Fragment {
                 });
         binding.recyclerViewServices.setAdapter(adapter);
 
-        // Load history if user is logged in
         if (mAuth.getCurrentUser() != null) {
             loadServiceHistory();
         } else {
@@ -73,7 +70,6 @@ public class ServiceHistoryFragment extends Fragment {
     private void loadServiceHistory() {
         String userId = mAuth.getCurrentUser().getUid();
 
-        // Fetch service history for the logged-in user
         db.collection("users")
                 .document(userId)
                 .collection("serviceHistory")
@@ -88,6 +84,13 @@ public class ServiceHistoryFragment extends Fragment {
                     filteredServiceHistoryList.clear();
                     filteredServiceHistoryList.addAll(serviceHistoryList);
                     adapter.updateData(filteredServiceHistoryList);
+
+                    // Show or hide the "no results" message
+                    if (filteredServiceHistoryList.isEmpty()) {
+                        binding.noResultsText.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.noResultsText.setVisibility(View.GONE);
+                    }
                 })
                 .addOnFailureListener(e -> Log.e("ServiceHistoryFragment", "Error loading service history", e));
     }
@@ -95,7 +98,6 @@ public class ServiceHistoryFragment extends Fragment {
     private void deleteService(Service service) {
         String userId = mAuth.getCurrentUser().getUid();
 
-        // Delete the service from the user's service history collection
         db.collection("users")
                 .document(userId)
                 .collection("serviceHistory")
@@ -105,13 +107,21 @@ public class ServiceHistoryFragment extends Fragment {
                     serviceHistoryList.remove(service);
                     filteredServiceHistoryList.remove(service);
                     adapter.updateData(filteredServiceHistoryList);
+
+                    // Show or hide the "no results" message
+                    if (filteredServiceHistoryList.isEmpty()) {
+                        binding.noResultsText.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.noResultsText.setVisibility(View.GONE);
+                    }
+
                     Log.d("ServiceHistoryFragment", "Service deleted");
                 })
                 .addOnFailureListener(e -> Log.e("ServiceHistoryFragment", "Error deleting service", e));
     }
 
     private void editService(Service service) {
-        // Handle the edit action (navigate to an edit fragment or activity)
         Log.d("ServiceHistoryFragment", "Edit service: " + service.getTitle());
+        // Navigate to edit screen or show dialog
     }
 }

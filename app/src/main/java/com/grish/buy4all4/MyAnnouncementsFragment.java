@@ -6,17 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.grish.buy4all4.databinding.FragmentMyAnnouncements1Binding;
 import com.grish.buy4all4.databinding.FragmentMyAnnouncementsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,9 +98,7 @@ public class MyAnnouncementsFragment extends Fragment {
                         post.setPostId(document.getId());
                         postList.add(post);
                     }
-                    filteredPostList.clear();
-                    filteredPostList.addAll(postList);
-                    adapter.notifyDataSetChanged();
+                    filterPosts(binding.searchView.getQuery().toString());
                 })
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to load posts", Toast.LENGTH_SHORT).show());
     }
@@ -126,10 +125,18 @@ public class MyAnnouncementsFragment extends Fragment {
             filteredPostList.addAll(postList);
         } else {
             filteredPostList.addAll(postList.stream()
-                    .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .filter(post -> post.getTitle() != null && post.getTitle().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList()));
         }
+
         adapter.notifyDataSetChanged();
+
+        // Handle "no results" visibility
+        if (filteredPostList.isEmpty()) {
+            binding.noResultsText.setVisibility(View.VISIBLE);
+        } else {
+            binding.noResultsText.setVisibility(View.GONE);
+        }
     }
 
     @Override

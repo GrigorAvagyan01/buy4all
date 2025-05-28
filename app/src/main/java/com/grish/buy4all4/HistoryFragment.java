@@ -37,30 +37,29 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Set up RecyclerView with adapter and layout manager
+        // Set up RecyclerView
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new PostAdapter(getContext(), filteredHistoryList, null, null);
         binding.recyclerViewPosts.setAdapter(adapter);
 
-        // Load history if user is logged in
+        // Load history data
         if (mAuth.getCurrentUser() != null) {
             loadHistory();
         } else {
             Log.e("HistoryFragment", "User not logged in");
         }
 
-        // Set up the search functionality
+        // Set up search functionality
         setupSearchView();
 
-        // Set up clear history button click listener
+        // Clear history button
         binding.clearHistoryButton.setOnClickListener(v -> clearHistory());
 
-        // Back button functionality
+        // Back button
         binding.backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
         return binding.getRoot();
@@ -69,7 +68,6 @@ public class HistoryFragment extends Fragment {
     private void loadHistory() {
         String userId = mAuth.getCurrentUser().getUid();
 
-        // Fetch history posts for the logged-in user
         db.collection("users")
                 .document(userId)
                 .collection("history")
@@ -84,6 +82,13 @@ public class HistoryFragment extends Fragment {
                     filteredHistoryList.clear();
                     filteredHistoryList.addAll(historyList);
                     adapter.notifyDataSetChanged();
+
+                    // Show or hide no results message
+                    if (filteredHistoryList.isEmpty()) {
+                        binding.noResultsText.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.noResultsText.setVisibility(View.GONE);
+                    }
                 })
                 .addOnFailureListener(e -> Log.e("HistoryFragment", "Error loading history", e));
     }
@@ -91,7 +96,6 @@ public class HistoryFragment extends Fragment {
     private void clearHistory() {
         String userId = mAuth.getCurrentUser().getUid();
 
-        // Clear the user's history collection in Firestore
         db.collection("users")
                 .document(userId)
                 .collection("history")
@@ -103,6 +107,7 @@ public class HistoryFragment extends Fragment {
                     historyList.clear();
                     filteredHistoryList.clear();
                     adapter.notifyDataSetChanged();
+                    binding.noResultsText.setVisibility(View.VISIBLE);
                     Log.d("HistoryFragment", "History cleared");
                 })
                 .addOnFailureListener(e -> Log.e("HistoryFragment", "Error clearing history", e));
@@ -133,6 +138,14 @@ public class HistoryFragment extends Fragment {
                     .filter(post -> post.getTitle().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList()));
         }
+
+        // Show or hide no results message
+        if (filteredHistoryList.isEmpty()) {
+            binding.noResultsText.setVisibility(View.VISIBLE);
+        } else {
+            binding.noResultsText.setVisibility(View.GONE);
+        }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -143,7 +156,6 @@ public class HistoryFragment extends Fragment {
                 .collection("history")
                 .document(post.getPostId());
 
-        // Add post to user's history in Firestore
         historyRef.set(post)
                 .addOnSuccessListener(aVoid -> Log.d("HistoryFragment", "Post added to history"))
                 .addOnFailureListener(e -> Log.e("HistoryFragment", "Error adding post to history", e));

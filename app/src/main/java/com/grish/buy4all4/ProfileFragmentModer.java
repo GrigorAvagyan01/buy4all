@@ -56,7 +56,7 @@ public class ProfileFragmentModer extends Fragment {
 
         binding.MyAnouncmentsBut.setOnClickListener(v -> startActivity(new Intent(getActivity(), MyAnouncments.class)));
 
-        binding.HistoryBut.setOnClickListener(v -> startActivity(new Intent(getActivity(), HistoryActivity.class)));
+        binding.HistoryBut.setOnClickListener(v -> startActivity(new Intent(getActivity(), ServiceHomeHistory.class)));
 
         binding.SettingsBut.setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingsModerActivity.class)));
 

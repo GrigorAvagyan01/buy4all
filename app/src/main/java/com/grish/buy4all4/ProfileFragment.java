@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,12 +29,23 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private CloudinaryManager cloudinaryManager;
+    private ProgressBar progressBar;
+    private View profileContent;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         LocaleHelper.setAppLanguage(requireContext());
+
+        // Initialize views
+        progressBar = binding.getRoot().findViewById(R.id.progressBar);
+        profileContent = binding.getRoot().findViewById(R.id.profileContent);
+
+        // Show only progress bar initially
+        progressBar.setVisibility(View.VISIBLE);
+        profileContent.setVisibility(View.GONE);
+
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         cloudinaryManager = new CloudinaryManager();
@@ -73,7 +85,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void uploadToCloudinary(Uri imageUri) {
-        binding.uploadImageButton.setEnabled(false); // disable while uploading
+        showProgress(true);
+        binding.uploadImageButton.setEnabled(false);
         cloudinaryManager.uploadImage(requireContext(), imageUri, new CloudinaryManager.UploadCallback() {
             @Override
             public void onSuccess(String imageUrl) {
@@ -84,12 +97,14 @@ public class ProfileFragment extends Fragment {
                 binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 Toast.makeText(getActivity(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
                 binding.uploadImageButton.setEnabled(true);
+                showProgress(false);
             }
 
             @Override
             public void onError(Exception e) {
                 Toast.makeText(getActivity(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 binding.uploadImageButton.setEnabled(true);
+                showProgress(false);
             }
         });
     }
@@ -102,8 +117,10 @@ public class ProfileFragment extends Fragment {
                 .addOnSuccessListener(aVoid -> {
                     // Successfully saved image URL
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(getActivity(), "Failed to update Firestore", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Failed to update Firestore", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
+                });
     }
 
     private void loadUserDataFromFirestore() {
@@ -125,10 +142,22 @@ public class ProfileFragment extends Fragment {
                             .into(binding.uploadImageButton);
                     binding.uploadImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
+
+                // Show content and hide progress bar when data is loaded
+                profileContent.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(getActivity(), "Failed to load user data", Toast.LENGTH_SHORT).show();
+                // Even if failed, show the content (with default/empty values)
+                profileContent.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void showProgress(boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        profileContent.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     @Override

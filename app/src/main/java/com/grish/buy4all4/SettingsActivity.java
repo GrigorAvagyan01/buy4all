@@ -71,12 +71,11 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupButtons() {
         binding.logouttext.setOnClickListener(v -> logoutUser());
         binding.deleteAccount.setOnClickListener(v -> goToDeleteAccountActivity());
-        binding.backButton.setOnClickListener(v -> goToProfileFragment());
+        binding.backButton.setOnClickListener(v -> onBackPressed());
         binding.Aboutusection.setOnClickListener(v -> {
             Intent viewItemsIntent = new Intent(SettingsActivity.this, AboutUs.class);
             startActivity(viewItemsIntent);
         });
-
     }
 
     private void logoutUser() {
@@ -93,16 +92,5 @@ public class SettingsActivity extends AppCompatActivity {
     private void goToDeleteAccountActivity() {
         Intent intent = new Intent(SettingsActivity.this, DeleteAccount.class);
         startActivity(intent);
-    }
-
-    private void goToProfileFragment() {
-        Intent intent = new Intent(SettingsActivity.this, ProfileFragment.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 }

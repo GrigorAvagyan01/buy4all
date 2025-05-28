@@ -85,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:textColor="@color/black"
             android:text="@string/no_posts_match_your_filters"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:visibility="gone" />

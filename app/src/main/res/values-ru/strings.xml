@@ -121,7 +121,7 @@
     <string name="health">Здоровье</string>
     <string name="other">Другой</string>
     <string name="all1">Все</string>
-    <string name="none">Никто</string>
+    <string name="none">Ничего</string>
     <string name="price_low_to_high">Цена: от низкой до высокой</string>
     <string name="price_high_to_low">Цена: от высокой до низкой</string>
     <string name="no_posts_match_your_filters">Ни одна запись не соответствует вашим фильтрам.</string>
