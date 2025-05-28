@@ -80,7 +80,10 @@ public class SettingsActivityGuest extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsActivityGuest.this, AboutUs.class);
             startActivity(viewItemsIntent);
         });
-
+        binding.RulesSection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsActivityGuest.this, RulesActivity.class);
+            startActivity(viewItemsIntent);
+        });
     }
 
     @Override

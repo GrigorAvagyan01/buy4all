@@ -9,7 +9,6 @@
     android:background="#F4F7F9"
     tools:context=".SettingsActivity">
 
-    <!-- Top Bar with Back Button and Title -->
 
     <ImageButton
         android:id="@+id/backButton"
@@ -115,7 +114,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/" />
+            android:src="@drawable/rules"/>
 
         <TextView
             android:id="@+id/rules"

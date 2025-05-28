@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rules_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,11 +8,23 @@
     android:padding="16dp"
     android:background="@android:color/white">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/go_back"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.016"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/title_rules"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rules for Posting Ads"
+        android:text="@string/rules_for_posting_ads"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#000000"

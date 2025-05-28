@@ -79,6 +79,10 @@ public class SettingsModerActivity extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsModerActivity.this, AboutUs.class);
             startActivity(viewItemsIntent);
         });
+        binding.RulesSection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsModerActivity.this, RulesActivity.class);
+            startActivity(viewItemsIntent);
+        });
 
 
         binding.moder.setOnClickListener(v -> {

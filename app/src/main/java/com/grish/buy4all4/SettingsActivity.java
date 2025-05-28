@@ -76,6 +76,10 @@ public class SettingsActivity extends AppCompatActivity {
             Intent viewItemsIntent = new Intent(SettingsActivity.this, AboutUs.class);
             startActivity(viewItemsIntent);
         });
+        binding.RulesSection.setOnClickListener(v -> {
+            Intent viewItemsIntent = new Intent(SettingsActivity.this, RulesActivity.class);
+            startActivity(viewItemsIntent);
+        });
     }
 
     private void logoutUser() {
