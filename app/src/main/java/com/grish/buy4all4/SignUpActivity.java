@@ -58,9 +58,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void registerUser() {
         String username = Objects.requireNonNull(binding.username.getEditText()).getText().toString().trim();
-        String email = Objects.requireNonNull(binding.email.getEditText()).getText().toString().trim();
-        String password = Objects.requireNonNull(binding.password.getEditText()).getText().toString().trim();
-        String confirmPassword = Objects.requireNonNull(binding.password2.getEditText()).getText().toString().trim();
+        String email = Objects.requireNonNull(binding.emailEditText.getEditText()).getText().toString().trim();
+        String password = Objects.requireNonNull(binding.passwordEditText.getEditText()).getText().toString().trim();
+        String confirmPassword = Objects.requireNonNull(binding.passwordEditTextc.getEditText()).getText().toString().trim();
 
         if (validateInputs(username, email, password, confirmPassword)) {
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -85,15 +85,15 @@ public class SignUpActivity extends AppCompatActivity {
             isValid = false;
         }
         if (TextUtils.isEmpty(email)) {
-            binding.email.setError("Email is required");
+            binding.emailEditText.setError("Email is required");
             isValid = false;
         }
         if (TextUtils.isEmpty(password)) {
-            binding.password.setError("Password is required");
+            binding.passwordEditText.setError("Password is required");
             isValid = false;
         }
         if (!password.equals(confirmPassword)) {
-            binding.password2.setError("Passwords do not match");
+            binding.passwordEditTextc.setError("Passwords do not match");
             isValid = false;
         }
         return isValid;

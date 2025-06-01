@@ -44,40 +44,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:hint="@string/email"
                 android:textColorHint="@color/black"
                 android:transitionName="email_tran">
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/email"
-                    android:drawablePadding="10dp"
-                    android:drawableStart="@drawable/baseline_email_24"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
 
-            <!-- Password Input with Lock Icon on the Left -->
-            <com.google.android.material.textfield.TextInputLayout
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordEditText"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/password"
                 android:layout_marginBottom="15dp"
                 android:textColorHint="@color/black"
                 android:transitionName="password_tran"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="24dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:drawableStart="@drawable/lock"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    android:tint="@color/black" />
+                    android:inputType="textPassword" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <!-- Remember Me Checkbox -->
             <CheckBox
@@ -129,6 +125,7 @@
                     android:text="@string/test_user"
                     android:textColor="@color/black" />
             </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
